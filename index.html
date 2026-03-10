@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAIR_COLOURS_CONSULT_DAILY_CONTRIBUTIONS</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!--  LOGIN  -->
+    <div id="login-screen">
+      <div class="login-box">
+        <div class="login-logo">FAIR_COLOURS_MICROFINANCE_BANK</div>
+        <div class="login-sub">Daily Contribution Management System</div>
+        <div class="form-row">
+          <div class="field-label">Username</div>
+          <input
+            class="field-input"
+            id="login-user"
+            type="text"
+            placeholder="Enter username"
+          />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Password</div>
+          <input
+            class="field-input"
+            id="login-pass"
+            type="password"
+            placeholder="Enter password"
+          />
+        </div>
+        <div id="login-err" class="alert alert-err" style="display: none"></div>
+        <button class="btn-primary" onclick="doLogin()">Sign In</button>
+        <div class="login-hint">
+          <strong>Demo accounts:</strong><br />
+          admin / admin123 — Super Admin<br />
+          jessica / pass123 — Cashier (Bariga)<br />
+          bolu / pass123 — Cashier (Arena)<br />
+          princess / pass123 — Cashier (Island)
+        </div>
+      </div>
+    </div>
+
+    <!--  APP  -->
+    <div id="app">
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <div class="sidebar-logo">FAIR_COLOURS_CONSULT<span>v1.1</span></div>
+        <div id="nav-menu"></div>
+        <div class="sidebar-footer">
+          <div class="user-badge">
+            <div class="user-avatar" id="sb-avatar"></div>
+            <div>
+              <div class="user-name" id="sb-name"></div>
+              <div class="user-role" id="sb-role"></div>
+            </div>
+          </div>
+          <button class="btn-logout" onclick="doLogout()">🚪 Sign Out</button>
+        </div>
+      </div>
+
+      <!-- MAIN -->
+      <div class="main">
+        <!--  ADMIN: Dashboard  -->
+        <div id="page-admin-dash" class="page">
+          <div class="page-header">
+            <div class="page-title">Admin Dashboard</div>
+            <div class="page-sub">Real-time overview of all operations</div>
+          </div>
+          <!-- Pending approvals banner -->
+          <div
+            id="pending-banner"
+            style="display: none"
+            class="section"
+            style="margin-bottom: 24px"
+          >
+            <div
+              class="section-header"
+              style="
+                background: rgba(245, 200, 66, 0.08);
+                border-color: rgba(245, 200, 66, 0.25);
+              "
+            >
+              <div class="section-title" style="color: var(--accent)">
+                Pending Customer Approvals
+              </div>
+              <span id="pending-count-badge" class="badge badge-yellow"></span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Submitted By</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="pending-table"></tbody>
+            </table>
+          </div>
+          <div class="stats-grid" id="admin-stats"></div>
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">All Customers</div>
+              <button class="btn-sm" onclick="openModal('modal-add-customer')">
+                + Add Customer
+              </button>
+            </div>
+            <div style="padding: 16px 24px">
+              <input
+                class="search-input"
+                style="width: 100%"
+                placeholder="Search by name, phone, address…"
+                oninput="filterAdminCustomers(this.value)"
+              />
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>Cashier</th>
+                  <th>Balance</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-cust-table"></tbody>
+            </table>
+          </div>
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Recent Transactions</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Customer</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Cashier</th>
+                </tr>
+              </thead>
+              <tbody id="admin-tx-table"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--  ADMIN: Loans  -->
+        <div id="page-loans" class="page">
+          <div class="page-header">
+            <div class="page-title">Loan Management</div>
+            <div class="page-sub">Disbursements and repayment tracking</div>
+          </div>
+          <div class="stats-grid" id="loan-stats"></div>
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Loan Records</div>
+              <button class="btn-sm" onclick="openModal('modal-add-loan')">
+                + New Loan
+              </button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Disbursed</th>
+                  <th>Weekly Pay</th>
+                  <th>Total Repaid</th>
+                  <th>Balance</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="loan-table"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--  ADMIN: Cashiers  -->
+        <div id="page-cashiers" class="page">
+          <div class="page-header">
+            <div class="page-title">Cashier Management</div>
+            <div class="page-sub">
+              Assign and transfer customers between cashiers
+            </div>
+          </div>
+          <div class="section" style="margin-bottom: 24px">
+            <div class="section-header">
+              <div class="section-title">Cashier Overview</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Cashier</th>
+                  <th>Territory</th>
+                  <th>Customers</th>
+                  <th>Total Deposits</th>
+                  <th>Total Withdrawals</th>
+                </tr>
+              </thead>
+              <tbody id="cashier-table"></tbody>
+            </table>
+          </div>
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Transfer Customer</div>
+            </div>
+            <div
+              style="padding: 24px; display: flex; gap: 16px; flex-wrap: wrap"
+            >
+              <div style="flex: 1; min-width: 200px">
+                <div class="field-label">Customer</div>
+                <select class="field-input" id="transfer-cust">
+                  <option value="">Select customer…</option>
+                </select>
+              </div>
+              <div style="flex: 1; min-width: 200px">
+                <div class="field-label">Transfer To</div>
+                <select class="field-input" id="transfer-to">
+                  <option value="">Select cashier…</option>
+                </select>
+              </div>
+              <div style="display: flex; align-items: flex-end">
+                <button
+                  class="btn-sm"
+                  style="margin-bottom: 20px"
+                  onclick="doTransfer()"
+                >
+                  Transfer
+                </button>
+              </div>
+            </div>
+            <div id="transfer-msg" style="padding: 0 24px 16px"></div>
+          </div>
+        </div>
+
+        <!--  ADMIN: Daily Records  -->
+        <div id="page-reports" class="page">
+          <div class="page-header">
+            <div class="page-title">Daily Cash Records</div>
+            <div class="page-sub">Savings, loans, transfers by day</div>
+          </div>
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Daily Summary</div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Savings Cash</th>
+                  <th>Savings Transfer</th>
+                  <th>Loan Cash</th>
+                  <th>Loan Transfer</th>
+                  <th>Daily Total</th>
+                </tr>
+              </thead>
+              <tbody id="daily-table"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--  CASHIER: Dashboard  -->
+        <div id="page-cashier-dash" class="page">
+          <div class="page-header">
+            <div class="page-title" id="cashier-greeting">My Dashboard</div>
+            <div class="page-sub" id="cashier-sub"></div>
+          </div>
+          <div class="stats-grid" id="cashier-stats"></div>
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">My Customers</div>
+              <button class="btn-sm" onclick="openCashierAddCustomer()">
+                + Add Customer
+              </button>
+            </div>
+            <div style="padding: 16px 24px">
+              <input
+                class="search-input"
+                style="width: 100%"
+                placeholder="Search customers…"
+                oninput="filterCashierCustomers(this.value)"
+              />
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>Balance</th>
+                  <th>Last Activity</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="cashier-cust-table"></tbody>
+            </table>
+          </div>
+          <!-- Cashier: their own pending submissions -->
+          <div
+            id="cashier-pending-section"
+            style="display: none"
+            class="section"
+          >
+            <div
+              class="section-header"
+              style="background: rgba(245, 200, 66, 0.06)"
+            >
+              <div class="section-title" style="color: var(--accent)">
+                ⏳ My Pending Submissions
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Submitted</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="cashier-pending-table"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!--  CASHIER: Customer Detail  -->
+        <div id="page-customer-detail" class="page">
+          <button
+            class="btn-sm outline"
+            onclick="goBackFromDetail()"
+            style="margin-bottom: 24px"
+          >
+            ← Back
+          </button>
+          <div id="customer-detail-content"></div>
+        </div>
+
+        <!--  Expenses (shared)  -->
+        <div id="page-expenses" class="page">
+          <div class="page-header">
+            <div class="page-title">Daily Expenses</div>
+            <div class="page-sub">Track operational expenses</div>
+          </div>
+          <div class="section">
+            <div class="section-header">
+              <div class="section-title">Expense Records</div>
+              <button class="btn-sm" onclick="openModal('modal-add-expense')">
+                + Add Expense
+              </button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Item</th>
+                  <th>Amount</th>
+                  <th>Comment</th>
+                </tr>
+              </thead>
+              <tbody id="expense-table"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- /.main -->
+    </div>
+    <!-- /#app -->
+
+    <!--  MODALS  -->
+
+    <!-- Admin: Add Customer (immediately active) -->
+    <div class="modal-overlay" id="modal-add-customer">
+      <div class="modal">
+        <div class="modal-title">Add New Customer</div>
+        <div class="form-row">
+          <div class="field-label">Full Name</div>
+          <input
+            class="field-input"
+            id="nc-name"
+            placeholder="e.g. Ngozi Adeyemi"
+          />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Phone Number</div>
+          <input class="field-input" id="nc-phone" placeholder="08012345678" />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Address</div>
+          <input class="field-input" id="nc-addr" placeholder="Street, Area" />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Assign to Cashier</div>
+          <select class="field-input" id="nc-cashier">
+            <option value="jessica">Jessica (Bariga)</option>
+            <option value="bolu">Bolu (Arena)</option>
+            <option value="princess">Princess (Island)</option>
+          </select>
+        </div>
+        <div id="nc-msg"></div>
+        <div class="modal-footer">
+          <button
+            class="btn-sm outline"
+            onclick="closeModal('modal-add-customer')"
+          >
+            Cancel
+          </button>
+          <button class="btn-sm" onclick="addCustomerAdmin()">
+            Add Customer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cashier: Submit Customer for Approval -->
+    <!-- <div class="modal-overlay" id="modal-cashier-add-customer">
+      <div class="modal">
+        <div class="modal-title">➕ Submit New Customer</div>
+        <div class="alert alert-info" style="margin-bottom: 16px">
+          ℹ️ This customer will be visible to you after the
+          <strong>Super Admin approves</strong> the submission.
+        </div>
+        <div class="form-row">
+          <div class="field-label">Full Name</div>
+          <input
+            class="field-input"
+            id="cnc-name"
+            placeholder="e.g. Ngozi Adeyemi"
+          />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Phone Number</div>
+          <input class="field-input" id="cnc-phone" placeholder="08012345678" />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Address</div>
+          <input class="field-input" id="cnc-addr" placeholder="Street, Area" />
+        </div>
+        <div id="cnc-msg"></div>
+        <div class="modal-footer">
+          <button
+            class="btn-sm outline"
+            onclick="closeModal('modal-cashier-add-customer')"
+          >
+            Cancel
+          </button>
+          <button class="btn-sm" onclick="submitCustomerForApproval()">
+            Submit for Approval
+          </button>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Deposit -->
+    <div class="modal-overlay" id="modal-deposit">
+      <div class="modal">
+        <div class="modal-title">Enter Deposit</div>
+        <div
+          id="deposit-cust-info"
+          style="margin-bottom: 16px; color: var(--muted); font-size: 13px"
+        ></div>
+        <div class="form-row">
+          <div class="field-label">Amount (₦)</div>
+          <input
+            class="field-input"
+            id="dep-amount"
+            type="number"
+            placeholder="0"
+          />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Date</div>
+          <input class="field-input" id="dep-date" type="date" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn-sm outline" onclick="closeModal('modal-deposit')">
+            Cancel
+          </button>
+          <button class="btn-sm success" onclick="doDeposit()">
+            Save Deposit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Withdrawal -->
+    <div class="modal-overlay" id="modal-withdraw">
+      <div class="modal">
+        <div class="modal-title">Enter Withdrawal</div>
+        <div
+          id="withdraw-cust-info"
+          style="margin-bottom: 16px; color: var(--muted); font-size: 13px"
+        ></div>
+        <div class="form-row">
+          <div class="field-label">Amount (₦)</div>
+          <input
+            class="field-input"
+            id="wd-amount"
+            type="number"
+            placeholder="0"
+          />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Date</div>
+          <input class="field-input" id="wd-date" type="date" />
+        </div>
+        <div id="wd-err"></div>
+        <div class="modal-footer">
+          <button class="btn-sm outline" onclick="closeModal('modal-withdraw')">
+            Cancel
+          </button>
+          <button class="btn-sm danger" onclick="doWithdraw()">
+            Save Withdrawal
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loan -->
+    <div class="modal-overlay" id="modal-add-loan">
+      <div class="modal">
+        <div class="modal-title">🏦 New Loan</div>
+        <div class="form-row">
+          <div class="field-label">Customer</div>
+          <select class="field-input" id="loan-cust-sel"></select>
+        </div>
+        <div class="form-row">
+          <div class="field-label">Loan Amount (₦)</div>
+          <input
+            class="field-input"
+            id="loan-amount"
+            type="number"
+            placeholder="0"
+          />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Weekly Repayment (₦)</div>
+          <input
+            class="field-input"
+            id="loan-weekly"
+            type="number"
+            placeholder="0"
+          />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Date</div>
+          <input class="field-input" id="loan-date" type="date" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn-sm outline" onclick="closeModal('modal-add-loan')">
+            Cancel
+          </button>
+          <button class="btn-sm" onclick="addLoan()">Create Loan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Expense -->
+    <div class="modal-overlay" id="modal-add-expense">
+      <div class="modal">
+        <div class="modal-title">Add Expense</div>
+        <div class="form-row">
+          <div class="field-label">Date</div>
+          <input class="field-input" id="exp-date" type="date" />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Item</div>
+          <input
+            class="field-input"
+            id="exp-item"
+            placeholder="e.g. Transportation"
+          />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Amount (₦)</div>
+          <input
+            class="field-input"
+            id="exp-amount"
+            type="number"
+            placeholder="0"
+          />
+        </div>
+        <div class="form-row">
+          <div class="field-label">Comment</div>
+          <input class="field-input" id="exp-comment" placeholder="Optional" />
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn-sm outline"
+            onclick="closeModal('modal-add-expense')"
+          >
+            Cancel
+          </button>
+          <button class="btn-sm" onclick="addExpense()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reject reason modal -->
+    <div class="modal-overlay" id="modal-reject">
+      <div class="modal">
+        <div class="modal-title">Reject Customer</div>
+        <div class="form-row">
+          <div class="field-label">Reason (optional)</div>
+          <input
+            class="field-input"
+            id="reject-reason"
+            placeholder="e.g. Duplicate entry, incomplete info…"
+          />
+        </div>
+        <div class="modal-footer">
+          <button class="btn-sm outline" onclick="closeModal('modal-reject')">
+            Cancel
+          </button>
+          <button class="btn-sm danger" onclick="confirmReject()">
+            Reject
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
