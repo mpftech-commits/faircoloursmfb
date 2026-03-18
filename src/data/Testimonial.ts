@@ -7,20 +7,20 @@ export interface Testimonial {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "Tenants can clearly see verified agents. It removes competition with fake agents. Serious clients contact me more often.",
-    name: "Agent Yinka",
-    location: "Apata, Ibadan City",
+      "Getting a small business loan was fast and stress-free. It helped me expand my shop and increase my daily income.",
+    name: "Mrs. Yinka",
+    location: "Apata, Ibadan",
   },
   {
     quote:
-      "My listings now get trusted faster. Clients know I'm verified so negotiations are smoother.",
-    name: "Agent Ibrahim",
+      "I trust this bank with my savings. The process is simple, and I can access my money whenever I need it.",
+    name: "Mr. Ibrahim",
     location: "Lekki, Lagos",
   },
   {
     quote:
-      "Being verified helped me stand out in the rental market.",
-    name: "Agent Ada",
+      "Their financial support helped me start my business from scratch. The repayment plan is flexible and convenient.",
+    name: "Miss Ada",
     location: "Gwarinpa, Abuja",
   },
 ]

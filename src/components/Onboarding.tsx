@@ -20,33 +20,33 @@ export default function Onboarding() {
        
 
         {/* Heading */}
-        <h2 className="text-[28px] font-semibold text-green-900 leading-snug text-center">
-          Join FairColors MFB as a Verified Cashier
-        </h2>
+       <h2 className="text-[28px] font-semibold text-green-900 leading-snug text-center">
+  Start as a FairColors MFB Cashier
+</h2>
 
-        <p className="text-gray-600 text-[12px] mt-2 text-center">
-          Get trusted by Clients and grow your business.
-        </p>
+<p className="text-gray-600 text-[12px] mt-2 text-center">
+  Join our network, manage transactions easily, and earn while serving your community.
+</p>
 
         {/* Features */}
-        <div className="space-y-4 mt-8">
+       <div className="space-y-4 mt-8">
 
-          <div className="flex gap-3 items-center text-sm">
-            <CheckCircle size={16} className="text-green-700"/>
-            Verified Staff badge
-          </div>
+  <div className="flex gap-3 items-center text-sm">
+    <CheckCircle size={16} className="text-green-700"/>
+    Recognized and verified by the bank
+  </div>
 
-          <div className="flex gap-3 items-center text-sm">
-            <Shield size={16} className="text-green-700"/>
-            Build trust with Customers
-          </div>
+  <div className="flex gap-3 items-center text-sm">
+    <Shield size={16} className="text-green-700"/>
+    Safe and reliable financial services
+  </div>
 
-          <div className="flex gap-3 items-center text-sm">
-            <LineChartIcon size={16} className="text-green-700"/>
-            Grow your Customer Base
-          </div>
+  <div className="flex gap-3 items-center text-sm">
+    <LineChartIcon size={16} className="text-green-700"/>
+    Expand your customer network
+  </div>
 
-        </div>
+</div>
 
         {/* Buttons */}
         <div className="flex flex-col gap-4 mt-10">

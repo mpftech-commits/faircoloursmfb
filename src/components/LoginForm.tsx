@@ -33,8 +33,7 @@ export default function LoginForm() {
         </h2>
 
         <p className="text-gray-600 text-[12px] mt-2 text-left">
-          Login to your account to continue managing your account and customer
-          with ease.
+          Login to access your account, track your finances, and manage your customers seamlessly.
         </p>
 
         {/* form */}
