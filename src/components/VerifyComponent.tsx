@@ -1,6 +1,8 @@
 import OTPInput from "./OTPInput"
+import { useNavigate } from "react-router-dom"
 
 export default function VerifyComponent() {
+  const navigate = useNavigate()
   return (
    
          <div className="max-w-md w-full text-center mx-auto rounded-xl">
@@ -10,7 +12,7 @@ export default function VerifyComponent() {
           </h2>
 
           <p className="text-gray-500 text-sm mb-8">
-            Enter the 6-digit code sent to <span className="font-medium">0810 349 5377</span>
+            Enter the 6-digit code sent to <span className="font-medium">Your Mail</span>
           </p>
 
           <OTPInput />
@@ -20,7 +22,8 @@ export default function VerifyComponent() {
           </p>
 
           <button
-            className="w-full mt-6 bg-green-800 hover:bg-green-900 transition text-white py-3 rounded-md font-medium"
+          onClick={() => navigate("/dashboard")}
+            className="w-full mt-6 bg-green-800 cursor-pointer hover:bg-green-900 transition text-white py-3 rounded-md font-medium"
           >
             Verify
           </button>

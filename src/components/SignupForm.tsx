@@ -4,7 +4,7 @@ import { Input } from "./Input";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function Onboarding() {
-  const navigate = useNavigate()
+ const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState<boolean | null>(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -12,7 +12,7 @@ export default function Onboarding() {
   const HandleSignup = (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     e.preventDefault();
-    navigate('/signup/upload-document')
+   navigate("/verify-phone")
   };
 
   return (

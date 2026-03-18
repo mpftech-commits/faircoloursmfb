@@ -30,11 +30,9 @@ export default function Dashboard() {
         subtitle="Renews Feb 14, 2026"
         right=""
         className="underline text-green-600"
-        link={
-          <Link to="/subscription" className="text-green-600 ml-2 underline">
-            Renew
-          </Link>
-        }
+        link= " Renew"
+         
+        
       />
 
       <StatusCard
@@ -80,21 +78,21 @@ export default function Dashboard() {
       <div className="pt-6 space-y-3">
         <h3 className="text-sm font-semibold text-gray-600">Quick Actions</h3>
 
-        <Link to="/agent/listings">
+        <Link to="">
           <ActionItem
             icon={Plus}
             label="Add New Listing"
             className="bg-green-700 text-white p-2 rounded-full"
           />
         </Link>
-        <Link to="/listings">
+        <Link to="">
           <ActionItem
             icon={Home}
             label="Manage Listings"
             className="bg-green-500 text-white p-2 rounded-full"
           />
         </Link>
-        <Link to="/agent/reports">
+        <Link to="">
           <ActionItem
             icon={AlertTriangle}
             label="View Reports"
