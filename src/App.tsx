@@ -12,6 +12,7 @@ import BusinessInformation from "./pages/BusinessInformation";
 import ChangePassword from "./pages/ChangePassword";
 import HelpSupport from "./pages/HelpSupport";
 import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
+import LoanApproval from "./pages/agentdashboard/LoanApproval"
 
 
 function App() {
@@ -28,6 +29,13 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
+            {/* loan */}
+            <Route path="loan-approval" element={<LoanApproval />} />
+
+
+
+
+
             {/* settings */}
             <Route path="settings" element={<Settings />} />
             <Route

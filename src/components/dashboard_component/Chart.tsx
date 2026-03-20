@@ -3,7 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recha
 export const Chart = ({ data }: any) => (
   <div className="bg-white p-6 rounded-2xl shadow h-72">
     <ResponsiveContainer width="100%" height="100%">
-      <BarChart data={data}>
+      <BarChart data={data} >
         <XAxis dataKey="date" />
         <YAxis />
         <Tooltip />

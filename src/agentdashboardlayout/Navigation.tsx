@@ -45,7 +45,7 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
         {/* Top Section */}
         <div className="flex items-center justify-between mb-8 px-2">
           {!collapsed && (
-            <h2 className="text-lg font-bold text-green-600 flex items-center gap-3"> <LayoutDashboard /> FairColors</h2>
+            <h2 className="text-lg font-bold text-blue-600 flex items-center gap-3"> <LayoutDashboard /> FairColors</h2>
           )}
 
           <button
@@ -63,7 +63,6 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
             to="/dashboard"
             icon={<Home size={20} />}
             label="Home"
-            className="bg-green-900 flex"
           />
           <NavItem
             collapsed={collapsed}
@@ -79,7 +78,7 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
           />
           <NavItem
             collapsed={collapsed}
-            to="/Loans"
+            to="/loan-approval"
             icon={<Currency size={20} />}
             label="Loans"
           />
@@ -100,7 +99,7 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
             to="/login"
             icon={<LogOut size={20}/>}
             label={`Logout`}
-             className="text-red-500 mt-[300px] "
+             className="text-red-500 mt-[100px] "
           />
         </nav>
       </div>
@@ -116,7 +115,7 @@ function NavItem({ to, icon, label, className, collapsed = false }: any) {
       title={collapsed ? label : ""}
       className={({ isActive }) =>
         `flex flex-col md:flex-row md:justify-start items-center justify-center gap-1 md:gap-3 p-2 rounded-lg transition-all
-        ${isActive ? "text-green-600 bg-green-50" : "text-gray-500 hover:bg-gray-100"} ${className}`
+        ${isActive ? "text-blue-600 bg-green-50" : "text-gray-500 hover:bg-blue-100"} ${className}`
       }
     >
       {icon}
@@ -126,3 +125,4 @@ function NavItem({ to, icon, label, className, collapsed = false }: any) {
     </NavLink>
   );
 }
+
