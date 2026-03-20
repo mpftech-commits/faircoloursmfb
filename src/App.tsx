@@ -13,6 +13,7 @@ import ChangePassword from "./pages/ChangePassword";
 import HelpSupport from "./pages/HelpSupport";
 import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
 
+
 function App() {
   return (
     <Router>
@@ -44,6 +45,7 @@ function App() {
             <Route path="settings/help-support" element={<HelpSupport />} />
           </Route>
         </Route>
+        
       </Routes>
     </Router>
   );

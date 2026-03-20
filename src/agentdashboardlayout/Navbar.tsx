@@ -1,9 +1,9 @@
 import { Bell } from "lucide-react";
 
-export default function Navbar() {
+export default function Navbar({ collapsed}: any) {
   return (
-    <div className="bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-10">
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-4 fl">
+    <div className={`w-full bg-white border-b border-gray-200  top-0 left-0 right-0 z-10`}>
+      <div className={` fixed  z-50 w-full mx-auto flex items-center bg-white justify-between px-4 py-4 ${collapsed ? "md:max-w-300": "md:max-w-[78rem] md:mr-[200px]"}`} >
 
         <div>
           <h1 className="text-xl font-semibold text-green-700">

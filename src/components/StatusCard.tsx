@@ -20,7 +20,7 @@ export default function StatusCard({
   tips,
 }: Props) {
   return (
-    <div className={`bg-white border border-gray-200 rounded-lg p-4 flex justify-between items-center`}>
+    <div className={`bg-white border border-gray-200 rounded-lg p-4  `}>
       <div className="flex gap-3 items-center">
         <div className="bg-green-50 p-2 rounded-lg text-green-600">{icon}</div>
 
@@ -37,10 +37,7 @@ export default function StatusCard({
         </div>
       </div>
 
-      <div className={`text-sm font-semibold ${className || "text-green-600"}`}>
-        {right && <span>{right}</span>}
-        {link}
-      </div>
+     
     </div>
   );
 }
