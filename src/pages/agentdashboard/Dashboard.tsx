@@ -33,7 +33,7 @@ const StatCard = ({ title, value, icon }: any) => (
   <div className="bg-white p-5 rounded-2xl shadow">
     <p className="text-gray-500 text-sm">{title}</p>
     <h2 className="text-2xl font-bold text-blue-900">{value}</h2>
-    <div className="bg-blue-50 w-fit p-2 rounded-md mt-2">
+    <div className="bg-blue-900 w-fit p-2 rounded-md mt-2 text-white ">
       {icon}
     </div>
   </div>
@@ -164,10 +164,10 @@ export default function Dashboard() {
       <div className="p-6 space-y-6">
         {/* STATS */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <StatCard title="Total Savings" value="$15,200" icon={<Wallet className="text-green-500" />} />
-          <StatCard title="Total Deposits" value="$8,450" icon={<Wallet className="text-purple-500" />}/>
-          <StatCard title="Total Withdrawals" value="$5,120" icon={<Wallet className="text-amber-500"/>}/>
-          <StatCard title="Total Loans" value="$20,300" icon={<Wallet className="text-blue-500" />} />
+          <StatCard title="Total Savings" value="$15,200" icon={<Wallet  size={18}/>} />
+          <StatCard title="Total Deposits" value="$8,450" icon={<Wallet  size={18}/>}/>
+          <StatCard title="Total Withdrawals" value="$5,120" icon={<Wallet size={18}/>}/>
+          <StatCard title="Total Loans" value="$20,300" icon={<Wallet  size={18}/>} />
         </div>
 
         {/* CHART + ACTIONS */}

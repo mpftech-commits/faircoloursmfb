@@ -15,6 +15,8 @@ import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
 import LoanApproval from "./pages/agentdashboard/LoanApproval"
 import Cashier from "./pages/agentdashboard/Cashier";
 import NotFoundPage from "./NotFound";
+import Customers from "./pages/agentdashboard/Customers";
+import CashierReport from "./pages/agentdashboard/CashierReport";
 
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
             />
             <Route path="settings/help-support" element={<HelpSupport />} />
             <Route path="404" element={<NotFoundPage />} />
+            <Route path="customer" element={<Customers />} />
+            <Route path="report" element={<CashierReport />} />
           </Route>
         </Route>
         
