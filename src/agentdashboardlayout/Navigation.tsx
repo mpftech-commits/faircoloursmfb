@@ -66,13 +66,13 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
           />
           <NavItem
             collapsed={collapsed}
-            to="/cashiers"
+            to="/404"
             icon={<User size={20} />}
             label="Cashiers"
           />
           <NavItem
             collapsed={collapsed}
-            to="/customers"
+            to="/404"
             icon={<User size={20} />}
             label="Customers"
           />
@@ -84,7 +84,7 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
           />
           <NavItem
             collapsed={collapsed}
-            to="/reports"
+            to="/404"
             icon={<ReceiptIcon size={20} />}
             label="Reports"
           />

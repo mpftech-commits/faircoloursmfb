@@ -4,7 +4,7 @@ import VerifyComponent from "../components/VerifyComponent";
 
 export default function VerifyPhone() {
   return (
-   <div className="min-h-screen bg-[rgb(242,253,245)]">
+   <div className="min-h-screen bg-[rgb(255,255,255)]">
 <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-7xl mx-auto p-5">
 <div className="w-full rounded-xl overflow-hidden">
   <LeftSection />
@@ -12,7 +12,7 @@ export default function VerifyPhone() {
 <div className="w-full rounded-xl overflow-hidden">
   <div className="flex items-center gap-2 mb-12 border-b border-b-gray-300 ">
         <img
-          src="/logo.svg"
+          src="/logo.png"
           alt="OgaLandlord Logo"
           className="pb-5 md:px-10 md:w-[35%] w-[40%]"
         />

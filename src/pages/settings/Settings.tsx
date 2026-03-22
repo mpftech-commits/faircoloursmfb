@@ -47,7 +47,7 @@ export default function Settings() {
             />
           </Link>
 
-          <Link to="/settings/my-document">
+          <Link to="/404">
             <SettingsItem
               icon={<FileText size={18} />}
               title="Documents"

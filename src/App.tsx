@@ -13,6 +13,8 @@ import ChangePassword from "./pages/ChangePassword";
 import HelpSupport from "./pages/HelpSupport";
 import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
 import LoanApproval from "./pages/agentdashboard/LoanApproval"
+import Cashier from "./pages/agentdashboard/Cashier";
+import NotFoundPage from "./NotFound";
 
 
 function App() {
@@ -31,10 +33,7 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             {/* loan */}
             <Route path="loan-approval" element={<LoanApproval />} />
-
-
-
-
+            <Route path="cashier-approval" element={<Cashier />} />
 
             {/* settings */}
             <Route path="settings" element={<Settings />} />
@@ -51,6 +50,7 @@ function App() {
               element={<ChangePassword />}
             />
             <Route path="settings/help-support" element={<HelpSupport />} />
+            <Route path="404" element={<NotFoundPage />} />
           </Route>
         </Route>
         

@@ -4,23 +4,25 @@ import {Link} from "react-router-dom"
 export default function Onboarding() {
 
   return (
-    <div className="bg-[rgb(242,253,245)] py-5 flex flex-col justify-between">
+    <div className="bg-[rgb(255,255,255)] py-5 flex flex-col justify-between">
 
  {/* Logo */}
         <div className="flex items-center gap-2 mb-12 border-b border-b-gray-300 ">
           
-            <img src="/logo.svg" alt="OgaLandlord Logo" className="pb-5 px-10 w-[35%]" />
+            <img src="/logo.png" alt="Fair Colors" className="pb-5 px-10 w-[37%]" />
+     
+
          
         </div>
         <div className="flex items-center gap-2 mb-12 ">
-           <img src="/icons.svg" alt="OgaLandlord Logo" className="pb-5 px-10" />
+           <img src="/icons.svg" alt="Fair colors" className="pb-5 px-10" />
         </div>
       <div className="md:px-20 px-8">
 
        
 
         {/* Heading */}
-       <h2 className="text-[28px] font-semibold text-green-900 leading-snug text-center">
+       <h2 className="text-[28px] font-semibold text-blue-900 leading-snug text-center">
   Start as a FairColors MFB Cashier
 </h2>
 
@@ -32,17 +34,17 @@ export default function Onboarding() {
        <div className="space-y-4 mt-8">
 
   <div className="flex gap-3 items-center text-sm">
-    <CheckCircle size={16} className="text-green-700"/>
+    <CheckCircle size={16} className="text-blue-700"/>
     Recognized and verified by the bank
   </div>
 
   <div className="flex gap-3 items-center text-sm">
-    <Shield size={16} className="text-green-700"/>
+    <Shield size={16} className="text-blue-700"/>
     Safe and reliable financial services
   </div>
 
   <div className="flex gap-3 items-center text-sm">
-    <LineChartIcon size={16} className="text-green-700"/>
+    <LineChartIcon size={16} className="text-blue-700"/>
     Expand your customer network
   </div>
 
@@ -51,7 +53,7 @@ export default function Onboarding() {
         {/* Buttons */}
         <div className="flex flex-col gap-4 mt-10">
 
-          <Link to="/signup" className="bg-green-900 text-white py-3 rounded-lg hover:bg-green-800 transition font-medium text-[16px] text-center">
+          <Link to="/signup" className="bg-blue-900 text-white py-3 rounded-lg hover:bg-blue-800 transition font-medium text-[16px] text-center">
             <button >
               Create Account
             </button>

@@ -5,7 +5,7 @@ interface Props {
 export default function LoanFilters({ setFilter }: Props) {
   return (
     <div className="flex gap-2">
-      {["all", "pending", "approved", "rejected"].map((f) => (
+      {["All", "Pending", "Approved", "Rejected"].map((f) => (
         <button
           key={f}
           onClick={() => setFilter(f)}

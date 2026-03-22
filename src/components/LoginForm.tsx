@@ -17,18 +17,18 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="bg-[rgb(242,253,245)] py-5 flex flex-col justify-between">
+    <div className="bg-[rgb(255,255,255)] py-5 flex flex-col justify-between">
       {/* Logo */}
       <div className="flex items-center gap-2 mb-12 border-b border-b-gray-300 ">
         <img
-          src="/logo.svg"
+          src="/logo.png"
           alt="OgaLandlord Logo"
           className="pb-5 px-10 md:w-[35%] w-[50%]"
         />
       </div>
       <div className="md:px-20 px-8">
         {/* Heading */}
-        <h2 className="md:text-[28px] text-[16px] font-medium text-green-900 leading-snug text-left">
+        <h2 className="md:text-[28px] text-[16px] font-bold text-blue-900 leading-snug text-left">
           Welcome Back
         </h2>
 
@@ -58,7 +58,7 @@ export default function LoginForm() {
             <Input
               type={showPassword ? "text" : "Password"}
               placeholder="Enter your email here"
-              className={`bg-white py-2.5 border border-gray-300 rounded-sm p-2 outline-green-900 transition-colors duration-500`}
+              className={`bg-white py-2.5 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500`}
             ></Input>
 
             <button
@@ -73,7 +73,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-green-900 text-white py-3 rounded-lg hover:bg-green-800 transition font-medium text-[16px] flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer"
+            className="w-full bg-blue-900 text-white py-3 rounded-lg hover:bg-blue-800 transition font-medium text-[16px] flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer"
           >
             {isLoading && (
               <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
@@ -83,7 +83,7 @@ export default function LoginForm() {
 
           <p className="text-center text-[12px]">
             Don't have an account?{" "}
-            <Link to="/signup" className="text-green-500 font-medium">
+            <Link to="/signup" className="text-blue-500 font-medium">
               Create an account
             </Link>
           </p>

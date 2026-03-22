@@ -8,7 +8,7 @@ interface Props {
 
 export default function LoanTable({ loans, onSelect }: Props) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border overflow-x-auto">
+    <div className="bg-white rounded-2xl shadow-sm border overflow-x-auto border-gray-300">
       <table className="w-full">
         <thead className="bg-gray-50 text-left">
           <tr>
@@ -25,7 +25,7 @@ export default function LoanTable({ loans, onSelect }: Props) {
             <tr
               key={loan.id}
               onClick={() => onSelect(loan)}
-              className="border-t cursor-pointer hover:bg-gray-50"
+              className="border-t border-gray-300 cursor-pointer hover:bg-gray-50"
             >
               <td className="p-3">{loan.name}</td>
               <td>₦{loan.amount.toLocaleString()}</td>
