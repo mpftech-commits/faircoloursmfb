@@ -66,7 +66,7 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
           />
           <NavItem
             collapsed={collapsed}
-            to="/404"
+            to="/cashier"
             icon={<User size={20} />}
             label="Cashiers"
           />

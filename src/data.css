@@ -1,0 +1,95 @@
+.table-container {
+  width: 100%;
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  overflow-x: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.payment-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Header */
+.payment-table th {
+  text-align: left;
+  padding: 14px;
+  font-size: .7em;
+  text-transform: uppercase;
+  color: var(--side-bar);
+  background: var(--hover-state);
+  /* border-radius: .3rem; */
+}
+
+/* Body */
+.payment-table td {
+  padding: 14px;
+  border-bottom: 1px solid #eee;
+  font-size: .6rem;
+}
+
+/* User cell */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-cell img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+/* Status badge */
+.status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: .4rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.pending {
+  background: #fff4e5;
+  color: #ff9800;
+}
+
+.successful {
+  background: #e6f8ef;
+  color: #1e8f5a;
+}
+
+.failed {
+  background: #fdecea;
+  color: #d32f2f;
+}
+.buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: .5rem;
+}
+.buttons button{
+padding: .3rem 1rem;
+text-transform: capitalize;
+font-size: .6rem;
+cursor: pointer;
+}
+.next{
+  background: var(--side-bar);
+  color: #fff;
+  border: 0;
+  padding: .4rem 1rem;
+  border-radius: .3rem;
+}
+.prev{
+  background: transparent;
+  color: var(--side-bar);
+  border: 1px solid #ccc;
+  padding: .4rem 1rem;
+  border-radius: .3rem;
+}
+

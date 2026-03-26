@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+
+.modal-overlay{
+    position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* opacity: 0; */
+  /* visibility: hidden; */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.modal-container{
+  width: 400px;
+  float: right;
+  background: #fff;
+  border-radius: .6rem;
+  margin-top: .5rem solid #111827;
+  overflow: hidden;
+}
+.modal-Body {
+  padding: 20px;
+
+}
+.modal-headers{
+    background-color: var(--side-bar);
+    width: 400px;
+    height: 59px;
+    position: relative;
+}
+.modal-headers span{
+    position: absolute;
+    right: 1rem;
+    background: #ffffff69;
+    color: #fff;
+    border-radius: .4rem;
+    cursor: pointer;
+    top: .9rem;
+}
+.modal-body h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+.logo-box{
+    width: 25%;
+    padding: 1rem;
+}
+.logo-box img{
+    width: 100%;
+}
+.subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 6px 0 16px;
+}
+
+label {
+  font-size: 13px;
+  color: #374151;
+  display: block;
+  margin-top: 12px;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin-top: 6px;
+  padding: 10px;
+}
+
+.input-box span {
+  color: #9ca3af;
+  margin-right: 6px;
+}
+
+.input-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+}
+.input-box input:disabled{
+  background: transparent;
+}
+
+select {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btns {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.cancel {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #374151;
+}
+
+.continue {
+  background: #0b3b7a;
+  border: none;
+  color: white;
+}
+
