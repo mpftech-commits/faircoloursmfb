@@ -1,4 +1,4 @@
-
+import { X } from "lucide-react";
 import "../modal/addpayment.css";
 
 function Addpayment({ isOpen, onClose }) {
@@ -6,13 +6,11 @@ function Addpayment({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-container">
+    <div className="modal-overlay ">
+      <div className="modal-container mt-15">
         {/* Header */}
-        <div className="modal-headers">
-          <span className="material-symbols-outlined close" onClick={onClose}>
-            close
-          </span>
+        <div className="modal-headers relative">
+          <X onClick={onClose} className="cursor-pointer absolute right-5 top-5 bg-blue-900 text-white rounded-sm p-1"/>
           <div className="logo-box">
             <img src="/logo.png" alt="loopbox-logo" />
           </div>
@@ -20,24 +18,38 @@ function Addpayment({ isOpen, onClose }) {
 
         {/* Body */}
         <div className="modal-Body">
-          <h2>Add Payment</h2>
-          <p className="subtitle">Add funds to your contribution account</p>
+          <h2>Add Cashier</h2>
 
-          <label>Amount [₦]</label>
+          <label>Name</label>
           <div className="input-box">
             <input
               type="text"
-              placeholder=" ₦ 10,000"  
+              placeholder="Full-name"  
             />
           </div>
 
-          <label>Payment Method</label>
+          <label>Status</label>
           <select>
-            <option value="">Select Payment Method</option>
-            <option value="card">Card</option>
-            <option value="bank">Bank Transfer</option>
-            <option value="wallet">Wallet</option>
+            <option value="">Select Status</option>
+            <option value="card">Pending</option>
+            <option value="bank">Sucessful</option>
+            <option value="wallet">Failed</option>
           </select>
+
+          <label>Email</label>
+          <div className="input-box">
+            <input
+              type="email"
+              placeholder=" Email"  
+            />
+          </div>
+          <label>Phone-number</label>
+          <div className="input-box">
+            <input
+              type="text"
+              placeholder=" e.g (+23)98235649"  
+            />
+          </div>
 
           <div className="modal-actions">
             <button className="btns cancel" onClick={onClose}>

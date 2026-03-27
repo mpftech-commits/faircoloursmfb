@@ -1,4 +1,4 @@
-import { Home, List, User, Settings, Menu, LayoutDashboard, LogOut, Currency, ReceiptIcon } from "lucide-react";
+import { Home, List, User, Settings, Menu, LogOut, Currency, ReceiptIcon } from "lucide-react";
 import { NavLink } from "react-router-dom";
 // import { useState } from "react";
 import UseHideFooter from "../components/UseHideFooter";
@@ -17,12 +17,12 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
         <div className="flex justify-around py-3 text-xs font-medium">
           <NavItem to="/dashboard" icon={<Home size={20} />} label="Home" />
           <NavItem
-            to="/listings"
+            to="/loan-approval"
             icon={<List size={20} />}
             label="Transactions"
           />
           <NavItem
-            to="/customers"
+            to="/customer"
             icon={<User size={20} />}
             label="Customers"
           />
@@ -45,7 +45,7 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
         {/* Top Section */}
         <div className="flex items-center justify-between mb-8 px-2">
           {!collapsed && (
-            <h2 className="text-lg font-bold text-blue-600 flex items-center gap-3"> <LayoutDashboard /> FairColors</h2>
+            <h2 className="text-lg font-bold text-blue-600 flex items-center gap-3"> <img src="/logo.png" alt="faircolors logo" className="w-25"/> </h2>
           )}
 
           <button
@@ -84,7 +84,7 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
           />
           <NavItem
             collapsed={collapsed}
-            to="/404"
+            to="/report"
             icon={<ReceiptIcon size={20} />}
             label="Reports"
           />

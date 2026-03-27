@@ -37,7 +37,7 @@ const transactions: Information[] = [
     status: "Pending",
   },
   {
-    id: 3,
+    id: 4,
     name: "Fred James",
     email: "user@mail.com",
      phone: +234-812345678,
@@ -45,7 +45,7 @@ const transactions: Information[] = [
     status: "Pending",
   },
   {
-    id: 3,
+    id: 5,
     name: "Femi Falana",
     email: "user@mail.com",
      phone: 234812345678,

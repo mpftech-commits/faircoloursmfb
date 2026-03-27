@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import {Wallet} from "lucide-react"
+import { Link } from "react-router-dom";
 
 // -------------------- MOCK DATA --------------------
 const chartData = [
@@ -193,12 +194,13 @@ export default function Dashboard() {
               <h1 className="border-b border-gray-300 pb-3 font-bold">
                 Add New Cashiers
               </h1>
-              <button
-                onClick={() => setOpenCashier(true)}
-                className="w-full bg-green-700 text-white py-4 font-bold rounded-xl  mt-3 "
-              >
-                Create Cashier
-              </button>
+              <Link to="/cashier">
+                <button
+                  className="w-full bg-green-700 text-white py-4 font-bold rounded-xl  mt-3 "
+                >
+                  Create Cashier
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -13,7 +13,7 @@ export default function NotFoundPage() {
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-7xl font-extrabold text-gray-800"
+          className="text-7xl font-extrabold text-blue-800"
         >
           404
         </motion.h1>
@@ -44,7 +44,7 @@ export default function NotFoundPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           onClick={() => navigate(-1)}
-          className="mt-6 inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-xl hover:bg-gray-800 transition"
+          className="mt-6 inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl hover:bg-blue-800 transition"
         >
           <ArrowLeft size={18} />
           Go Back
@@ -53,7 +53,7 @@ export default function NotFoundPage() {
         {/* OPTIONAL HOME BUTTON */}
         <div className="mt-3">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/dashboard")}
             className="text-sm text-gray-500 hover:text-gray-700 underline"
           >
             Go to Homepage

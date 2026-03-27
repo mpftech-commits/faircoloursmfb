@@ -27,7 +27,7 @@
 .payment-table td {
   padding: 14px;
   border-bottom: 1px solid #eee;
-  font-size: .6rem;
+  font-size: .9rem;
 }
 
 /* User cell */
@@ -47,7 +47,7 @@
 .status {
   padding: 5px 12px;
   border-radius: 20px;
-  font-size: .4rem;
+  font-size: .9rem;
   font-weight: 600;
   display: inline-block;
 }

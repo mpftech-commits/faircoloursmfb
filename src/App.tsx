@@ -18,6 +18,8 @@ import NotFoundPage from "./NotFound";
 import Customers from "./pages/agentdashboard/Customers";
 import CashierReport from "./pages/agentdashboard/CashierReport";
 import Member from "./pages/member";
+import GenerateReports from "./pages/ReportPage/GenerateReportsPage";
+import ReportPage from "./pages/ReportPage/ReportPage";
 
 
 function App() {
@@ -55,8 +57,9 @@ function App() {
             <Route path="settings/help-support" element={<HelpSupport />} />
             <Route path="404" element={<NotFoundPage />} />
             <Route path="customer" element={<Customers />} />
-            <Route path="report" element={<CashierReport />} />
+            {/* <Route path="report" element={<CashierReport />} /> */}
             <Route path="cashier" element={<Member />} />
+            <Route path="report" element={<ReportPage />} />
           </Route>
         </Route>
         
