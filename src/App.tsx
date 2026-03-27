@@ -60,6 +60,7 @@ function App() {
             {/* <Route path="report" element={<CashierReport />} /> */}
             <Route path="cashier" element={<Member />} />
             <Route path="report" element={<ReportPage />} />
+            <Route path="generate-reports" element={<GenerateReports />} />
           </Route>
         </Route>
         

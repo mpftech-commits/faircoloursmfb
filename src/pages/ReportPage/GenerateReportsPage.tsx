@@ -4,15 +4,11 @@ import ReportMetrics from "../../components/report/ReportMetrics";
 import Reports from "../../components/report/Reports";
 import ReportTemplates from "../../components/report/ReportTemplates";
 import { useState, useEffect } from "react";
-import CalenderIcon  from "../../icons/index";
-import  CheckCircleIcon from "../../icons/index";
-import  DownloadIcon from "../../icons/index";
-import  FileIcon from "../../icons/index";
-// import label from "../../components/form/label";
 import Button from "../../components/ui/button/Button";
 import Input from "../../components/form/input/InputField";
 import { Link } from "react-router";
 import RecentReports from "../../components/report/RecentReports";
+import {File, CalendarDays, CheckCircle, Download} from "lucide-react"
 
 
 
@@ -34,10 +30,7 @@ export default function GenerateReports() {
 
   return (
     <>
-      {/* <PageMeta
-        title="Axiom Vault | Generate Reports"
-        description="Axiom Vault is an AI enabled fraud detection and prevention platform that helps businesses identify and mitigate fraudulent activities in real-time, ensuring the security of their operations and customers."
-      /> */}
+     
       <div className="grid grid-cols-12 gap-4 md:gap-6">
         <div className="col-span-12 space-y-12 xl:col-span-12">
          <Reports />
@@ -66,21 +59,21 @@ export default function GenerateReports() {
           <div className="bg-white shadow-xl rounded-lg flex-1 w-full max-w-xl max-h-[90vh] overflow-y-auto p-8">
             <div className="bg-blue-light-25 mb-5 sm:mb-3 p-4 rounded-lg flex gap-3 border border-blue-light-50">
               <div className="flex">
-                <div className="flex items-center rounded-lg justify-center w-8 h-8 bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-orange-400">
-                  {/* <FileIcon className="text-blue-600 size-5 dark:text-white/90" /> */}
+                <div className="flex items-center rounded-lg justify-center w-8 h-8 bg-blue-100 text-blue-600">
+                  <File size={18} />
                 </div>
               </div>
 
               <div className="flex flex-col gap-y-3">
                 <div>
-                  <h4 className="font-semibold text-sm dark:text-gray-400">Generate Audit Report</h4>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">Configure your report settings</span>
+                  <h4 className="font-semibold text-sm ">Generate Audit Report</h4>
+                  <span className="text-xs text-gray-500 ">Configure your report settings</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-4 p-2">
-              <label className="text-brand-800 dark:text-white/90">
+              <label className="text-brand-800 ">
                 Report Type
               </label>
 
@@ -99,7 +92,7 @@ export default function GenerateReports() {
 
             <div className="space-y-4 p-2">
               <div className="relative w-full max-w-md">
-                {/* <CalenderIcon className="absolute w-5 h-5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"/> */}
+                <CalendarDays size={18}   />
                 <label className="pl-7">Date Range</label>
               </div>
             </div>
@@ -107,37 +100,37 @@ export default function GenerateReports() {
             <div className="space-y-4 p-2 -mt-5">
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
                 <div className="sm:col-span-1">
-                  <label className="text-gray-400 pl-1 text-xs dark:text-white/90">
+                  <label className="text-gray-400 pl-1 text-xs ">
                    from
                   </label>
                   <div className="relative w-full max-w-md">
                     <Input type="date"/>
-                    {/* <CalenderIcon className="absolute w-5 h-5 top-1/2 right-4 -translate-y-1/2 text-gray-400 pointer-events-none"/>  */}
+                    {/* <CalendarDays size={18}/>  */}
                   </div>
                 </div> 
 
-                <div className="sm:col-span-1">
-                  <label className="text-gray-400 pl-1 text-xs dark:text-white/90">
+                <div className="">
+                  <label className="text-gray-400  text-xs ">
                     To
                   </label>
 
                   <div className="relative w-full max-w-md">
                     <Input type="date"/>
-                    {/* <CalenderIcon className="absolute w-5 h-5 top-1/2 right-4 -translate-y-1/2 text-gray-400 pointer-events-none"/> */}
+                   {/* <CalendarDays size={18}/>  */}
                   </div>
                 </div>     
               </div> 
             </div>
 
             <div className="space-y-4 p-2">
-              <div className="relative w-full max-w-md">
-                {/* <CalenderIcon className="absolute w-5 h-5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"/> */}
-                <label className="pl-7">Filter By Risk Level</label>
+              <div className=" flex items-center gap-3">
+               <CalendarDays size={18}/> 
+                <label >Filter By Risk Level</label>
               </div>
            </div>
 
            <div className="space-y-4 p-2 -mt-3">
-              <select className="w-full px-2 py-3 border dark:text-white/90  border-gray-300 dark:border-gray-600 text-sm rounded-lg focus:outline-none focus:dark:bg-gray-900 focus:dark:text-white" name="riskLevel" id="riskLevel">
+              <select className="w-full px-2 py-3 border   border-gray-300  text-sm rounded-lg focus:outline-none focus:bg-gray-900 focus:text-white" name="riskLevel" id="riskLevel">
                 <option value="">High and Above</option>
                 <option value="medium">Medium</option>
                 <option value="low">Low</option>
@@ -145,29 +138,29 @@ export default function GenerateReports() {
             </div>
 
             <div className="space-y-4 p-2">
-              <label className="text-brand-800 dark:text-white/90">
+              <label className="text-brand-800 ">
                 Include Sections
               </label>
 
-              <div className="bg-blue-light-25 mb-5 sm:mb-3 p-2 rounded-lg flex gap-2 border-2 border-blue-600">
+              <div className="bg-blue-light-25 mb-5 sm:mb-3 p-2 rounded-lg flex gap-2 border-2 border-gray-300">
                 <div className="flex">
-                  <div className="flex items-center rounded-sm justify-center w-5 h-5 bg-blue-600 text-blue-600 dark:bg-blue-500/15 dark:text-orange-400">
-                    {/* <CheckCircleIcon className="stroke-white size-3 dark:text-white/90" /> */}
+                  <div className="flex items-center rounded-sm justify-center w-9 h-9 p-1 bg-blue-100 text-blue-600 ">
+                    <CheckCircle size={18} />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-y-3">
                   <div>
-                    <h4 className="font-medium text-sm dark:text-gray-400">Executive Summary</h4>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">Overview of key findings and risk scores</span>
+                    <h4 className="font-medium text-sm ">Executive Summary</h4>
+                    <span className="text-xs text-gray-500 ">Overview of key findings and risk scores</span>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-blue-light-25 mb-5 sm:mb-3 p-2 rounded-lg flex gap-2 border-2 border-blue-600">
+              <div className="bg-blue-light-25 mb-5 sm:mb-3 p-2 rounded-lg flex gap-2 border-2 border-gray-300">
                 <div className="flex">
-                  <div className="flex items-center rounded-sm justify-center w-5 h-5 bg-blue-600 text-blue-600 dark:bg-blue-500/15 dark:text-orange-400">
-                    {/* <CheckCircleIcon className="stroke-white size-3 dark:text-white/90" /> */}
+                  <div className="flex items-center rounded-sm justify-center w-9 h-9 p-1 bg-blue-100 text-blue-600 ">
+                    <CheckCircle size={18} />
                   </div>
                </div>
 
@@ -179,64 +172,69 @@ export default function GenerateReports() {
                 </div>
               </div>
 
-              <div className="bg-blue-light-25 mb-5 sm:mb-3 p-2 rounded-lg flex gap-2 border-2 border-blue-600">
+              <div className="bg-blue-light-25 mb-5 sm:mb-3 p-2 rounded-lg flex gap-2 border-2 border-gray-300">
                 <div className="flex">
-                  <div className="flex items-center rounded-sm justify-center w-5 h-5 bg-blue-600 text-blue-600 dark:bg-blue-500/15 dark:text-orange-400">
-                    {/* <CheckCircleIcon className="stroke-white size-3 dark:text-white/90" /> */}
+                  <div className="flex items-center rounded-sm justify-center w-9 h-9 p-1 bg-blue-100 text-blue-600 ">
+                   <CheckCircle size={18} />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-y-3">
                   <div>
-                    <h4 className="font-medium text-sm dark:text-gray-400">Analytics & Charts</h4>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">Visual representation of trends and patterns</span>
+                    <h4 className="font-medium text-sm ">Analytics & Charts</h4>
+                    <span className="text-xs text-gray-500 ">Visual representation of trends and patterns</span>
                   </div>
                 </div>
               </div>
 
               <div className=" mb-5 sm:mb-3 p-2 rounded-lg flex gap-2 border-2 border-gray-200 bg-white">
                 <div className="flex">
-                  <div className="flex items-center rounded-sm justify-center w-5 h-5 border-2 border-gray-200 dark:bg-blue-500/15 dark:text-orange-400"></div>
+                  <div className="flex items-center rounded-sm justify-center w-9 h-9 p-1 bg-blue-100 text-blue-600 ">
+                    <CheckCircle size={18} />
+                  </div>
                 </div>
 
                 <div className="flex flex-col gap-y-3">
+                  
                   <div>
-                    <h4 className="font-medium text-sm dark:text-gray-400">Employee Records</h4>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">Complete employee database with risk indicators</span>
+                    <h4 className="font-medium text-sm d">Employee Records</h4>
+                    <span className="text-xs text-gray-500 ">Complete employee database with risk indicators</span>
                   </div>
                  </div>
               </div>
 
-              <div className="bg-blue-light-25 mb-5 sm:mb-3 p-2 rounded-lg flex gap-2 border-2 border-blue-600">
+              <div className="bg-blue-light-25 mb-5 sm:mb-3 p-2 rounded-lg flex gap-2 border-2 border-gray-300">
                 <div className="flex">
-                  <div className="flex items-center rounded-sm justify-center w-5 h-5 bg-blue-600 text-blue-600 dark:bg-blue-500/15 dark:text-orange-400">
-                    {/* <CheckCircleIcon className="stroke-white size-3 dark:text-white/90" /> */}
+                  <div className="flex items-center rounded-sm justify-center w-9 h-9 p-1 bg-blue-100 text-blue-600 ">
+                    <CheckCircle size={18} />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-y-3">
                   <div>
-                    <h4 className="font-medium text-sm dark:text-gray-400">AI Recommendations</h4>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">Suggested actions and next steps</span>
+                    <h4 className="font-medium text-sm ">AI Recommendations</h4>
+                    <span className="text-xs text-gray-500 ">Suggested actions and next steps</span>
                   </div>
                 </div>
               </div>
 
               <div className="bg-white mb-5 sm:mb-3 p-2 rounded-lg flex gap-2 border-2 border-gray-200">
-                <div className="flex">
-                  <div className="flex items-center rounded-sm justify-center w-5 h-5 border-2 border-gray-200  dark:bg-blue-500/15 dark:text-orange-400"> </div>
+               <div className="flex">
+                  <div className="flex items-center rounded-sm justify-center w-9 h-9 p-1 bg-blue-100 text-blue-600 ">
+                    <CheckCircle size={18} />
+                  </div>
                 </div>
 
                 <div className="flex flex-col gap-y-3">
                   <div>
-                    <h4 className="font-medium text-sm dark:text-gray-400">Activity Timeline</h4>
-                    <span className="text-xs text-gray-500 dark:text-gray-400">Chronological log of detection and resolution</span>
+                    <h4 className="font-medium text-sm">Activity Timeline</h4>
+                    <span className="text-xs text-gray-500 ">Chronological log of detection and resolution</span>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-4 p-2">
-                <label className="text-brand-800 dark:text-white/90">
+                <label className="text-brand-800 ">
                   Export Format
                 </label>
 
@@ -260,12 +258,12 @@ export default function GenerateReports() {
                   <Button onClick={() => setIsOpen(false)} size="sm" className="border-gray-200 border text-sm bg-white text-gray-800">Cancel</Button>
                 </div>
                 <div>
-                  <Link  to="/generate-reports">
+                  
                     <Button size="sm" className="border-gray-200 border text-sm bg-blue-600 text-white">
-                      {/* <DownloadIcon className="size-5"/> */}
+                      <Download size={18}/>
                         Generate Report
                     </Button>
-                  </Link>
+                 
                 </div>
 
               </div>

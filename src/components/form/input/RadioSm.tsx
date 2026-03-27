@@ -1,9 +1,9 @@
 interface RadioProps {
   id: string; // Unique ID for the radio button
-  name: string; // Group name for the radio button
-  value: string; // Value of the radio button
-  checked: boolean; // Whether the radio button is checked
-  label: string; // Label text for the radio button
+  name?: string; // Group name for the radio button
+  value?: string; // Value of the radio button
+  checked?: boolean; // Whether the radio button is checked
+  label?: string; // Label text for the radio button
   onChange: (value: string) => void; // Handler for when the radio button is toggled
   className?: string; // Optional custom classes for styling
 }
@@ -29,7 +29,7 @@ const RadioSm: React.FC<RadioProps> = ({
           id={id}
           name={name}
           value={value}
-          checked={false}
+          checked={checked}
           onChange={() => onChange(value)}
           className="sr-only"
         />
@@ -37,14 +37,14 @@ const RadioSm: React.FC<RadioProps> = ({
         <span
           className={`mr-2 flex h-4 w-4 items-center justify-center rounded-full border ${
             checked
-              ? "border-brand-500 bg-brand-500"
-              : "bg-transparent border-gray-300 dark:border-gray-700"
+              ? "border-gray-500 bg-gray-900"
+              : "bg-transparent border-gray-300 "
           }`}
         >
           {/* Inner Dot */}
           <span
             className={`h-1.5 w-1.5 rounded-full ${
-              checked ? "bg-white" : "bg-white dark:bg-[#1e2636]"
+              checked ? "bg-white" : "bg-white "
             }`}
           ></span>
         </span>

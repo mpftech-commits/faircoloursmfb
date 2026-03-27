@@ -5,10 +5,16 @@ import RadioSm from "../form/input/RadioSm";
 import Button from "../ui/button/Button";
 
 import Input from "../form/input/InputField";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Download } from "lucide-react";
+import GenerateReports from "../../pages/ReportPage/GenerateReportsPage";
+import ReportPage from "../../pages/ReportPage/ReportPage";
 
 export default function ReportBuilder() {
   const [selected, setSelected] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <div className="border border-gray-300 bg-white p-5 rounded-xl" >
         <div>
@@ -64,7 +70,7 @@ export default function ReportBuilder() {
             </div>
 
             <div>
-              <h3 className="text-gray-800 text-sm">Export Format</h3>
+              <h3 className="text-gray-900 text-sm">Export Format</h3>
               <div className="flex gap-3 ">
                   <RadioSm id="pdf" name="export-format" value="pdf" label="PDF" checked={selected === "pdf"} onChange ={setSelected} />
                   <RadioSm id="excel" name="export-format" value="excel" label="Excel" checked={selected === "excel"} onChange ={setSelected} />
@@ -74,16 +80,21 @@ export default function ReportBuilder() {
 
            <div className="flex gap-4">
                <div>
-                   <Link to="/generate-reports">
-                       <Button size="sm" className="bg-brand-500 text-white">
-                           {/* <DownloadIcon className="size-5" /> */}
-                           Generate Report
-                       </Button>
-                   </Link>
+                  
+                       <Link to="/404">
+                           <Button onClick={openModal} size="sm"  className="bg-blue-500 cursor-pointer text-white">
+                               <Download className="size-5 " />
+                               Generate Report
+                           </Button>
+                       </Link>
+                          
+                       
+                       {/* {isModalOpen && (
+                         <GenerateReports />
+                       )}  */}
+                   
                </div>
-               <div className="border flex justify-center items-center border-gray-300 bg-white dark:border-gray-800 dark:bg-white/[0.03] p-2 rounded-lg">
-                  <span className="text-brand-800 text-sm dark:text-white/90">Save Template</span>
-               </div>
+             
            </div>
        </div>
     </div>     
