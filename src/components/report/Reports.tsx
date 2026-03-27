@@ -9,11 +9,11 @@ export default function Reports() {
             <p className="text-sm text-gray-900 ">Generate and download comprehensive audit reports</p>
         </div>
 
-        <div className="border flex justify-center items-center gap-1 border-gray-300 bg-white  p-2 rounded-xl">
+        <div className="border flex justify-center items-center gap-1 border-gray-300 bg-blue-600  p-2 px-4 rounded-xl text-white text-medium cursor-pointer">
             <div>
-                <File />
+                <File size={18}/>
             </div>
-            <span className="text-sm text-gray-900">Create Custom Report</span>
+            <span className="text-sm ">Create Custom Report</span>
 
         </div>
     </div>    

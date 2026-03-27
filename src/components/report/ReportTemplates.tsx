@@ -1,7 +1,3 @@
-// import AlertHexaIcon from "../../icons/index";
-// import BoltIcon from "../../icons/index";
-// import DollarLineIcon from "../../icons/index";
-// import GroupIcon from "../../icons/index";
 import Button from "../ui/button/Button";
 import {AlertTriangle, Bolt, DollarSign, Users2} from "lucide-react"
 
@@ -17,7 +13,7 @@ export default function ReportTemplates() {
            {/* <!-- Template Item Start --> */}
             <div className="flex gap-3 rounded-lg border border-gray-300 bg-white p-4  md:p-5">
                <div className="flex">
-                    <div className="flex items-center rounded-lg justify-center w-8 h-8 bg-red-100 text-eredrror-600  ">
+                    <div className="flex items-center rounded-lg justify-center w-8 h-8 bg-red-100 text-red-600  ">
                       <AlertTriangle className="text-red-600 size-5 " />
                     </div>
                 </div>
@@ -33,7 +29,7 @@ export default function ReportTemplates() {
                             <p className="text-xs  mt-1">Last: Yesterday, 3:42 PM</p>
                         </div>
                         <div>
-                            <Button size="sm" className="bg-brand-500 -mt-2 text-black">Generate</Button>
+                            <Button size="sm" className="bg-brand-500 -mt-2 bg-blue-500 text-white px-3 py-2 font-semibold cursor-pointer">Generate</Button>
                         </div>
                     </div>
                 </div>
@@ -60,7 +56,7 @@ export default function ReportTemplates() {
                             <p className="text-xs text-gray-500 mt-1">Last: February 1, 2026</p>
                         </div>
                         <div>
-                            <Button size="sm" className="bg-brand-500 -mt-2 text-black">Generate</Button>
+                            <Button size="sm" className="bg-brand-500 -mt-2 bg-blue-500 text-white px-3 py-2 font-semibold cursor-pointer">Generate</Button>
                         </div>
                     </div>
                 </div>
@@ -88,7 +84,7 @@ export default function ReportTemplates() {
                             <p className="text-xs text-gray-500 ">Last: January 30, 2026</p>
                         </div>
                         <div>
-                            <Button size="sm" className="bg-brand-500 -mt-2 text-black">Generate</Button>
+                            <Button size="sm" className="bg-brand-500 -mt-2 bg-blue-500 text-white px-3 py-2 font-semibold cursor-pointer">Generate</Button>
                         </div>
                     </div>
                 </div>
@@ -116,7 +112,7 @@ export default function ReportTemplates() {
                             <p className="text-xs text-gray-500  mt-1">Last: January 28, 2026</p>
                         </div>
                         <div>
-                            <Button size="sm" className="bg-brand-500 -mt-2 text-black">Generate</Button>
+                            <Button size="sm" className="bg-brand-500 -mt-2 bg-blue-500 text-white px-3 py-2 font-semibold cursor-pointer">Generate</Button>
                         </div>
                     </div>
                 </div>

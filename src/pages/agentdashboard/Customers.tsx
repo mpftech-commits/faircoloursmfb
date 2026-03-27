@@ -155,21 +155,21 @@ export default function Customers() {
       {selected && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center px-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-lg">
-            <h2 className="text-lg font-semibold mb-4">
+            <h2 className="text-lg font-semibold mb-4 text-center mt-5">
               Transaction Details
             </h2>
 
-            <div className="space-y-2 text-sm">
-              <p><strong>Name:</strong> {selected.name}</p>
-              <p><strong>Email:</strong> {selected.email}</p>
-              <p><strong>Phone:</strong> {selected.phone}</p>
-              <p><strong>Date:</strong> {selected.date}</p>
-              <p><strong>Status:</strong> {selected.status}</p>
+            <div className="space-y-3 text-sm">
+              <p className="flex justify-between font-medium"><strong>Name:</strong> {selected.name}</p>
+              <p className="flex justify-between font-medium"><strong>Email:</strong> {selected.email}</p>
+              <p className="flex justify-between font-medium"><strong>Phone:</strong> {selected.phone}</p>
+              <p className="flex justify-between font-medium"><strong>Date:</strong> {selected.date}</p>
+              <p className="flex justify-between font-medium"><strong>Status:</strong> <span className="bg-green-200 px-4 text-green-600 rounded-md">{selected.status}</span></p>
             </div>
 
             <button
               onClick={() => setSelected(null)}
-              className="mt-6 w-full bg-black text-white py-2 rounded-xl"
+              className="mt-6 w-full bg-blue-800 text-white py-2 rounded-xl"
             >
               Close
             </button>

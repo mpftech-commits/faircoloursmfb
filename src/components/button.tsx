@@ -1,6 +1,7 @@
-import Addpayment from "../modal/addpayment";
+
 import { useState } from "react";
 import "../payment.css";
+import AddCashier from "../modal/addpayment";
 
 function Button() {
   const [isOpen, setisOpen] = useState(false);
@@ -18,7 +19,7 @@ function Button() {
           <option value="successful">Successfull</option>
         </select>
       </div>
-      <Addpayment isOpen={isOpen} onClose={() => setisOpen(false)} />
+      <AddCashier isOpen={isOpen} onClose={() => setisOpen(false)} />
       <button onClick={() => setisOpen(true)} className="text-white text-xs bg-blue-900  px-5 py-3 rounded-lg font-medium cursor-pointer">
         + Add Cashier
       </button>

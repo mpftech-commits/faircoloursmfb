@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
 import "../modal/addpayment.css";
 
-function Addpayment({ isOpen, onClose }) {
+export default function AddCashier({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
@@ -31,9 +31,10 @@ function Addpayment({ isOpen, onClose }) {
           <label>Status</label>
           <select>
             <option value="">Select Status</option>
-            <option value="card">Pending</option>
-            <option value="bank">Sucessful</option>
-            <option value="wallet">Failed</option>
+            <option value="pending">Loan Collector</option>
+          <option value="failed">Cashier</option>
+          <option value="successful">Office Cashier</option>
+          <option value="successful">Daily Cash Collector</option>
           </select>
 
           <label>Email</label>
@@ -62,4 +63,4 @@ function Addpayment({ isOpen, onClose }) {
     </div>
   );
 }
-export default Addpayment;
+
