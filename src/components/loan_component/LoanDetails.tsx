@@ -18,7 +18,7 @@ export default function LoanDetailsModal({
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-2xl w-[400px] space-y-4 mt-3">
+      <div className="bg-white p-6 rounded-2xl w-100 space-y-4 mt-3">
         <h2 className="text-xl font-bold mb-4 text-center mt-3">Loan Details </h2>
 
         <p className="flex justify-between"><b>Name:</b> <span className="font-medium">{loan.name}</span></p>

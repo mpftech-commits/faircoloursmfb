@@ -13,10 +13,7 @@ interface Props {
 export default function StatusCard({
   title,
   subtitle,
-  right,
-  className,
   icon,
-  link,
   tips,
 }: Props) {
   return (

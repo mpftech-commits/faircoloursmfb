@@ -6,14 +6,14 @@ import Button from "../ui/button/Button";
 
 import Input from "../form/input/InputField";
 import { CalendarDays, Download } from "lucide-react";
-import GenerateReports from "../../pages/ReportPage/GenerateReportsPage";
-import ReportPage from "../../pages/ReportPage/ReportPage";
+// import GenerateReports from "../../pages/ReportPage/GenerateReportsPage";
+// import ReportPage from "../../pages/ReportPage/ReportPage";
 
 export default function ReportBuilder() {
   const [selected, setSelected] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const openModal = () => setIsModalOpen(true);
+//   const closeModal = () => setIsModalOpen(false);
 
   return (
     <div className="border border-gray-300 bg-white p-5 rounded-xl" >
@@ -82,7 +82,7 @@ export default function ReportBuilder() {
                <div>
                   
                        <Link to="/404">
-                           <Button onClick={openModal} size="sm"  className="bg-blue-500 cursor-pointer text-white">
+                           <Button  size="sm"  className="bg-blue-500 cursor-pointer text-white">
                                <Download className="size-5 " />
                                Generate Report
                            </Button>

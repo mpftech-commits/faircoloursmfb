@@ -1,6 +1,6 @@
 
 interface Props {
-  transactions: Transaction[];
+  transactions?: Transaction ;
 }
 
 export default function CashierStats({ transactions }: Props) {

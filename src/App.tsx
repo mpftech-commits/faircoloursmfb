@@ -16,7 +16,7 @@ import LoanApproval from "./pages/agentdashboard/LoanApproval"
 import Cashier from "./pages/agentdashboard/Cashier";
 import NotFoundPage from "./NotFound";
 import Customers from "./pages/agentdashboard/Customers";
-import CashierReport from "./pages/agentdashboard/CashierReport";
+// import CashierReport from "./pages/agentdashboard/CashierReport";
 import Member from "./pages/member";
 import GenerateReports from "./pages/ReportPage/GenerateReportsPage";
 import ReportPage from "./pages/ReportPage/ReportPage";
