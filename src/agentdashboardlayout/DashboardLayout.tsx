@@ -1,22 +1,34 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
-import FooterNav from "../agentdashboardlayout/Footer";
+import Navigation from "../agentdashboardlayout/Navigation";
+import { useState } from "react";
 
 export default function DashboardLayout() {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col overflow-hidden">
 
-      {/* Top Navigation */}
-      <Navbar />
+      {/* Sidebar */}
+        <Navigation collapsed={collapsed} setCollapsed={setCollapsed} />
 
-      {/* Page Content */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 py-6 md:mt-20 mb-20 mt-22">
-        <Outlet />
-      </main>
+      {/* Main Content */}
+      <div
+        className={` transition-all duration-300
+        ${collapsed ? "md:ml-20" : "md:ml-60"}`}
+      >
+        
+          <div className="">
+            <Navbar />
+          </div>
+         
+       
+       
 
-      {/* Bottom Navigation */}
-      <FooterNav />
-
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6 mt-20 mb-20 md:mb-0">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }

@@ -12,6 +12,15 @@ import BusinessInformation from "./pages/BusinessInformation";
 import ChangePassword from "./pages/ChangePassword";
 import HelpSupport from "./pages/HelpSupport";
 import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
+import LoanApproval from "./pages/agentdashboard/LoanApproval"
+import Cashier from "./pages/agentdashboard/Cashier";
+import NotFoundPage from "./NotFound";
+import Customers from "./pages/agentdashboard/Customers";
+// import CashierReport from "./pages/agentdashboard/CashierReport";
+import Member from "./pages/member";
+import GenerateReports from "./pages/ReportPage/GenerateReportsPage";
+import ReportPage from "./pages/ReportPage/ReportPage";
+
 
 function App() {
   return (
@@ -27,6 +36,10 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route element={<DashboardLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
+            {/* loan */}
+            <Route path="loan-approval" element={<LoanApproval />} />
+            <Route path="cashier-approval" element={<Cashier />} />
+
             {/* settings */}
             <Route path="settings" element={<Settings />} />
             <Route
@@ -42,8 +55,15 @@ function App() {
               element={<ChangePassword />}
             />
             <Route path="settings/help-support" element={<HelpSupport />} />
+            <Route path="404" element={<NotFoundPage />} />
+            <Route path="customer" element={<Customers />} />
+            {/* <Route path="report" element={<CashierReport />} /> */}
+            <Route path="cashier" element={<Member />} />
+            <Route path="report" element={<ReportPage />} />
+            <Route path="generate-reports" element={<GenerateReports />} />
           </Route>
         </Route>
+        
       </Routes>
     </Router>
   );

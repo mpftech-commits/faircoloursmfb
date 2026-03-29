@@ -7,7 +7,7 @@ export default function VerifyComponent() {
    
          <div className="max-w-md w-full text-center mx-auto rounded-xl">
 
-          <h2 className="text-xl font-semibold text-gray-800 mb-2">
+          <h2 className="text-xl font-semibold text-blue-800 mb-2">
             Verify Your Phone
           </h2>
 
@@ -18,12 +18,12 @@ export default function VerifyComponent() {
           <OTPInput />
 
           <p className="text-sm text-gray-500 mt-4">
-            Resend code in <span className="text-green-700 font-medium">53s</span>
+            Resend code in <span className="text-blue-700 font-medium">53s</span>
           </p>
 
           <button
           onClick={() => navigate("/dashboard")}
-            className="w-full mt-6 bg-green-800 cursor-pointer hover:bg-green-900 transition text-white py-3 rounded-md font-medium"
+            className="w-full mt-6 bg-blue-800 cursor-pointer hover:bg-blue-900 transition text-white py-3 rounded-md font-medium"
           >
             Verify
           </button>
