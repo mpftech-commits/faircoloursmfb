@@ -1,7 +1,7 @@
 import { useRef } from "react";
 
 export default function OTPInput() {
-  const inputs = useRef<HTMLInputElement[]>([]);
+  const inputs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleChange = (value: string, index: number) => {
     if (value && index < 5) {
