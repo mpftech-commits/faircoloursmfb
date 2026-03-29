@@ -1,34 +1,22 @@
-
-
-.card-wrapper{
-    /* text-transform: capitalize;
-    /* background: yellow; */
-    /* padding: .7rem .7rem 0 .7rem;  */
-}
-.cards{
+.cards {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: .9rem;
 }
-.card{
-    /* width: 200px;
-    height: 70px;
-    /* border: 1px solid var(--outline-border); */
-    /* border-radius: .2rem;
-    padding: .7rem;
-    margin-bottom: .4rem;  */
-}
-.icon{
+
+.icon {
     display: flex;
     gap: .4rem;
     align-items: center;
     font-size: 10px;
 }
-.card h5{
+
+.card h5 {
     margin-bottom: .8rem;
 }
-.card span{
+
+.card span {
     background: var(--side-bar);
     padding: .2rem;
     border-radius: .2rem;

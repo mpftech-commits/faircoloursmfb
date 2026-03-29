@@ -11,7 +11,7 @@ import PersonalInformation from "./pages/PersornalInformation";
 import BusinessInformation from "./pages/BusinessInformation";
 import ChangePassword from "./pages/ChangePassword";
 import HelpSupport from "./pages/HelpSupport";
-import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
+// import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
 import LoanApproval from "./pages/agentdashboard/LoanApproval"
 import Cashier from "./pages/agentdashboard/Cashier";
 import NotFoundPage from "./NotFound";
@@ -33,8 +33,10 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         {/* Protected routes */}
-        <Route element={<ProtectedRoute />}>
-          <Route element={<DashboardLayout />}>
+        {/* <Route element={<ProtectedRoute />}>
+         
+        </Route> */}
+         <Route element={<DashboardLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             {/* loan */}
             <Route path="loan-approval" element={<LoanApproval />} />
@@ -62,7 +64,6 @@ function App() {
             <Route path="report" element={<ReportPage />} />
             <Route path="generate-reports" element={<GenerateReports />} />
           </Route>
-        </Route>
         
       </Routes>
     </Router>

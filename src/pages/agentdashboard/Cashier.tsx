@@ -5,13 +5,32 @@ import CustomerTable from "../../components/cashier/CustomerTable";
 import AddCustomerModal from "../../components/cashier/AddCustomerModal";
 import CreateCashierModal from "../../components/cashier/AddCashierModal";
 
+
+
+
+interface Transaction {
+  id: string;
+  amount: number;
+  type: "deposit" | "withdrawal";
+  cashier: string;
+  date: string;
+}
+interface customers {
+  id: string;
+  name: string;
+  email: string;
+  status: "pending" | "approved";
+  phone?: string;
+}
+
+
 export default function Cashier() {
-  const [transactions] = useState([
+  const [transactions] = useState<Transaction[]>([
     { id: "1", amount: 50000, type: "deposit", cashier: "John", date: "Today" },
     { id: "2", amount: 20000, type: "withdrawal", cashier: "Jane", date: "Today" },
   ]);
 
-  const [customers, setCustomers] = useState([
+  const [customers, setCustomers] = useState<customers[]>([
     { id: "1", name: "Mike", email: "mike@mail.com", status: "pending" },
   ]);
 
@@ -21,12 +40,12 @@ export default function Cashier() {
     );
   };
 
-  const addCustomer = (name: string, email: string) => {
-    setCustomers(prev => [
-      ...prev,
-      { id: Math.random().toString(), name, email, status: "pending" },
-    ]);
-  };
+  // const addCustomer = (name: string, email: string) => {
+  //   setCustomers(prev => [
+  //     ...prev,
+  //     { id: Math.random().toString(), name, email, status: "pending" },
+  //   ]);
+  // };
 
   const createCashier = (name: string, email: string) => {
     console.log("New cashier:", name, email);
