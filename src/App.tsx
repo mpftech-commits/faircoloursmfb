@@ -1,5 +1,5 @@
 import Welcome from "./pages/Welcome";
-import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Signup from "./pages/auth/Signup";
 import ScrollToTop from "./components/ScrollToTop";
 import VerifyPhone from "./pages/VerifyPhone";

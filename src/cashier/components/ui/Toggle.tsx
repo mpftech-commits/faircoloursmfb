@@ -7,6 +7,7 @@ export const Toggle: React.FC<{
   label?: string;
   description?: string;
   icon?: React.ReactNode;
+  className?: string;
 }> = ({ enabled, onChange, label, description, icon }) => (
   <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all">
     <div className="flex items-center gap-4">

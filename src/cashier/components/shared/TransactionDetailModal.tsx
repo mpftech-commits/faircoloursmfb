@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, ArrowLeftRight, FileText, Clock, Download, ChevronRight, CreditCard } from 'lucide-react';
+import { User, ArrowLeftRight, FileText, Clock, Download, ChevronRight } from 'lucide-react';
 import { Modal, Button, Badge, StatusBadge } from '../ui';
 import type { Transaction, Customer, Loan } from "../../types";
 

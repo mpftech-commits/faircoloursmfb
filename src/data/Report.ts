@@ -4,7 +4,7 @@ export interface Report {
   id: number;
   title: string;
   property: string;
-  description?: string[];
+  description: string | string[];
   date: string;
   status: ReportStatus;
 }
