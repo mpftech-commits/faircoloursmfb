@@ -1,6 +1,14 @@
+// import type { Props } from "recharts/types/shape/Dot";
 
+ interface Transaction {
+  id: string;
+  amount: number;
+  type: "deposit" | "withdrawal";
+  cashier: string;
+  date: string;
+}
 interface Props {
-  transactions?: Transaction ;
+  transactions: Transaction[];
 }
 
 export default function CashierStats({ transactions }: Props) {
