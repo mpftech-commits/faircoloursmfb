@@ -4,7 +4,9 @@ export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { 
   children, 
   variant = 'primary', 
   size = 'md',
-  ...props 
+  onClick,
+  ...props
+  
 }) => {
   const variants = {
     primary: 'bg-primary text-white hover:bg-primary/90 shadow-sm shadow-primary/20 text-slate-500',
@@ -23,7 +25,7 @@ export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { 
   return (
     <button 
       {...props}
-      className={`rounded-xl font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${props.className || ''}`}
+      className={`rounded-xl font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${props.className || ''} `}
     >
       {children}
     </button>

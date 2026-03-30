@@ -212,7 +212,7 @@ export const NewLoan: React.FC = () => {
             <div className="flex justify-between pt-6">
               <Button variant="ghost" onClick={() => setLoanStep(3)}>Back</Button>
               <Button 
-                onClick={handleApplyLoan}
+                onClick={() => handleApplyLoan()}
                 className="bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-200 dark:shadow-none"
               >
                 Submit Application

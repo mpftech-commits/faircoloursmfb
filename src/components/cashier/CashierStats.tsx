@@ -1,24 +1,27 @@
-// import type { Props } from "recharts/types/shape/Dot";
-
- interface Transaction {
+export type Transaction = {
   id: string;
   amount: number;
   type: "deposit" | "withdrawal";
   cashier: string;
   date: string;
-}
-interface Props {
+};
+
+type Props = {
   transactions: Transaction[];
-}
+};
 
 export default function CashierStats({ transactions }: Props) {
-  const total = transactions.reduce((acc, t) => acc + t.amount, 0);
+  const total = transactions.reduce(
+    (acc, t) => acc + t.amount,
+    0
+  );
+
   const deposits = transactions
-    .filter(t => t.type === "deposit")
+    .filter((t) => t.type === "deposit")
     .reduce((acc, t) => acc + t.amount, 0);
 
   const withdrawals = transactions
-    .filter(t => t.type === "withdrawal")
+    .filter((t) => t.type === "withdrawal")
     .reduce((acc, t) => acc + t.amount, 0);
 
   return (
@@ -30,7 +33,12 @@ export default function CashierStats({ transactions }: Props) {
   );
 }
 
-function Card({ title, value }: any) {
+type CardProps = {
+  title: string;
+  value: string;
+};
+
+function Card({ title, value }: CardProps) {
   return (
     <div className="bg-white p-4 rounded-2xl shadow border border-gray-300">
       <p className="text-gray-500 text-sm">{title}</p>

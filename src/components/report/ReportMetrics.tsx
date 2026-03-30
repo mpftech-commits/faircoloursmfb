@@ -1,16 +1,13 @@
 import { AlertCircle, Download, File } from "lucide-react";
-import { useState } from "react";
-// import AlertHexaIcon from "../../icons/index.ts";
-//  import DownloadIcon from "../../icons/index.ts"
-//  import  FileIcon from "../../icons/index.ts"
+// import { useState } from "react";
 
 export default function ReportMetrics() {
-  const [alert, setAlert] = useState({
+  const alert = {
     critical: 24,
     duplicate: 0,
     patterns: 0,
     records: 0,
-  })
+  };
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-6 mt-2">

@@ -1,7 +1,11 @@
 import { X } from "lucide-react";
 import "../modal/addpayment.css";
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-export default function AddCashier({ isOpen, onClose }) {
+export default function AddCashier({ isOpen, onClose }: Props) {
 
   if (!isOpen) return null;
 
