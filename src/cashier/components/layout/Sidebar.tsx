@@ -41,7 +41,7 @@ export const Sidebar: React.FC = () => {
       <motion.aside 
         initial={false}
         animate={{ width: isSidebarCollapsed ? 80 : 260 }}
-        className="hidden md:flex flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-30 transition-colors duration-300 text-slate-500 dark:text-slate-100 "
+        className="hidden md:flex flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 z-30 transition-colors duration-300 text-blue-700 dark:text-blue-700 font-medium"
       >
         <div className="p-6 flex items-center justify-between">
           {!isSidebarCollapsed && (
@@ -51,19 +51,19 @@ export const Sidebar: React.FC = () => {
           )}
           <button 
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="p-1.5 rounded-lg  text-slate-500 dark:text-slate-400 cursor-pointer"
+            className="p-1.5 rounded-lg  text-slate-500 dark:text-slate-400 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-300"
           >
             {isSidebarCollapsed ? <Menu size={20} /> : <ChevronLeft size={20} />}
           </button>
         </div>
 
-        <nav className="flex-1 px-4 space-y-2 mt-4 ">
-          <SidebarItem to="/cashiers" label="Dashboard" icon={LayoutDashboard} />
-          <SidebarItem to="customers" label="Customers" icon={Users} />
-          <SidebarItem to="loans" label="Loan Applications" icon={FileText} />
-          <SidebarItem to="transactions" label="Transactions" icon={ArrowLeftRight} />
-          <SidebarItem to="notifications" label="Notifications" icon={Bell} />
-          <SidebarItem to="cashier/settings" label="Settings" icon={Settings} />
+        <nav className="flex-1 px-4 space-y-2 mt-4 font-medium ">
+          <SidebarItem to="/cashier-dashboard" label="Dashboard" icon={LayoutDashboard} />
+          <SidebarItem to="/cashiers/customers" label="Customers" icon={Users} />
+          <SidebarItem to="/cashiers/loans" label="Loan Applications" icon={FileText} />
+          <SidebarItem to="/cashiers/transactions" label="Transactions" icon={ArrowLeftRight} />
+          <SidebarItem to="/cashiers/notifications" label="Notifications" icon={Bell} />
+          <SidebarItem to="/cashiers/settings" label="Settings" icon={Settings} />
         </nav>
 
         <div className="p-4 border-t border-slate-100 dark:border-slate-800">

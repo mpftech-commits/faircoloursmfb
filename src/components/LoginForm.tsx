@@ -83,7 +83,7 @@ export default function LoginForm() {
 
           <p className="text-center text-[12px]">
             Don't have an account?{" "}
-            <Link to="/cashiers" className="text-blue-500 font-medium">
+            <Link to="/cashier-dashboard" className="text-blue-500 font-medium">
               Create an account
             </Link>
           </p>
