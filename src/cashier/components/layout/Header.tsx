@@ -9,6 +9,7 @@ import {
   Sun 
 } from 'lucide-react';
 import { useDashboard } from '../../context/DashboardContext';
+import {Link} from "react-router-dom"
 
 export const Header: React.FC = () => {
   const { 
@@ -52,13 +53,15 @@ export const Header: React.FC = () => {
           {darkMode ? <Moon size={20} /> : <Sun size={20} />}
         </button>
 
-        <button 
-          onClick={() => handleApplyLoan()}
-          className="hidden lg:flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-primary/90 transition-all shadow-sm shadow-primary/20"
-        >
-          <Plus size={18} />
-          <span>New Loan </span>
-        </button>
+        <Link to="/404">
+          <button
+            // onClick={() => handleApplyLoan()}
+            className="hidden lg:flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-primary/90 transition-all shadow-sm shadow-primary/20 cursor-pointer"
+          >
+            <Plus size={18} />
+            <span>Transactions </span>
+          </button>
+        </Link>
         
         <div className="relative">
           <button 

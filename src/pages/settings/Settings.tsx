@@ -84,7 +84,7 @@ export default function Settings() {
 
         {/* Footer */}
         <div className="text-center text-xs text-gray-400 pt-6">
-          OgaLandlord Agent v1.0.0
+          FairColors MFB v1.0.0
         </div>
       </div>
     </div>

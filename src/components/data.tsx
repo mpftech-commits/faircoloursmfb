@@ -25,7 +25,7 @@ const Data = () => {
             <td>(+23)812347564</td>
             <td>23/04/2023</td>
             <td>
-              <span className="status pending">Loan Collector</span>
+              <span className="status pending">Cashier</span>
             </td>
           </tr>
 
@@ -38,7 +38,7 @@ const Data = () => {
             <td>08120223344556</td>
             <td>25/04/2023</td>
             <td>
-              <span className="status successful">Daily Cash Collector</span>
+              <span className="status successful">Cashierr</span>
             </td>
           </tr>
 
@@ -51,7 +51,7 @@ const Data = () => {
             <td>12344567890</td>
             <td>26/04/2023</td>
             <td>
-              <span className="status failed">Office Cashier</span>
+              <span className="status failed">Cashier</span>
             </td>
           </tr>
 
@@ -64,7 +64,7 @@ const Data = () => {
             <td>1239876354</td>
             <td>28/04/2023</td>
             <td>
-              <span className="status successful">Office Cashier</span>
+              <span className="status successful">Cashier</span>
             </td>
           </tr>
 
@@ -77,7 +77,7 @@ const Data = () => {
             <td>Transfer</td>
             <td>01/05/2023</td>
             <td>
-              <span className="status pending">Daily Cash Collector</span>
+              <span className="status pending">Cashier</span>
             </td>
           </tr>
 
@@ -90,7 +90,7 @@ const Data = () => {
             <td>12345678909</td>
             <td>02/05/2023</td>
             <td>
-              <span className="status failed">Loan Collector</span>
+              <span className="status failed">Cashier</span>
             </td>
           </tr>
 
@@ -116,7 +116,7 @@ const Data = () => {
             <td>(+22)91264573</td>
             <td>05/05/2023</td>
             <td>
-              <span className="status pending">Loan Collector</span>
+              <span className="status pending">Cashier</span>
             </td>
           </tr>
 
@@ -129,7 +129,7 @@ const Data = () => {
             <td>Card</td>
             <td>06/05/2023</td>
             <td>
-              <span className="status successful">Office Cashier</span>
+              <span className="status successful">Cashier</span>
             </td>
           </tr>
 
@@ -142,7 +142,7 @@ const Data = () => {
             <td>USSD</td>
             <td>07/05/2023</td>
             <td>
-              <span className="status failed">Loan Collector</span>
+              <span className="status failed">Cashier</span>
             </td>
           </tr>
         </tbody>

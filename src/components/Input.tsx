@@ -3,7 +3,7 @@ export interface InputProps
 
   export const Input = ({ className, ...props }: InputProps) => {
   return (
-    <input
+    <input 
       className={`border p-3 rounded-lg w-full ${className}`}
       {...props}
     />

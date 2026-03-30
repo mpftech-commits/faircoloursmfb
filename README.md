@@ -51,4 +51,4 @@ The project uses a custom design system built on top of Tailwind CSS, focusing o
 
 ---
 
-Built with ❤️ for modern microfinance management.
+## 🤝 Contributing

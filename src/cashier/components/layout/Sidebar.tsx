@@ -22,16 +22,18 @@ export const Sidebar: React.FC = () => {
     isMobileMenuOpen, 
     setIsMobileMenuOpen 
   } = useDashboard();
-  const SidebarItem = ({ to, label, icon: Icon }: { to: string, label: string, icon: LucideIcon }) => (
+  const SidebarItem = ({ to, label, title, icon: Icon }: { to: string, label: string, title?: string, icon: LucideIcon }) => (
     <NavLink 
       to={to}
+      title={title}
       onClick={() => setIsMobileMenuOpen(false)}
       className={({ isActive }) => 
-        `sidebar-item w-full text-slate-500 dark:text-white ${isActive ? 'sidebar-item-active' : ''} ${isSidebarCollapsed ? 'justify-center px-0' : ''}`
+        `sidebar-item w-full text-slate-500 dark:text-white ${isActive ? 'sidebar-item-active' : ''} ${isSidebarCollapsed ? `justify-center px-0 $` : ``}`
       }
     >
       <Icon size={20} />
-      {!isSidebarCollapsed && <span>{label}</span>}
+      {!isSidebarCollapsed && <span>{label} </span>}
+     
     </NavLink>
   );
 
@@ -58,16 +60,16 @@ export const Sidebar: React.FC = () => {
         </div>
 
         <nav className="flex-1 px-4 space-y-2 mt-4 font-medium ">
-          <SidebarItem to="/cashier-dashboard" label="Dashboard" icon={LayoutDashboard} />
-          <SidebarItem to="/cashiers/customers" label="Customers" icon={Users} />
-          <SidebarItem to="/cashiers/loans" label="Loan Applications" icon={FileText} />
-          <SidebarItem to="/cashiers/transactions" label="Transactions" icon={ArrowLeftRight} />
-          <SidebarItem to="/cashiers/notifications" label="Notifications" icon={Bell} />
-          <SidebarItem to="/cashiers/settings" label="Settings" icon={Settings} />
+          <SidebarItem to="/cashier-dashboard" label="Dashboard" icon={LayoutDashboard} title='dashboard'/>
+          <SidebarItem to="/cashiers/customers" label="Customers" icon={Users} title='customers'/>
+          <SidebarItem to="/cashiers/loans" label="Loan Applications" icon={FileText} title='loans'/>
+          <SidebarItem to="/cashiers/transactions" label="Transactions" icon={ArrowLeftRight} title='transactions'/>
+          <SidebarItem to="/cashiers/notifications" label="Notifications" icon={Bell} title='notifications'/>
+          <SidebarItem to="/cashiers/settings" label="Settings" icon={Settings} title='settings'/>
         </nav>
 
         <div className="p-4 border-t border-slate-100 dark:border-slate-800">
-          <Link to="/login">
+          <Link to="/login" title='logout'>
             <button className={`sidebar-item w-full hover:bg-rose-50 hover:text-red-500 dark:hover:bg-rose-900/20 cursor-pointer ${isSidebarCollapsed ? 'justify-center px-0' : ''}`}>
               <LogOut size={20} className='text-red-500'/>
               {!isSidebarCollapsed && <span className='text-red-500'>Logout</span>}
@@ -98,7 +100,7 @@ export const Sidebar: React.FC = () => {
                 <span className="font-bold text-xl tracking-tight dark:text-white">FinDash</span>
               </div>
               <nav className="space-y-2">
-                <SidebarItem to="." label="Dashboard" icon={LayoutDashboard} />
+                <SidebarItem to="." label="Dashboard" icon={LayoutDashboard}  />
                 <SidebarItem to="customers" label="Customers" icon={Users} />
                 <SidebarItem to="loans" label="Loan Applications" icon={FileText} />
                 <SidebarItem to="transactions" label="Transactions" icon={ArrowLeftRight} />

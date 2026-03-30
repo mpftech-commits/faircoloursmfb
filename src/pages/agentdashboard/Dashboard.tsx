@@ -31,11 +31,20 @@ const transactions = [
 ];
 
 const StatCard = ({ title, value, icon }: any) => (
-  <div className="bg-white p-5 rounded-2xl shadow">
+  <div className="bg-white rounded-xl shadow overflow-hidden flex-1 p-3">
     <p className="text-gray-500 text-sm">{title}</p>
-    <h2 className="text-2xl font-bold text-blue-900">{value}</h2>
-    <div className="bg-blue-900 w-fit p-2 rounded-md mt-2 text-white ">
-      {icon}
+    <span className="flex items-center gap-3">
+      <p className="bg-blue-100 w-fit p-1 rounded-md mt-2 text-blue-700 ">
+        {icon}
+      </p>
+      <h2 className="text-lg font-medium text-blue-700">{value}</h2>
+    </span>
+    {/* FILTER BUTTONS */}
+    <div className="  gap-5 mt-3 py-2 space-x-2">
+       <button type="button" className="rounded-full bg-blue-50 text-xs font-medium px-2 py-1 text-blue-900 cursor-pointer">Weekly</button>
+       <button type="button" className=" rounded-full bg-green-50 text-xs font-medium px-2 py-1 text-green-700 cursor-pointer">Monthly</button>
+       <button type="button" className=" rounded-full bg-yellow-50 text-xs font-medium px-2 py-1 text-yellow-700 cursor-pointer">Quterly</button>
+       <button type="button" className=" rounded-full bg-yellow-50 text-xs font-medium px-2 py-1 text-yellow-700 cursor-pointer">Yearly</button>
     </div>
   </div>
 );
@@ -121,7 +130,7 @@ const Modal = ({ open, onClose, title, children }: any) => {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
+    <div className="fixed  flex items-center justify-center">
       <div className="bg-white rounded-2xl p-6 w-full max-w-md">
         <div className="flex justify-between mb-4">
           <h2 className="font-semibold">{title}</h2>
@@ -134,16 +143,7 @@ const Modal = ({ open, onClose, title, children }: any) => {
 };
 
 // -------------------- FORMS --------------------
-const AddCustomerForm = () => (
-  <div className="flex flex-col gap-3">
-    <input className="border p-2 rounded" placeholder="Full Name" />
-    <input className="border p-2 rounded" placeholder="Email" />
-    <input className="border p-2 rounded" placeholder="Phone" />
-    <button className="bg-blue-600 text-white py-2 rounded">
-      Add Customer
-    </button>
-  </div>
-);
+
 
 const CreateCashierForm = () => (
   <div className="flex flex-col gap-3">
@@ -164,7 +164,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-100">
       <div className="p-6 space-y-6">
         {/* STATS */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="grid grid-col-1 md:grid-cols-4  gap-5 ">
           <StatCard title="Total Savings" value="$15,200" icon={<Wallet  size={18}/>} />
           <StatCard title="Total Deposits" value="$8,450" icon={<Wallet  size={18}/>}/>
           <StatCard title="Total Withdrawals" value="$5,120" icon={<Wallet size={18}/>}/>
@@ -182,12 +182,14 @@ export default function Dashboard() {
               <h1 className="border-b border-gray-300 pb-3 font-bold">
                 Add New Customer
               </h1>
-              <button
-                onClick={() => setOpenCustomer(true)}
-                className="w-full bg-blue-600 text-white py-4 mt-3 rounded-xl font-bold"
-              >
-                Add Customer
-              </button>
+              <Link to="/404">
+                <button
+                  onClick={() => setOpenCustomer(true)}
+                  className="w-full bg-blue-600 text-white py-4 mt-3 rounded-xl font-bold"
+                >
+                  Add Customer
+                </button>
+              </Link>
             </div>
 
             <div className="bg-white p-5 rounded-lg drop-shadow-md">
@@ -210,13 +212,15 @@ export default function Dashboard() {
       </div>
 
       {/* MODALS */}
+      
       <Modal
         open={openCustomer}
         onClose={() => setOpenCustomer(false)}
-        title="Add Customer"
+        title=""
       >
-        <AddCustomerForm />
+        
       </Modal>
+      
 
       <Modal
         open={openCashier}
@@ -225,6 +229,11 @@ export default function Dashboard() {
       >
         <CreateCashierForm />
       </Modal>
+
+      {/* Footer */}
+        <div className="text-center text-xs text-gray-400 pt-6 pb-6">
+          FairColors MFB v1.0.0
+        </div>
     </div>
   );
 }

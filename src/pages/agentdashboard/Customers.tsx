@@ -4,7 +4,7 @@ import { useState } from "react";
 type Information = {
   id: number;
   name: string;
-  email: string;
+  account?: string | number;
   phone?: number;
   method?: string;
   date: string;
@@ -15,7 +15,7 @@ const transactions: Information[] = [
   {
     id: 1,
     name: "Christian Albert",
-    email: "user@mail.com",
+    account: "0123689036",
     phone: 234812345678,
     date: "23/04/23",
     status: "Verified",
@@ -23,7 +23,7 @@ const transactions: Information[] = [
   {
     id: 2,
     name: "Josephine Dee",
-    email: "user@mail.com",
+    account: "0123689036",
      phone: 234812345678,
     date: "20/04/23",
     status: "Verified",
@@ -31,7 +31,7 @@ const transactions: Information[] = [
   {
     id: 3,
     name: "Caroline James",
-    email: "user@mail.com",
+    account: "0123689036",
      phone: 234812345678,
     date: "19/04/23",
     status: "Pending",
@@ -39,7 +39,7 @@ const transactions: Information[] = [
   {
     id: 4,
     name: "Fred James",
-    email: "user@mail.com",
+    account: "0123689036",
      phone: +234-812345678,
     date: "19/04/23",
     status: "Pending",
@@ -47,7 +47,7 @@ const transactions: Information[] = [
   {
     id: 5,
     name: "Femi Falana",
-    email: "user@mail.com",
+    account: "0123689036",
      phone: 234812345678,
     date: "19/04/23",
     status: "Verified",
@@ -61,7 +61,7 @@ export default function Customers() {
     <div className="p-6 bg-gray-50 min-h-screen">
       
       {/* TOP CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 bg-white">
         {[
           { title: "Total Balance", value: "₦900,000" },
           { title: "Total Withdrawn", value: "₦180,000" },
@@ -93,7 +93,7 @@ export default function Customers() {
           <thead className="bg-gray-100 text-gray-600 text-left">
             <tr>
               <th className="px-6 py-3">Name</th>
-              <th className="px-6 py-3">Email</th>
+              <th className="px-6 py-3">Account No</th>
               <th className="px-6 py-3">phone Number</th>
               <th className="px-6 py-3">Date</th>
               <th className="px-6 py-3">Status</th>
@@ -110,7 +110,7 @@ export default function Customers() {
                 <td className="px-6 py-4 font-medium">{t.name}</td>
 
                 <td className="px-6 py-4">
-                  {t.email}
+                  {t.account}
                 </td>
 
                 <td className="px-6 py-4 text-gray-500">
@@ -161,7 +161,7 @@ export default function Customers() {
 
             <div className="space-y-3 text-sm">
               <p className="flex justify-between font-medium"><strong>Name:</strong> {selected.name}</p>
-              <p className="flex justify-between font-medium"><strong>Email:</strong> {selected.email}</p>
+              <p className="flex justify-between font-medium"><strong>account:</strong> {selected.account}</p>
               <p className="flex justify-between font-medium"><strong>Phone:</strong> {selected.phone}</p>
               <p className="flex justify-between font-medium"><strong>Date:</strong> {selected.date}</p>
               <p className="flex justify-between font-medium"><strong>Status:</strong> <span className="bg-green-200 px-4 text-green-600 rounded-md">{selected.status}</span></p>
