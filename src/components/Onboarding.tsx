@@ -14,9 +14,9 @@ export default function Onboarding() {
 
          
         </div>
-        <div className="flex items-center gap-2 mb-12 ">
+        {/* <div className="flex items-center gap-2 mb-12 ">
            <img src="/icons.svg" alt="Fair colors" className="pb-5 px-10" />
-        </div>
+        </div> */}
       <div className="md:px-20 px-8">
 
        

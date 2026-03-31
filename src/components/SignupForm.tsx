@@ -43,6 +43,7 @@ export default function Onboarding() {
               FullName<span className="text-red-500">*</span>
             </label>
             <Input
+            required
               type={`text`}
               placeholder={`Enter your full name`}
               className={`bg-white py-2.5 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500`}
@@ -53,6 +54,7 @@ export default function Onboarding() {
               Phone Number<span className="text-red-500">*</span>
             </label>
             <Input
+            required
               type="text"
               placeholder="081234567890"
               className={`bg-white py-2.5 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500`}
@@ -63,6 +65,7 @@ export default function Onboarding() {
               Email <span className="text-red-500">*</span>
             </label>
             <Input
+            required
               type="email"
               placeholder="Enter your email here"
               className={`bg-white py-2.5 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500`}
@@ -74,8 +77,29 @@ export default function Onboarding() {
               Password<span className="text-red-500">*</span>
             </label>
             <Input
+            required
               type={showPassword ? "text" : "Password"}
-              placeholder="Enter your email here"
+              placeholder="Enter your password here"
+              className={`bg-white py-2.5 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500`}
+            ></Input>
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 cursor-pointer mt-2"
+            >
+              {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+            </button>
+          </div>
+          {/* VERIFY PASSWORD */}
+          <div className=" flex flex-col relative ">
+            <label htmlFor="password" className="text-[13px] pb-2">
+             confirm Password<span className="text-red-500">*</span>
+            </label>
+            <Input
+            required
+              type={showPassword ? "text" : "Password"}
+              placeholder="confirm Password"
               className={`bg-white py-2.5 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500`}
             ></Input>
 

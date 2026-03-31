@@ -38,6 +38,7 @@ import {
   Transactions,
 } from "./cashier/components/pages";
 import { TransactionDetailModal } from "./cashier/components/shared/TransactionDetailModal";
+import JoinRolePage from "./pages/JoinRolesPage";
 
 function App() {
   return (
@@ -45,7 +46,8 @@ function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Welcome />} />
+          <Route path="/" element={<JoinRolePage />} />
+          <Route path="admin/welcome" element={<Welcome />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/verify-phone" element={<VerifyPhone />} />
           <Route path="/login" element={<Login />} />

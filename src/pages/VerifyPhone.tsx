@@ -25,7 +25,7 @@ export default function VerifyPhone() {
   {/* Footer */}
 
  <div className="flex justify-between text-xs md:px-10 px-5 text-gray-500 mt-12 border-t border-gray-300 pt-5">
-        <span>© {new Date().getFullYear()} OgaLandlord</span>
+        <span>© {new Date().getFullYear()} FairColors MFB</span>
 
         <div className="flex gap-5">
           <span className="hover:underline cursor-pointer">Privacy</span>

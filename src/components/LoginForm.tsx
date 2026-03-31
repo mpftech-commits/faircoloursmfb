@@ -22,7 +22,7 @@ export default function LoginForm() {
       <div className="flex items-center gap-2 mb-12 border-b border-b-gray-300 ">
         <img
           src="/logo.png"
-          alt="OgaLandlord Logo"
+          alt="faircolors mfb Logo"
           className="pb-5 px-10 md:w-[35%] w-[50%]"
         />
       </div>
@@ -56,8 +56,9 @@ export default function LoginForm() {
               Password<span className="text-red-500">*</span>
             </label>
             <Input
+            required
               type={showPassword ? "text" : "Password"}
-              placeholder="Enter your email here"
+              placeholder="Enter your password here"
               className={`bg-white py-2.5 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500`}
             ></Input>
 
@@ -83,7 +84,7 @@ export default function LoginForm() {
 
           <p className="text-center text-[12px]">
             Don't have an account?{" "}
-            <Link to="/cashier-dashboard" className="text-blue-500 font-medium">
+            <Link to="/signup" className="text-blue-500 font-medium">
               Create an account
             </Link>
           </p>
