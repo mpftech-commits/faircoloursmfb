@@ -15,7 +15,7 @@ FairColors is a modern, responsive microfinance loan management dashboard built 
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18, TypeScript, Vite
+- **Frontend**: React 19, TypeScript, Vite
 - **Styling**: Tailwind CSS
 - **Animations**: Motion (framer-motion)
 - **Icons**: Lucide React
@@ -25,7 +25,7 @@ FairColors is a modern, responsive microfinance loan management dashboard built 
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/chikamso-cmd/faircolors.git
+   git clone https://github.com/mpftech-commits/faircoloursmfb.git
    ```
 
 2. **Install dependencies**:
@@ -47,7 +47,7 @@ The project uses a custom design system built on top of Tailwind CSS, focusing o
 
 ## 🔗 Links
 
-- **Repository**: [https://github.com/chikamso-cmd/faircolors.git](https://github.com/chikamso-cmd/faircolors.git)
+- **Repository**: [https://github.com/mpftech-commits/faircoloursmfb.git](https://github.com/mpftech-commits/faircoloursmfb.git)
 
 ---
 

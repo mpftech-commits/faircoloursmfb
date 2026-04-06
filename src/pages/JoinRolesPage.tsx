@@ -28,10 +28,10 @@ export default function JoinRolePage() {
 
         <div className="flex gap-6">
           {/* Admin Card */}
-          <div className="w-[325px] bg-[#fff] rounded-xl border-3 border-gray-200 shadow-sm p-6 text-left hover:shadow-md hover:border-blue-800 hover:border-3 transition">
+          <div className="w-[325px] bg-[#fff] rounded-xl border-3 border-gray-200 shadow-sm p-6 text-left hover:shadow-md hover:border-blue-800 hover:border-3 transition hover:scale-105">
             <div className="w-10 h-10 bg-blue-800 rounded-md mb-4 text-white pt-2 "><Users2 className=" m-auto"/></div>
 
-            <h2 className="font-semibold text-lg text-blue-800 mb-2 font-medium">
+            <h2 className="font-semibold text-lg text-blue-800 mb-2 ">
               Admin
             </h2>
 
@@ -53,8 +53,8 @@ export default function JoinRolePage() {
           </div>
 
           {/* Tenant Card */}
-          <div className="w-[325px] bg-[#FFF] rounded-xl border-3 border-gray-200 p-6 text-left hover:shadow-md transition hover:border-blue-800">
-            <div className="w-10 h-10 bg-blue-800 rounded-md text-white pt-2 mb-4"><Building2 className="m-auto"/></div>
+          <div className="w-[325px] bg-[#FFF] rounded-xl border-3 border-gray-200 p-6 text-left hover:shadow-md transition hover:border-blue-800 hover:scale-105">
+            <div className="w-10 h-10 bg-blue-800 rounded-md text-white pt-2 mb-4 hover:scale-105"><Building2 className="m-auto"/></div>
 
             <h2 className="font-semibold text-lg text-blue-800 mb-2 font-medium">
               Cashier

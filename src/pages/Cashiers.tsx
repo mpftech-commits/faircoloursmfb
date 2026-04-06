@@ -2,7 +2,7 @@ import Button from "../components/button";
 import Data from "../components/data";
 import "../members.css";
 
-function Member() {
+function Cashiers() {
   return (
       <div className="member">
           <Button />
@@ -10,4 +10,4 @@ function Member() {
     </div>
   );
 }
-export default Member;
+export default Cashiers;

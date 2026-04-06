@@ -2,18 +2,74 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "./Input";
 import { Eye, EyeOff } from "lucide-react";
+import { LoginUser } from "../services/Axios";
 
 export default function LoginForm() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean | null>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean | undefined>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const HandleSignup = (e: React.FormEvent<HTMLFormElement>) => {
+  const HandleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsLoading(true);
     e.preventDefault();
 
-    navigate("/dashboard")
- 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+      setError("Please enter a valid email address");
+      setIsLoading(false);
+      return;
+    }
+
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+
+    if (!passwordPattern.test(password)) {
+      setError(
+        "Password must be at least 8 characters and include uppercase, lowercase, number and special character.",
+      );
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const rawResponse = await LoginUser(email!, password!);
+      const response = rawResponse?.data ?? rawResponse;
+      const accessToken = response?.token ?? response?.accessToken;
+      const user = response?.user ?? response?.data?.user;
+
+      console.log("Login response:", rawResponse);
+      console.log("Access Token:", accessToken);
+      console.log("User:", user);
+
+      if (!accessToken || !user) {
+        throw new Error("Login response did not include token or user data");
+      }
+
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", accessToken);
+      setEmail("");
+      setPassword("");
+      setError(null);
+
+      const role = user.role;
+      if (role === "admin") {
+        navigate("/dashboard");
+      } else if (role === "cashier") {
+        navigate("/cashier-dashboard");
+      } else {
+        navigate("/customer-dashboard");
+      }
+    } catch (error: any) {
+      const errormessage =
+        error.response?.data?.message || error.message || "login failed";
+      setError(errormessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -33,7 +89,8 @@ export default function LoginForm() {
         </h2>
 
         <p className="text-gray-600 text-[12px] mt-2 text-left">
-          Login to access your account, track your finances, and manage your customers seamlessly.
+          Login to access your account, track your finances, and manage your
+          customers seamlessly.
         </p>
 
         {/* form */}
@@ -44,11 +101,13 @@ export default function LoginForm() {
               Email or Phone<span className="text-red-500">*</span>
             </label>
             <Input
+              onChange={(e) => setEmail(e.target.value)}
               type="text"
               required
               placeholder="Enter your phone or email address"
               className={`bg-white py-2.5 border border-gray-300 rounded-sm p-2 outline-green-900 transition-colors duration-500`}
             ></Input>
+            <p className="text-red-500 text-xs">{error}</p>
           </div>
           {/* password */}
           <div className=" flex flex-col relative ">
@@ -56,8 +115,8 @@ export default function LoginForm() {
               Password<span className="text-red-500">*</span>
             </label>
             <Input
-            required
-              type={showPassword ? "text" : "Password"}
+              onChange={(e) => setPassword(e.target.value)}
+              type={showPassword ? "text" : "password"}
               placeholder="Enter your password here"
               className={`bg-white py-2.5 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500`}
             ></Input>
@@ -69,6 +128,8 @@ export default function LoginForm() {
             >
               {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
             </button>
+
+            <p className="text-red-500 text-xs">{error}</p>
           </div>
 
           <button

@@ -1,14 +1,14 @@
-// components/ProtectedRoute.tsx
-// import { Navigate, Outlet } from "react-router-dom";
 
-// const ProtectedRoute = () => {
-//   const token = localStorage.getItem("token"); // or your auth logic
+import { Navigate, Outlet } from "react-router-dom";
 
-//   if (!token) {
-//     return <Navigate to="/login" replace />;
-//   }
+const ProtectedRoute = () => {
+  const token = localStorage.getItem("token"); // or your auth logic
 
-//   return <Outlet />;
-// };
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
 
-// export default ProtectedRoute;
+  return <Outlet />;
+};
+
+export default ProtectedRoute;

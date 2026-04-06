@@ -1,5 +1,7 @@
-import { Eye } from "lucide-react";
-import { useState } from "react";
+import { Eye, Edit, Trash, ArrowLeft, ArrowRight, Loader, AlertTriangle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { GetCustomers } from "../../services/Axios";
+import { p } from "framer-motion/client";
 
 type Information = {
   id: number;
@@ -55,6 +57,31 @@ const transactions: Information[] = [
 ];
 
 export default function Customers() {
+  const [customers, setCustomers] = useState<Information[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>('')
+  const [page, setPage] = useState(1)
+  
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      setLoading(true);
+      setError(null);
+    try {
+        const response = await GetCustomers(page);
+        console.log(response, "customers fetched successfully");
+        setCustomers(response?.data); // Update and store fetched data
+      
+    } catch (error:any) {
+      console.error("Error fetching customers:", error);
+      setError(error.response?.data?.message || "something went wrong")
+    }finally {
+      setLoading(false)
+    }
+  }
+  fetchCustomers();
+  }, [page]);
+
   const [selected, setSelected] = useState<Information | null>(null);
 
   return (
@@ -82,14 +109,20 @@ export default function Customers() {
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-semibold text-lg">Customers</h3>
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm hover:bg-blue-700">
-          + Add Payment
+        <button className="bg-blue-800 text-white px-4 py-2 rounded-xl text-sm hover:bg-blue-700 cursor-pointer">
+          + Add Customer
         </button>
       </div>
 
       {/* TABLE */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-300 overflow-x-auto">
-        <table className="w-full text-sm">
+        {/* shows a loading state when fetching */}
+        {loading && <p className="flex p-5 items-center gap-2 font-semibold text-blue-600"><Loader size={18} className="animate-spin"/> loading...</p>}
+        {/* when there is an error */}
+        {error && <p className="text-red-500 flex p-5 items-center gap-2 font-semibold"><AlertTriangle size={18}/> {error}</p>}
+        {/* when data has been fetched */}
+        {!loading && !error && (
+           <table className="w-full text-sm">
           <thead className="bg-gray-100 text-gray-600 text-left">
             <tr>
               <th className="px-6 py-3">Name</th>
@@ -102,6 +135,7 @@ export default function Customers() {
           </thead>
 
           <tbody>
+            {/* map response from backend api */}
             {transactions.map((t) => (
               <tr
                 key={t.id}
@@ -137,18 +171,28 @@ export default function Customers() {
                 </td>
 
                 {/* ACTION BUTTON */}
-                <td className="px-6 py-4">
+                <td className=" py-4 ">
                   <button
                     onClick={() => setSelected(t)}
-                    className="text-blue-600 hover:underline text-sm cursor-pointer"
+                    className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
                   >
-                    <Eye size={18}/>
+                    <Eye size={18} className="text-green-500"/>
+                    <Edit size={18} className="text-blue-500"/>
+                    <Trash size={18} className="text-red-500"/>
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+        )}
+       
+      </div>
+
+      <div className="flex justify-between items-center p-3 mt-10">
+        <button className="flex gap-2 items-center bg-blue-100 px-3 rounded-full font-medium cursor-pointer text-blue-700 py-1" disabled={page === 1} onClick={() => setPage((prev) => prev -1)}><ArrowLeft size={18}/> Prev</button>
+        
+        <button className="flex gap-2 items-center bg-blue-100 px-3 py-1 cursor-pointer rounded-full font-medium text-blue-700" onClick={() => setPage((prev) => prev + 1)}> Next <ArrowRight size={18}/></button>
       </div>
 
       {/* MODAL */}

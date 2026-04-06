@@ -11,13 +11,13 @@ import PersonalInformation from "./pages/PersornalInformation";
 import BusinessInformation from "./pages/BusinessInformation";
 import ChangePassword from "./pages/ChangePassword";
 import HelpSupport from "./pages/HelpSupport";
-// import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
+import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
 import LoanApproval from "./pages/agentdashboard/LoanApproval";
 import Cashier from "./pages/agentdashboard/Cashier";
 import NotFoundPage from "./NotFound";
 import Customers from "./pages/agentdashboard/Customers";
 // import CashierReport from "./pages/agentdashboard/CashierReport";
-import Member from "./pages/member";
+import Cashiers from "./pages/Cashiers";
 import GenerateReports from "./pages/ReportPage/GenerateReportsPage";
 import ReportPage from "./pages/ReportPage/ReportPage";
 
@@ -53,9 +53,9 @@ function App() {
           <Route path="/login" element={<Login />} />
 
           {/* Protected routes */}
-          {/* <Route element={<ProtectedRoute />}>
+          <Route element={<ProtectedRoute />}>
          
-        </Route> */}
+       
           <Route element={<DashboardLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             {/* loan */}
@@ -80,10 +80,11 @@ function App() {
             <Route path="404" element={<NotFoundPage />} />
             <Route path="customer" element={<Customers />} />
             {/* <Route path="report" element={<CashierReport />} /> */}
-            <Route path="cashier" element={<Member />} />
+            <Route path="cashier" element={<Cashiers />} />
             <Route path="report" element={<ReportPage />} />
             <Route path="generate-reports" element={<GenerateReports />} />
           </Route>
+        </Route>
         </Routes>
         <DashboardProvider>
           <AppRoutes />

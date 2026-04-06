@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import "../payment.css";
-import AddCashier from "../modal/addpayment";
+import AddCashier from "../modal/AddCashier";
 
 function Button() {
   const [isOpen, setisOpen] = useState(false);
