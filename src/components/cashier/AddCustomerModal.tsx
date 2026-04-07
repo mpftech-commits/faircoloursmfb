@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
+import { CreateCustomer } from "../../services/Axios";
+import { X, Loader } from "lucide-react";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (name: string, email: string, phone: string) => void;
 };
 
-export default function AddCustomerModal({
-  isOpen,
-  onClose,
-  onAdd,
-}: Props) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+export default function AddCustomerModal({ isOpen, onClose }: Props) {
+  const [fullname, setFullName] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [statusMessage, setStatusMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   // Close on ESC key
   useEffect(() => {
@@ -35,12 +37,36 @@ export default function AddCustomerModal({
 
   if (!isOpen) return null;
 
-  const handleSubmit = () => {
-    onAdd(name, email, phone);
-    setName("");
-    setEmail("");
-    setPhone("");
-    onClose();
+  const handleCreateCustomer = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatusMessage(null);
+
+    try {
+      const response = await CreateCustomer({
+        fullName: fullname,
+        phone,
+        address,
+      });
+
+      console.log(response, "customer created successfully");
+      setFullName("");
+      setPhone("");
+      setAddress("");
+      setStatusMessage({
+        type: "success",
+        text: "Customer registered successfully.",
+      });
+    } catch (err: any) {
+      console.log(err, "error creating customer");
+      const message =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Customer registration failed. Please try again.";
+      setStatusMessage({ type: "error", text: message });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -58,50 +84,86 @@ export default function AddCustomerModal({
           <h2 className="text-lg font-semibold">Add Customer</h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-black"
+            className="text-white  bg-blue-800 cursor-pointer p-2 font-bold rounded-full"
           >
-            ✕
+            <X size={18} />
           </button>
         </div>
 
         {/* Form */}
-        <input
-          value={name}
-          placeholder="Name"
-          className="border p-2 w-full mb-3 rounded-lg"
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        <input
-          value={email}
-          placeholder="Email"
-          className="border p-2 w-full mb-3 rounded-lg"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        <input
-          value={phone}
-          placeholder="Phone Number"
-          className="border p-2 w-full mb-4 rounded-lg"
-          onChange={(e) => setPhone(e.target.value)}
-        />
-
-        {/* Actions */}
-        <div className="flex justify-end gap-2">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded-lg border"
-          >
-            Cancel
-          </button>
-
-          <button
-            onClick={handleSubmit}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-          >
-            Add Customer
-          </button>
-        </div>
+        <form onSubmit={handleCreateCustomer}>
+          <div className="grid grid-cols-1 gap-3 ">
+            <div>
+              <label htmlFor="FullName" className="text-xs ">
+                FullName
+              </label>
+              <input
+                placeholder="fullName"
+                className="border border-gray-200 p-2 w-full rounded-lg mt-2 text-xs"
+                onChange={(e) => setFullName(e.target.value)}
+              />
+            </div>
+            {/* <div>
+              <label htmlFor="email" className="text-xs ">
+                Email
+              </label>
+              <input
+                placeholder="Email"
+                className="border border-gray-200 p-2 w-full rounded-lg mt-2 text-xs"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div> */}
+          </div>
+          <div className="grid grid-cols-2 gap-3 mb-2">
+            <div>
+              <label htmlFor="phone" className="text-xs ">
+                Phone_Number
+              </label>
+              <input
+                placeholder="Phone Number"
+                className="border mt-3 border-gray-200 p-2 w-full mb-4 rounded-lg text-xs"
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="address" className="text-xs ">
+                Address
+              </label>
+              <input
+                placeholder="enter address"
+                className="border border-gray-200 p-2 w-full mb-4 rounded-lg mt-3 text-xs"
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </div>
+          </div>
+          {statusMessage && (
+            <div
+              className={`mt-3 rounded-lg px-4 py-3 text-sm font-medium ${
+                statusMessage.type === "success"
+                  ? "bg-emerald-100 text-emerald-700"
+                  : "bg-rose-100 text-rose-700"
+              }`}
+            >
+              {statusMessage.text}
+            </div>
+          )}
+          {/* Actions */}
+          <div className="flex justify-end gap-2 mt-2">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 rounded-lg border border-gray-200 text-xs"
+            >
+              Cancel
+            </button>
+            <button
+              disabled={loading}
+              className=" flex gap-3 bg-blue-800 text-white px-4 py-2 rounded-lg cursor-pointer text-xs "
+            >
+              {loading && <Loader size={18} className="animate-spin" />}
+              {loading ? "Creating Customer..." : "Create Customer"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

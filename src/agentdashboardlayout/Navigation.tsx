@@ -1,11 +1,25 @@
 import { Home, List, User, Settings, Menu, LogOut, Currency, ReceiptIcon } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 // import { useState } from "react";
+
 import UseHideFooter from "../components/UseHideFooter";
+import { LogoutUser } from "../services/Axios";
 
 export default function Navigation({ collapsed, setCollapsed }: any)  {
   const showFooter = UseHideFooter();
-  // const [collapsed, setCollapsed] = useState(false);
+  const navigate = useNavigate();
+  
+  const handleLogout =  async () => {
+    try{
+      await LogoutUser();
+      localStorage.clear();
+      navigate("/login");
+    }catch(err){
+      console.error("logout failed:", err);
+    }
+   
+  }
+
 
   return (
     <>
@@ -95,8 +109,9 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
             label="Settings"
           />
           <NavItem
+            onClick={handleLogout}
             collapsed={collapsed}
-            to="/login"
+            to="#"
             icon={<LogOut size={20}/>}
             label={`Logout`}
              className="text-red-500 mt-[100px] "
@@ -108,11 +123,12 @@ export default function Navigation({ collapsed, setCollapsed }: any)  {
 }
 
 /* ✅ Reusable Nav Item */
-function NavItem({ to, icon, label, className, collapsed = false }: any) {
+function NavItem({ to, icon, label, className, collapsed = false, onClick }: any) {
   return (
     <NavLink
       to={to}
       title={collapsed ? label : ""}
+      onClick={onClick}
       className={({ isActive }) =>
         `flex flex-col md:flex-row md:justify-start items-center justify-center gap-1 md:gap-3 p-2 rounded-lg transition-all
         ${isActive ? "text-blue-600 bg-green-50" : "text-gray-500 hover:bg-blue-100"} ${className}`

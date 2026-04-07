@@ -8,8 +8,8 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { GetCustomers } from "../../services/Axios";
-import AddCustomerModal from "../../components/cashier/AddCustomerModal";
+import { GetCashiers, GetCustomers } from "../services/Axios";
+import AddCashier from "../modal/AddCashier";
 
 type Information = {
   _id: number;
@@ -18,11 +18,12 @@ type Information = {
   phone?: number;
   method?: string;
   createdAt: string;
-  status: "approved" | "pending";
+  email: string;
+  role: "cashier" | "customer";
 };
 
-export default function Customers() {
-  const [customers, setCustomers] = useState<Information[]>([]);
+export default function CashierData () {
+  const [cashiers, setCashiers] = useState<Information[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>("");
   const [page, setPage] = useState(1);
@@ -33,11 +34,11 @@ export default function Customers() {
       setLoading(true);
       setError(null);
       try {
-        const response = await GetCustomers(page);
-        console.log(response, "customers fetched successfully");
-        setCustomers(response?.data); // Update and store fetched data
+        const response = await GetCashiers(page);
+        console.log(response, "cashiers fetched successfully");
+        setCashiers(response?.data); // Update and store fetched data
       } catch (error: any) {
-        console.error("Error fetching customers:", error);
+        console.error("Error fetching cashiers:", error);
         setError(error.response?.data?.message || "something went wrong");
       } finally {
         setLoading(false);
@@ -72,14 +73,13 @@ export default function Customers() {
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-semibold text-lg">Customers</h3>
 
-        <button onClick={() => setOpen(true)} className="bg-blue-800 text-white px-4 py-2 rounded-xl text-sm hover:bg-blue-700 cursor-pointer">
-          + Add Customer
+        <button
+          onClick={() => setOpen(true)}
+          className="bg-blue-800 text-white px-4 py-2 rounded-xl text-sm hover:bg-blue-700 cursor-pointer"
+        >
+          + Add Cashier
         </button>
-        <AddCustomerModal
-                isOpen={open}
-                onClose={() => setOpen(false)}
-                
-              />
+        <AddCashier isOpen={open} onClose={() => setOpen(false)} />
       </div>
 
       {/* TABLE */}
@@ -102,25 +102,23 @@ export default function Customers() {
             <thead className="bg-gray-100 text-gray-600 text-left">
               <tr>
                 <th className="px-6 py-3">Name</th>
-                {/* <th className="px-6 py-3">Account No</th> */}
-                <th className="px-6 py-3">Address</th>
+                <th className="px-6 py-3">Email</th>
                 <th className="px-6 py-3">Phone</th>
                 <th className="px-6 py-3">Date</th>
-                <th className="px-6 py-3">Status</th>
+                <th className="px-6 py-3">Role</th>
                 <th className="px-6 py-3">Action</th>
               </tr>
             </thead>
 
             <tbody>
               {/* map response from backend api */}
-              {customers.map((c) => (
+              {cashiers.map((c) => (
                 <tr
                   key={c._id}
                   className="border-t border-gray-300 hover:bg-gray-50 transition"
                 >
                   <td className="px-6 py-4 font-medium">{c.fullName}</td>
-
-                  <td className="px-6 py-4">{c.address}</td>
+                  <td className="px-6 py-4 font-medium">{c.email}</td>
 
                   <td className="px-6 py-4 text-gray-500">{c.phone}</td>
 
@@ -130,14 +128,14 @@ export default function Customers() {
                   <td className="px-6 py-4">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        c.status === "approved"
+                        c.role === "cashier"
                           ? "bg-green-100 text-green-600"
-                          : c.status === "pending"
+                          : c.role === "customer"
                             ? "bg-yellow-100 text-yellow-600"
                             : "bg-red-100 text-red-600"
                       }`}
                     >
-                      {c.status}
+                      {c.role}
                     </span>
                   </td>
 
@@ -147,9 +145,9 @@ export default function Customers() {
                       onClick={() => setSelected(c)}
                       className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
                     >
-                      <Eye size={18} className="text-green-500" />
+                      <Eye size={18} className="text-blue-500 text-center" />
                       {/* <Edit size={18} className="text-blue-500"/> */}
-                      <Trash size={18} className="text-red-500" />
+                      {/* <Trash size={18} className="text-red-500" /> */}
                     </button>
                   </td>
                 </tr>
@@ -182,7 +180,7 @@ export default function Customers() {
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center px-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-lg">
             <h2 className="text-lg font-semibold mb-4 text-center mt-5">
-              Customer Details
+              cashier Information
             </h2>
 
             <div className=" text-sm">
@@ -200,11 +198,11 @@ export default function Customers() {
                   <input
                     className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-xs"
                     readOnly
-                    value={selected.address}
+                    value={selected.email}
                   />
                 </div>
               </div>
-             
+
               <div className="grid grid-cols-2 gap-3 mb-2">
                 <div className="">
                   <label className="block font-medium text-xs ">Phone</label>
@@ -224,9 +222,9 @@ export default function Customers() {
                 </div>
               </div>
               <div className=" flex items-center gap-2 justify-between w-full ">
-                <h1 className="block font-medium text-xs">Status</h1>
+                <h1 className="block font-medium text-xs">Role</h1>
                 <p className=" font-medium w-full rounded-lg px-3 py-2 text-xs">
-                  {selected.status}
+                  {selected.role}
                 </p>
               </div>
             </div>
@@ -237,9 +235,6 @@ export default function Customers() {
                 className="cursor-pointer w-full bg-blue-800 text-white py-2 rounded-xl text-xs"
               >
                 Close
-              </button>
-              <button className="cursor-pointer w-full bg-blue-800 text-white py-2 rounded-xl text-xs">
-                Submit
               </button>
             </div>
           </div>

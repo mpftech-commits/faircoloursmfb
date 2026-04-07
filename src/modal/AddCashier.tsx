@@ -13,8 +13,6 @@ export default function AddCashier({ isOpen, onClose }: Props) {
   const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [loading, setLoading] = useState<boolean | undefined>(false)
-  const [successmessage, setSuccessmessage] = useState<string | null>('')
-  const [errormessage, setErrormessage] = useState<string | null>('')
 
   if (!isOpen) return null
   const HandleCreateCashier = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,14 +26,12 @@ setLoading(true)
         password
       })
       console.log(response, "user created successfully");
-      setSuccessmessage(" ✅ user created successfully")
       setLoading(false)
       setEmail('')
       setPassword('')
       setName('')
     }catch(error){
       console.log("error creating cashier.:", error)
-      setErrormessage("error creating cashier.")
       setLoading(false)
     }
   }
@@ -107,9 +103,6 @@ setLoading(true)
                  {loading ? "Creating Cashier..." : "Create Cashier"}
               </button>
             </div>
-            {/* messages */}
-             <p className="mt-3 p-3 px-5 bg-green-100 text-green-600 text-xs text-center rounded-lg border-2 border-green-300 hidden">{successmessage}</p>
-              <p className="mt-3 p-3 px-5 bg-red-100 text-red-600 text-xs text-center rounded-lg border-2 border-red-300 hidden">{errormessage}</p>
           </form>
         </div>
       </div>

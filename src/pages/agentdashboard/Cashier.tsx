@@ -72,7 +72,7 @@ export default function Cashier() {
       <AddCustomerModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onAdd={handleAdd}
+        
       />
         <CreateCashierModal onCreate={createCashier} />
       </div>

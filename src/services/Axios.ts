@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 
 interface LoginResponse {
   user: {
@@ -24,7 +24,7 @@ interface CustomerResponse {
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
-  // timeout: 10000,
+  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -60,6 +60,19 @@ const processQueue = (error: any, token: string | null = null) => {
 
   failedQueue = [];
 };
+
+const isAuthRequest = (url?: string) =>
+  typeof url === "string" &&
+  (url.includes("auth/login") || url.includes("auth/refresh"));
+
+const redirectToLogin = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  if (window.location.pathname !== "/login") {
+    window.location.href = "/login";
+  }
+};
+
 // Response interceptor to handle authentication errors
 api.interceptors.response.use(
   (response) => {
@@ -68,40 +81,48 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      if (isRefreshing) {
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then((token) => {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-            return api(originalRequest);
-          })
-          .catch((err) => Promise.reject(err));
-      }
-      originalRequest._retry = true;
-      isRefreshing = true;
+    if (error.response?.status === 401 && isAuthRequest(originalRequest?.url)) {
+      return Promise.reject(error);
     }
+
+    if (error.response?.status !== 401 || originalRequest?._retry) {
+      return Promise.reject(error);
+    }
+
+    originalRequest._retry = true;
+    if (!originalRequest.headers) {
+      originalRequest.headers = {};
+    }
+
+    if (isRefreshing) {
+      return new Promise((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      })
+        .then((token) => {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          return api(originalRequest);
+        })
+        .catch((err) => Promise.reject(err));
+    }
+
+    isRefreshing = true;
+
     try {
-      const res = await api.post("auth/refresh");
+      const res = await api.post("/auth/refresh");
       const newAccessToken = res.data.accessToken;
+      localStorage.setItem("token", newAccessToken);
       api.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
       processQueue(null, newAccessToken);
+      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
       return api(originalRequest);
     } catch (err) {
       processQueue(err, null);
-      localStorage.removeItem("token");
-     if (!originalRequest.url.includes("/auth/login")){
-       window.location.href = "/login";
-     }
+      redirectToLogin();
       return Promise.reject(error);
-    }finally{
+    } finally {
       isRefreshing = false;
     }
-     
   },
-
- 
 );
 
 export default api;
@@ -109,6 +130,10 @@ export default api;
 const LoginUser = async (email: string, password: string) => {
   try {
     const response = await api.post("/auth/login", { email, password });
+    if (response.data.accessToken) {
+      localStorage.setItem("token", response.data.accessToken);
+      api.defaults.headers.Authorization = `Bearer ${response.data.accessToken}`;
+    }
     return response.data;
   } catch (error: string | any) {
     console.error(
@@ -120,6 +145,27 @@ const LoginUser = async (email: string, password: string) => {
 };
 
 export { LoginUser };
+
+const LogoutUser = async () => {
+  try {
+    const response = await api.post("/auth/logout");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    delete api.defaults.headers.Authorization;
+    return response.data;
+  } catch (error: string | any) {
+    console.error(
+      "Logout error:",
+      error.response?.data || error?.message || error,
+    );
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    delete api.defaults.headers.Authorization;
+    throw error;
+  }
+};
+
+export { LogoutUser };
 
 const SigninUser: () => Promise<LoginResponse> = async () => {
   const payload = {
@@ -143,17 +189,15 @@ const SigninUser: () => Promise<LoginResponse> = async () => {
 export { SigninUser };
 
 // create customer
-const CreateCustomer: () => Promise<CustomerResponse> = async () => {
-  const payload = {
-    firstName: "firstName",
-    lastName: "lastName",
-    phone: "phone",
-    address: "address",
-  };
+const CreateCustomer = async (payload: {
+  fullName: string;
+  phone: string;
+  address: string;
+}) => {
   try {
     const response = await api.post(`/customers`, payload);
     return response.data;
-  } catch (error: string | any) {
+  } catch (error: any) {
     console.error(
       "Create customer error:",
       error.response?.data || error?.message || error,
@@ -182,6 +226,27 @@ const CreateCashier = async (payload: {
 };
 export { CreateCashier };
 
+// get cahshiers
+const GetCashiers = async (page: number, limit = 10) => {
+  try {
+    const response = await api.get(`/users/cashiers`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+    return response.data;
+  } catch (error: string | any) {
+    console.error(
+      "error fetching cashiers:",
+      error.response?.data || error?.message || error,
+    );
+    throw error;
+  }
+};
+export { GetCashiers };
+
+// get customers
 const GetCustomers = async (page: number, limit = 10) => {
   try {
     const response = await api.get(`/customers`, {

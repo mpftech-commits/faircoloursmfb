@@ -1,15 +1,12 @@
-import Data from '../components/data';
-import '../pages-styles/transactions.css';
-
+import Data from "../components/CashierData";
+import "../pages-styles/transactions.css";
 
 const Members = () => {
-    return ( 
+  return (
+    <div className="transactions">
+      <Data />
+    </div>
+  );
+};
 
-        <div className="transactions">
-            
-        <Data />
-        </div>
-     );
-}
- 
 export default Members;

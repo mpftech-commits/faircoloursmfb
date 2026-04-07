@@ -1,14 +1,12 @@
 import Button from "../components/button";
 import Cards from "../components/cards";
-import Data from "../components/data";
+import Data from "../components/CashierData";
 
 import "../card.css";
 // import { useOutletContext } from "react-router-dom";
 
 function Payment() {
-   
-
-// const { pageTitle } = useOutletContext()
+  // const { pageTitle } = useOutletContext()
 
   return (
     <section className="content">
@@ -18,7 +16,7 @@ function Payment() {
       </div>
 
       <div className="payment-header">
-       <Button />
+        <Button />
       </div>
       <div className="payment-data">
         <Data />
