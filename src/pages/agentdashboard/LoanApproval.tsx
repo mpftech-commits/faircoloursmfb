@@ -54,7 +54,7 @@ export default function LoanApproval() {
       <LoanFilters  />
 
       {/* Table */}
-      <LoanTable onSelect={setSelectedLoan} />
+      <LoanTable  />
 
       {/* Modal */}
       <LoanDetailsModal
