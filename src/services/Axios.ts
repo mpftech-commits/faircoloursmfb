@@ -1,4 +1,4 @@
-import axios, { type AxiosRequestConfig } from "axios";
+import axios from "axios";
 
 interface LoginResponse {
   user: {
@@ -8,12 +8,12 @@ interface LoginResponse {
     password: string;
   };
 }
-interface CustomerResponse {
-  firstName: string;
-  lastName: string;
-  phone: string;
-  address: string;
-}
+// interface CustomerResponse {
+//   firstName: string;
+//   lastName: string;
+//   phone: string;
+//   address: string;
+// }
 // interface CashierResponse {
 //    name: string;
 //     email: string;
@@ -265,3 +265,43 @@ const GetCustomers = async (page: number, limit = 10) => {
   }
 };
 export { GetCustomers };
+
+// get customers
+const GetTransaction = async (page: number, limit = 10) => {
+  try {
+    const response = await api.get(`/transactions`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+    return response.data;
+  } catch (error: string | any) {
+    console.error(
+      "error fetching customers:",
+      error.response?.data || error?.message || error,
+    );
+    throw error;
+  }
+};
+export { GetTransaction };
+
+// get Loans
+const GetLoans = async (page: number, limit = 10) => {
+  try {
+    const response = await api.get(`/loans`, {
+      params: {
+        page,
+        limit,
+      },
+    });
+    return response.data;
+  } catch (error: string | any) {
+    console.error(
+      "error fetching loans:",
+      error.response?.data || error?.message || error,
+    );
+    throw error;
+  }
+};
+export { GetLoans };

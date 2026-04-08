@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Menu, 
@@ -11,14 +11,14 @@ import {
 import { useDashboard } from '../../context/DashboardContext';
 import {Link} from "react-router-dom"
 
-export const Header: React.FC = () => {
+export const Header = () => {
   const { 
     setIsMobileMenuOpen,
     searchQuery,
     setSearchQuery,
     darkMode,
     setDarkMode,
-    handleApplyLoan,
+    // handleApplyLoan,
     showNotifications,
     setShowNotifications,
     notifications

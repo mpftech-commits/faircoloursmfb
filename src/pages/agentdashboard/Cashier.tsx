@@ -52,9 +52,9 @@ export default function Cashier() {
   };
   const [open, setOpen] = useState(false);
 
-  const handleAdd = (name: string, email: string, phone: string) => {
-    console.log({ name, email, phone });
-  };
+  // const handleAdd = (name: string, email: string, phone: string) => {
+  //   console.log({ name, email, phone });
+  // };
 
   return (
     <div className="p-6 space-y-6 bg-gray-50 min-h-screen">

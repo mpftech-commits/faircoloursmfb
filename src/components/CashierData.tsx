@@ -1,14 +1,14 @@
 import {
   Eye,
   // Edit,
-  Trash,
+  // Trash,
   ArrowLeft,
   ArrowRight,
   Loader,
   AlertTriangle,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { GetCashiers, GetCustomers } from "../services/Axios";
+import { GetCashiers } from "../services/Axios";
 import AddCashier from "../modal/AddCashier";
 
 type Information = {

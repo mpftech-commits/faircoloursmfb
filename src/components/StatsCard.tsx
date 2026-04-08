@@ -1,34 +1,11 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
  function StatsCard  ({ title, value, icon }: any) {
 
   const [period, setPeriod] = useState('week');
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    fetchData(period);
 
-  }, [period])
-
-const fetchData = async (selectedPeriod:string) => {
-  setLoading(true);
-
- setTimeout( async () => {
-   try {
-    
-      const response = await fetch(`${selectedPeriod}`);
-    const result = await response.json();
-    setData(result);
-    
-  }catch(error){
-  console.error('fetch failed:', error);
-  }finally{
-    setLoading(false)
-  }
- }, 1000)
-}
 
 
   return(
@@ -39,7 +16,7 @@ const fetchData = async (selectedPeriod:string) => {
       <p className="bg-blue-100 w-fit p-1 rounded-md mt-2 text-blue-700 ">
         {icon}
       </p>
-      <h2 className="text-lg font-medium text-blue-700">{value}</h2>
+      <h2 className="text-lg font-medium text-blue-700">{value} {period}</h2>
     </span>
     {/* FILTER BUTTONS */}
     <div className="  gap-5 mt-3 py-2 space-x-2">
