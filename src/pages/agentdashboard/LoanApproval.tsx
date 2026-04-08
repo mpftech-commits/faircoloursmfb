@@ -8,13 +8,9 @@ import type { Loan } from "../../data/Types";
 
 export default function LoanApproval() {
   const [loans, setLoans] = useState(mockLoans);
-  const [filter, setFilter] = useState("all");
+ 
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
 
-  const filteredLoans =
-    filter === "all"
-      ? loans
-      : loans.filter((l) => l.status === filter);
 
   const approveLoan = (id: string) => {
     setLoans((prev) =>
@@ -55,7 +51,7 @@ export default function LoanApproval() {
       </div>
 
       {/* Filters */}
-      <LoanFilters setFilter={setFilter} />
+      <LoanFilters  />
 
       {/* Table */}
       <LoanTable onSelect={setSelectedLoan} />

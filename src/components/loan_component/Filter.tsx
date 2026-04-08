@@ -1,14 +1,14 @@
-interface Props {
-  setFilter: (value: string) => void;
-}
+// interface Props {
+//   setFilter: (value: string) => void;
+// }
 
-export default function LoanFilters({ setFilter }: Props) {
+export default function () {
   return (
     <div className="flex gap-2">
       {["All", "Pending", "Approved", "Rejected"].map((f) => (
         <button
           key={f}
-          onClick={() => setFilter(f)}
+        
           className="px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200"
         >
           {f}
