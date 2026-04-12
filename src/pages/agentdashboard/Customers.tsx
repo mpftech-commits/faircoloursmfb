@@ -8,25 +8,57 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { GetCustomers } from "../../services/Axios";
-import AddCustomerModal from "../../components/cashier/AddCustomerModal";
+import api, { GetCustomers } from "../../services/Axios";
+import {Link} from "react-router-dom"
+import CustomerDetail from "../../modal/CustometDetails";
 
 type Information = {
-  _id: number;
+  _id: string;
   fullName: string;
   address?: string | number;
   phone?: number;
   method?: string;
   createdAt: string;
+  
+  status: "approved" | "pending";
+  CustomerPayload : {
+  _id: string;
+  fullName: string;
+  method?: string;
+  createdAt: string;
+  title: string;
+  surname: string;
+  otherName: string;
+  gender: string;
+  maritalStatus: string;
+  dateOfBirth: string;
+  nationality: string;
+  bvn: string;
+  nin: string;
+  meansOfIdentification: string;
+  phone: string;
+  email: string;
+  address?: string | number;
+  businessAddress: string;
+  occupation: string;
+  employerName: string;
+  employerAddress: string;
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  nextOfKin: { fullName: string; phone: string; address: string };
+  emergencyContact: { fullName: string; phone: string; address: string };
   status: "approved" | "pending";
 };
+};
+
 
 export default function Customers() {
   const [customers, setCustomers] = useState<Information[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>("");
   const [page, setPage] = useState(1);
-  const [open, setOpen] = useState(false);
+
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -46,7 +78,21 @@ export default function Customers() {
     fetchCustomers();
   }, [page]);
 
-  const [selected, setSelected] = useState<Information | null>(null);
+  const handleDelete = async (_id: string) => {
+    // Implement delete functionality here
+    try{
+      await api.delete(`/customers/${_id}/delete`);
+      setCustomers((prev:any[]) =>
+      prev.filter((customer) => customer._id !==_id)
+    );
+   
+      
+    }catch(err){
+        console.log("Delete customer with ID:", _id);
+    }
+  
+  }
+  const [selected, setSelected] = useState(null);
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -72,14 +118,11 @@ export default function Customers() {
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-semibold text-lg">Customers</h3>
 
-        <button onClick={() => setOpen(true)} className="bg-blue-800 text-white px-4 py-2 rounded-xl text-sm hover:bg-blue-700 cursor-pointer">
-          + Add Customer
-        </button>
-        <AddCustomerModal
-                isOpen={open}
-                onClose={() => setOpen(false)}
-                
-              />
+        <Link to="/create-customer">
+          <button className="bg-blue-800 text-white px-4 py-2 rounded-xl text-sm hover:bg-blue-700 cursor-pointer">
+            + Add Customer
+          </button>
+        </Link>
       </div>
 
       {/* TABLE */}
@@ -143,13 +186,14 @@ export default function Customers() {
 
                   {/* ACTION BUTTON */}
                   <td className=" py-4 ">
-                    <button
-                      onClick={() => setSelected(c)}
-                      className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
-                    >
-                      <Eye size={18} className="text-green-500" />
+                    <button className=" hover:underline text-sm cursor-pointer flex items-center gap-3 ">
+                      <Eye
+                        size={18}
+                        className="text-green-500"
+                        onClick={() => setSelected(c)}
+                      />
                       {/* <Edit size={18} className="text-blue-500"/> */}
-                      <Trash size={18} className="text-red-500" />
+                      <Trash size={18} className="text-red-500" onClick={() => handleDelete(c._id)}/>
                     </button>
                   </td>
                 </tr>
@@ -179,71 +223,7 @@ export default function Customers() {
 
       {/* MODAL */}
       {selected && (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center px-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-lg">
-            <h2 className="text-lg font-semibold mb-4 text-center mt-5">
-              Customer Details
-            </h2>
-
-            <div className=" text-sm">
-              <div className="grid grid-cols-2 gap-3 mb-2">
-                <div className=" ">
-                  <label className="block font-medium text-xs ">FullName</label>
-                  <input
-                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-xs"
-                    readOnly
-                    value={selected.fullName}
-                  />
-                </div>
-                <div className=" ">
-                  <label className="block font-medium text-xs ">Address</label>
-                  <input
-                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-xs"
-                    readOnly
-                    value={selected.address}
-                  />
-                </div>
-              </div>
-             
-              <div className="grid grid-cols-2 gap-3 mb-2">
-                <div className="">
-                  <label className="block font-medium text-xs ">Phone</label>
-                  <input
-                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-xs"
-                    readOnly
-                    value={selected.phone}
-                  />
-                </div>
-                <div className=" ">
-                  <label className="block font-medium text-xs">Date</label>
-                  <input
-                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-xs"
-                    readOnly
-                    value={selected.createdAt}
-                  />
-                </div>
-              </div>
-              <div className=" flex items-center gap-2 justify-between w-full ">
-                <h1 className="block font-medium text-xs">Status</h1>
-                <p className=" font-medium w-full rounded-lg px-3 py-2 text-xs">
-                  {selected.status}
-                </p>
-              </div>
-            </div>
-
-            <div className=" flex items-center gap-4 justify-end mt-2">
-              <button
-                onClick={() => setSelected(null)}
-                className="cursor-pointer w-full bg-blue-800 text-white py-2 rounded-xl text-xs"
-              >
-                Close
-              </button>
-              <button className="cursor-pointer w-full bg-blue-800 text-white py-2 rounded-xl text-xs">
-                Submit
-              </button>
-            </div>
-          </div>
-        </div>
+       <CustomerDetail  customer={selected} onClose={() => setSelected(null)}/>
       )}
     </div>
   );

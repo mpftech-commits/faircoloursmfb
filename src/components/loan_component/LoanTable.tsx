@@ -59,16 +59,17 @@ export default function LoanTable() {
         </p>
       )}
       {!loading && !error && (
-        <table className="w-full">
-          <thead className="bg-gray-50 text-center text-xs">
-            <tr>
-              <th className="p-3 text-xs">Name</th>
-              <th>Amount</th>
-              <th>Intrest</th>
-              <th>Duration</th>
-              <th>Risk</th>
-              <th>Status</th>
-              <th>Action</th>
+        <table className="w-full px-5 py-10 bg-green-100">
+          <thead className="bg-gray-100 text-center text-xs ">
+            <tr className="mt-4">
+              <th className=" text-xs p-2">User_Id</th>
+              <th className=" text-xs p-2">Name</th>
+              <th className=" text-xs p-2">Amount ₦</th>
+              <th className=" text-xs p-2">Interest %</th>
+              <th className=" text-xs p-2">Duration</th>
+              <th className=" text-xs p-2">Risk</th>
+              <th className=" text-xs p-2">Status</th>
+              <th className=" text-xs p-2">Action</th>
             </tr>
           </thead>
 
@@ -77,8 +78,9 @@ export default function LoanTable() {
               <tr
                 key={loan._id}
                 // onClick={() => onSelect(loan)}
-                className="border-t border-gray-300 cursor-pointer hover:bg-gray-50 text-xs"
+                className="border-t border-gray-300 cursor-pointer hover:bg-gray-50 text-xs px-5 border-b border-b-gray-300 pb-5"
               >
+                <td className="p-3">{loan._id}</td>
                 <td className="p-3">{loan.customerId?.fullName}</td>
                 <td>₦{loan.amount.toLocaleString()}</td>
                 <td>₦{loan.interest.toLocaleString()}</td>

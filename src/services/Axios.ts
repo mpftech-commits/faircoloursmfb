@@ -8,18 +8,6 @@ interface LoginResponse {
     password: string;
   };
 }
-// interface CustomerResponse {
-//   firstName: string;
-//   lastName: string;
-//   phone: string;
-//   address: string;
-// }
-// interface CashierResponse {
-//    name: string;
-//     email: string;
-//     password: string;
-
-// }
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -187,13 +175,32 @@ const SigninUser: () => Promise<LoginResponse> = async () => {
 };
 
 export { SigninUser };
-
+type CustomerPayload = {
+   title: string,
+    surname: string,
+    otherName: string,
+    gender: string,
+    maritalStatus: string,
+    dateOfBirth: string,
+    nationality: string,
+    bvn: string,
+    nin: string,
+    meansOfIdentification: string,
+    phone: string,
+    email: string,
+    address: string,
+    businessAddress: string,
+    occupation: string,
+    employerName: string,
+    employerAddress: string,
+    bankName: string,
+    accountName: string,
+    accountNumber: string,
+    nextOfKin: { fullName: string, phone: string, address: string },
+    emergencyContact: { fullName: string, phone: string, address: string }
+}
 // create customer
-const CreateCustomer = async (payload: {
-  fullName: string;
-  phone: string;
-  address: string;
-}) => {
+const CreateCustomer = async (payload: CustomerPayload) => {
   try {
     const response = await api.post(`/customers`, payload);
     return response.data;
@@ -206,6 +213,13 @@ const CreateCustomer = async (payload: {
   }
 };
 export { CreateCustomer };
+
+// delete customer
+// const DeleteCustomer = async () => {
+//   try{
+//       await api.delete(`/customers/${customerId}/ delete`);
+//   }
+// }
 
 // create Cashier
 const CreateCashier = async (payload: {
@@ -266,7 +280,7 @@ const GetCustomers = async (page: number, limit = 10) => {
 };
 export { GetCustomers };
 
-// get customers
+// get transactions
 const GetTransaction = async (page: number, limit = 10) => {
   try {
     const response = await api.get(`/transactions`, {

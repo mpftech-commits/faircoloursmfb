@@ -13,7 +13,7 @@ import {Link} from "react-router-dom"
 
 export default function Settings() {
   return (
-    <div className="min-h-screen bg-white  px-8 py-6">
+    <div className="min-h-screen bg-white   py-6">
       <div className="w-full max-w-[1200px] space-y-6">
 
         {/* Header */}

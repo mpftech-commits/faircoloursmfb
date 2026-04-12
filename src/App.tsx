@@ -39,6 +39,7 @@ import {
 } from "./cashier/components/pages";
 import { TransactionDetailModal } from "./cashier/components/shared/TransactionDetailModal";
 import JoinRolePage from "./pages/JoinRolesPage";
+import CustomerForm from "./pages/CreateCustomer";
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
             <Route path="settings/help-support" element={<HelpSupport />} />
             <Route path="404" element={<NotFoundPage />} />
             <Route path="customer" element={<Customers />} />
+            <Route path="create-customer" element={<CustomerForm />} />
             {/* <Route path="report" element={<CashierReport />} /> */}
             <Route path="cashier" element={<Cashiers />} />
             <Route path="report" element={<ReportPage />} />

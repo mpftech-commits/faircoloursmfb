@@ -11,7 +11,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="p-6 space-y-6">
+      <div className=" space-y-6">
         {/* STATS */}
         <div className="grid grid-col-1 md:grid-cols-4  gap-5 ">
           <StatsCard title=" Withdrawal" value="$15,200" icon={<Wallet  size={18}/>} />
@@ -31,7 +31,7 @@ export default function Dashboard() {
               <h1 className="border-b border-gray-300 pb-3 font-bold">
                 Add New Customer
               </h1>
-              <Link to="/404">
+              <Link to="/create-customer">
                 <button
                   
                   className="w-full bg-blue-600 text-white py-4 mt-3 rounded-xl font-bold"

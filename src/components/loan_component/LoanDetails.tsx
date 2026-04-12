@@ -1,8 +1,13 @@
 import { X } from "lucide-react";
 import type { Loan } from "../../data/Types";
 
+
+
+type LoanStatus = "pending" | "approved" | "rejected" | "review";
+
 interface Props {
   loan: Loan | null;
+  status?: LoanStatus;
   onClose: () => void;
   onApprove: (id: string) => void;
   onReject: (id: string) => void;
@@ -18,13 +23,29 @@ export default function LoanDetailsModal({
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-2xl w-100 space-y-4 mt-3">
-        <h2 className="text-xl font-bold mb-4 text-center mt-3">Loan Details </h2>
+      <div className="bg-white p-6 rounded-2xl w-100 space-y-4 mt-3 relative">
+        <button
+          onClick={onClose}
+          className="fixed right-0 top-0 text-blue-800 cursor-pointer bg-blue-100 rounded-full p-1  flex items-center gap-1 font-medium px-2"
+        >
+          <X size={18} /> Close
+        </button>
+        <h2 className="text-xl font-bold mb-4 text-center mt-3">
+          Loan Details{" "}
+        </h2>
 
-        <p className="flex justify-between"><b>Name:</b> <span className="font-medium">{loan.name}</span></p>
-        <p className="flex justify-between font-medium"><b>Amount:</b> ₦{loan.amount.toLocaleString()}</p>
-        <p className="flex justify-between font-medium"><b>Income:</b> ₦{loan.income.toLocaleString()}</p>
-        <p className="flex justify-between font-medium"><b>Credit Score:</b> {loan.creditScore}</p>
+        <p className="flex justify-between">
+          <b>Name:</b> <span className="font-medium">{loan.name}</span>
+        </p>
+        <p className="flex justify-between font-medium">
+          <b>Amount:</b> ₦{loan.amount.toLocaleString()}
+        </p>
+        <p className="flex justify-between font-medium">
+          <b>Income:</b> ₦{loan.income.toLocaleString()}
+        </p>
+        <p className="flex justify-between font-medium">
+          <b>Status:</b> {loan.status}
+        </p>
 
         <div className="flex gap-3 mt-6">
           <button
@@ -41,10 +62,6 @@ export default function LoanDetailsModal({
             Reject
           </button>
         </div>
-
-        <button onClick={onClose} className="mt-4 text-sm text-white cursor-pointer bg-blue-800 rounded-lg p-1 relative flex items-center gap-1 font-medium px-2">
-          <X size={18} /> Close
-        </button>
       </div>
     </div>
   );

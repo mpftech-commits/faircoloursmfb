@@ -18,14 +18,14 @@ export default function Onboarding() {
   return (
     <div className="bg-[rgb(255,255,255)] py-5 flex flex-col justify-between">
       {/* Logo */}
-      <div className="flex items-center gap-2 mb-12 border-b border-b-gray-300 ">
+      <div className="flex fixed top-0 w-full bg-[#fff] items-center gap-2 mb-12 border-b border-b-gray-300 pt-5 ">
         <img
           src="/logo.png"
           alt="OgaLandlord Logo"
-          className="pb-5 px-10 md:w-[35%] w-[50%]"
+          className="pb-5 px-10 md:w-[25%] w-[50%]"
         />
       </div>
-      <div className="md:px-20 px-8">
+      <div className="md:px-7 px-8 lg:mt-35 mt-20">
         {/* Heading */}
         <h2 className="md:text-[28px] text-[16px] font-bold text-blue-900 leading-snug text-left">
           Create Account

@@ -31,10 +31,10 @@ export default function LoanApproval() {
   };
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+    <div className=" space-y-6 bg-gray-50 min-h-screen">
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
         <StatsCard title="Total Loans" value={`${loans.length}`} />
         <StatsCard
           title="Approved"

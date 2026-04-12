@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { testimonials } from "../data/Testimonial"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
@@ -6,6 +6,14 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 export default function TestimonialCarousel() {
 
   const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval (() => {
+      setIndex((prev) => (prev + 1) % testimonials.length)
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   const next = () => {
     setIndex((prev) => (prev + 1) % testimonials.length)
@@ -32,7 +40,10 @@ export default function TestimonialCarousel() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.35 }}
           >
-            <p className="text-white text-sm leading-relaxed">
+            <p className="text-white text-lg leading-relaxed mb-2 font-medium">
+              "{testimonials[index].title}"
+            </p>
+            <p className="text-white text-xs leading-relaxed">
               "{testimonials[index].quote}"
             </p>
 

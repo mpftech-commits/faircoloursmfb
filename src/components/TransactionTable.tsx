@@ -2,23 +2,6 @@ import { useEffect, useState } from "react";
 import { GetTransaction } from "../services/Axios";
 import { Loader, AlertTriangle, ArrowLeft, ArrowRight } from "lucide-react";
 
-// const transactions = [
-//   { id: 1, name: "John Doe", type: "Deposit", amount: "500", date: "Today" },
-//   {
-//     id: 2,
-//     name: "Jane Smith",
-//     type: "Withdrawal",
-//     amount: "200",
-//     date: "Today",
-//   },
-//   { id: 3, name: "Michael", type: "Payment", amount: "150", date: "Today" },
-// ];
-// interface Customer {
-//   _id: string;
-//   fullName: string;
-//   phone: string;
-// }
-
 interface Props {
   type: string;
   amount: number;

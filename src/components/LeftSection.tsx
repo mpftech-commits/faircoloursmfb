@@ -3,7 +3,7 @@ import TestimonialCarousel from "../components/TestimonialCarousel";
 export const LeftSection = () => {
 return(
 
-    <div className="relative min-h-screen hidden md:block">
+    <div className=" h-screen fixed w-1/2 overflow-hidden top-0 hidden md:block    ">
           <img
             src="/background.png"
             className="absolute inset-0 w-full h-full object-cover"

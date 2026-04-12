@@ -6,27 +6,26 @@ export default function JoinRolePage() {
   return (
     <div className="min-h-screen bg-blue-50 flex flex-col justify-between">
       {/* Header */}
-      <header className="flex items-center justify-between px-10  border-b border-gray-300 bg-[#fff] fixed w-full">
-        <div className="flex items-center gap-2 w-30 h-30">
+      <header className="flex items-center justify-between px-7  border-b border-gray-300 bg-[#fff] fixed w-full">
+        <div className="flex items-center gap-2 w-30 h-20">
           <img src="/logo.png" alt="faircolors logo" />
         </div>
 
         <div className="text-sm text-gray-600">
-          Already have an account?{" "}
           <Link to="/login" className="text-blue-800 cursor-pointer font-medium">Login</Link>
         </div>
       </header>
 
       {/* Center Content */}
       <main className="flex flex-col items-center text-center mt-15 mb-20">
-        <h1 className="text-3xl font-medium text-blue-800 mb-2 mt-20">
+        <h1 className="md:text-3xl text-[.9rem] md:text-2xl font-medium text-blue-800 mb-2 mt-20">
           How would you like to join?
         </h1>
-        <p className="text-gray-500 mb-10">
+        <p className="text-gray-500 mb-10 text-xs">
           Select your role to get started with FairColors MFB
         </p>
 
-        <div className="flex gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Admin Card */}
           <div className="w-[325px] bg-[#fff] rounded-xl border-3 border-gray-200 shadow-sm p-6 text-left hover:shadow-md hover:border-blue-800 hover:border-3 transition hover:scale-105">
             <div className="w-10 h-10 bg-blue-800 rounded-md mb-4 text-white pt-2 "><Users2 className=" m-auto"/></div>
