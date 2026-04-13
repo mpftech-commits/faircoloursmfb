@@ -11,46 +11,48 @@ import { useState, useEffect } from "react";
 import api, { GetCustomers } from "../../services/Axios";
 import {Link} from "react-router-dom"
 import CustomerDetail from "../../modal/CustometDetails";
+import {motion, AnimatePresence} from "framer-motion";
 
 type Information = {
+  publicId: string;
   _id: string;
   fullName: string;
   address?: string | number;
   phone?: number;
   method?: string;
   createdAt: string;
-  
-  status: "approved" | "pending";
-  CustomerPayload : {
-  _id: string;
-  fullName: string;
-  method?: string;
-  createdAt: string;
-  title: string;
-  surname: string;
-  otherName: string;
-  gender: string;
-  maritalStatus: string;
-  dateOfBirth: string;
-  nationality: string;
-  bvn: string;
-  nin: string;
-  meansOfIdentification: string;
-  phone: string;
-  email: string;
-  address?: string | number;
-  businessAddress: string;
-  occupation: string;
-  employerName: string;
-  employerAddress: string;
-  bankName: string;
-  accountName: string;
-  accountNumber: string;
-  nextOfKin: { fullName: string; phone: string; address: string };
-  emergencyContact: { fullName: string; phone: string; address: string };
-  status: "approved" | "pending";
+
+  status: "approved" | "pending" | "deactivated";
+  CustomerPayload: {
+    _id: string;
+    fullName: string;
+    method?: string;
+    createdAt: string;
+    title: string;
+    surname: string;
+    otherName: string;
+    gender: string;
+    maritalStatus: string;
+    dateOfBirth: string;
+    nationality: string;
+    bvn: string;
+    nin: string;
+    meansOfIdentification: string;
+    phone: string;
+    email: string;
+    address?: string | number;
+    businessAddress: string;
+    occupation: string;
+    employerName: string;
+    employerAddress: string;
+    bankName: string;
+    accountName: string;
+    accountNumber: string;
+    nextOfKin: { fullName: string; phone: string; address: string };
+    emergencyContact: { fullName: string; phone: string; address: string };
+  };
 };
-};
+
 
 
 export default function Customers() {
@@ -58,10 +60,13 @@ export default function Customers() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>("");
   const [page, setPage] = useState(1);
-
+const [statusFilter, setStatusFilter] = useState<
+  "all" | "approved" | "pending" | "deactivated"
+>("all");
+const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const fetchCustomers = async () => {
+    const fetchCustomers: () => Promise<void> = async () => {
       setLoading(true);
       setError(null);
       try {
@@ -78,41 +83,61 @@ export default function Customers() {
     fetchCustomers();
   }, [page]);
 
-  const handleDelete = async (_id: string) => {
-    // Implement delete functionality here
-    try{
-      await api.delete(`/customers/${_id}/delete`);
-      setCustomers((prev:any[]) =>
-      prev.filter((customer) => customer._id !==_id)
-    );
-   
-      
-    }catch(err){
-        console.log("Delete customer with ID:", _id);
-    }
-  
-  }
-  const [selected, setSelected] = useState(null);
+ const handleDelete = async (publicId: string) => {
+   try {
+     await api.delete(`/customers/${publicId}/delete`);
+
+     // remove from UI
+     setCustomers((prev) => prev.filter((customer) => customer.publicId !== publicId));
+
+     // show success
+     setFeedback({
+       show: true,
+       type: "success",
+       message: "Customer deleted successfully",
+     });
+   } catch (err: any) {
+     setFeedback({
+       show: true,
+       type: "error",
+       message: err?.response?.data?.message || "Failed to delete customer",
+     });
+   }
+
+   // auto close
+   setTimeout(() => {
+     setFeedback((prev) => ({ ...prev, show: false }));
+   }, 3000);
+ };
+  const [selected, setSelected] = useState<Information | null>(null);
+
+  const [feedback, setFeedback] = useState<{
+    show: boolean;
+    type: "success" | "error";
+    message: string;
+  }>({
+    show: false,
+    type: "success",
+    message: "",
+  });
+
+  const filteredCustomers = customers.filter((c) => {
+    // filter by status
+    const matchesStatus =
+      statusFilter === "all" ? true : c.status === statusFilter;
+
+    // filter by search (name + phone)
+    const matchesSearch =
+      c.fullName.toLowerCase().includes(search.toLowerCase()) ||
+      String(c.phone || "").includes(search);
+
+    return matchesStatus && matchesSearch;
+  });
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       {/* TOP CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 bg-white">
-        {[
-          { title: "Total Balance", value: "₦900,000" },
-          { title: "Total Withdrawn", value: "₦180,000" },
-          { title: "Total Contributed", value: "₦90,000" },
-          { title: "Total Members", value: "45" },
-        ].map((card, i) => (
-          <div
-            key={i}
-            className="bg-white p-4 rounded-2xl shadow-sm border border-gray-300"
-          >
-            <p className="text-gray-500 text-sm">{card.title}</p>
-            <h2 className="text-xl font-semibold mt-2">{card.value}</h2>
-          </div>
-        ))}
-      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 bg-white"></div>
 
       {/* TABLE HEADER */}
       <div className="flex justify-between items-center mb-4">
@@ -139,6 +164,35 @@ export default function Customers() {
             <AlertTriangle size={18} /> {error}
           </p>
         )}
+
+        <div className="flex flex-col sm:flex-row gap-3 mb-4 justify-between px-3 mt-3">
+          {/* FILTER BUTTONS */}
+          <div className="flex gap-2">
+            {["all", "pending", "approved", "deactivated"].map((status) => (
+              <button
+                key={status}
+                onClick={() => setStatusFilter(status as any)}
+                className={`px-4 py-1 rounded-full text-sm capitalize ${
+                  statusFilter === status
+                    ? "bg-blue-800 text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+              >
+                {status}
+              </button>
+            ))}
+          </div>
+
+          {/* SEARCH INPUT */}
+          <input
+            type="text"
+            placeholder="Search by name or phone..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="border px-4 py-2 rounded-xl text-sm w-full sm:w-72 outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
         {/* when data has been fetched */}
         {!loading && !error && (
           <table className="w-full text-sm">
@@ -156,9 +210,9 @@ export default function Customers() {
 
             <tbody>
               {/* map response from backend api */}
-              {customers.map((c) => (
+              {filteredCustomers.map((c) => (
                 <tr
-                  key={c._id}
+                  key={c.publicId}
                   className="border-t border-gray-300 hover:bg-gray-50 transition"
                 >
                   <td className="px-6 py-4 font-medium">{c.fullName}</td>
@@ -186,15 +240,20 @@ export default function Customers() {
 
                   {/* ACTION BUTTON */}
                   <td className=" py-4 ">
-                    <button className=" hover:underline text-sm cursor-pointer flex items-center gap-3 ">
-                      <Eye
-                        size={18}
-                        className="text-green-500"
+                    <div className="flex gap-4">
+                      <button
                         onClick={() => setSelected(c)}
-                      />
-                      {/* <Edit size={18} className="text-blue-500"/> */}
-                      <Trash size={18} className="text-red-500" onClick={() => handleDelete(c._id)}/>
-                    </button>
+                        className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
+                      >
+                        <Eye size={18} className="text-green-500" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(c.publicId)}
+                        className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
+                      >
+                        <Trash size={18} className="text-red-500" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -223,8 +282,38 @@ export default function Customers() {
 
       {/* MODAL */}
       {selected && (
-       <CustomerDetail  customer={selected} onClose={() => setSelected(null)}/>
+        <CustomerDetail customer={selected} onClose={() => setSelected(null)} />
       )}
+
+      <AnimatePresence>
+        {feedback.show && (
+          <motion.div
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "100%", opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white shadow-xl border rounded-xl px-6 py-4 flex items-center gap-3 z-50"
+          >
+            {feedback.type === "success" ? (
+              <span className="text-green-600 font-semibold">
+                ✅ {feedback.message}
+              </span>
+            ) : (
+              <span className="text-red-600 font-semibold flex items-center gap-2">
+                <AlertTriangle size={18} />
+                {feedback.message}
+              </span>
+            )}
+
+            <button
+              onClick={() => setFeedback((prev) => ({ ...prev, show: false }))}
+              className="ml-3 text-gray-500"
+            >
+              ✕
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

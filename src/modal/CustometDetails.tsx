@@ -1,4 +1,7 @@
-import { X } from "lucide-react";
+import { X, AlertTriangle } from "lucide-react";
+import { useState } from "react";
+import {motion, AnimatePresence} from "framer-motion";
+import api from "../services/Axios";
 
 interface Props {
   customer: any;
@@ -20,10 +23,70 @@ const Section = ({ title, children }: any) => (
 export default function CustomerDetail({ customer, onClose }: Props) {
   if (!customer) return null;
 
+
+  // reject customer
+   const handleDeactivateCustomer = async (publicId: string) => {
+     try {
+       await api.patch(`/customers/${publicId}/deactivate`);
+
+       // show success
+       setFeedback({
+         show: true,
+         type: "success",
+         message: "Customer approved deactivated",
+       });
+       console.log("Customer deactivated:", customer);
+     } catch (err: any) {
+       setFeedback({
+         show: true,
+         type: "error",
+         message: err?.response?.data?.message || "Failed to deactivated customer",
+       });
+     }
+     // auto close
+     setTimeout(() => {
+       setFeedback((prev) => ({ ...prev, show: false }));
+     }, 3000);
+   };
+  //  approve customers
+   const handleApproveCustomer = async (publicId: string) => {
+     try {
+       await api.patch(`/customers/${publicId}/approve`);
+
+       // show success
+       setFeedback({
+         show: true,
+         type: "success",
+         message: "Customer approved successfully",
+       });
+       console.log("Customer approved:", customer);
+     } catch (err: any) {
+       setFeedback({
+         show: true,
+         type: "error",
+         message: err?.response?.data?.message || "Failed to approve customer",
+       });
+     }
+     // auto close
+     setTimeout(() => {
+       setFeedback((prev) => ({ ...prev, show: false }));
+     }, 3000);
+   };
+
+
+     const [feedback, setFeedback] = useState<{
+        show: boolean;
+        type: "success" | "error";
+        message: string;
+      }>({
+        show: false,
+        type: "success",
+        message: "",
+      });
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
       {" "}
-      <div className="bg-white w-full max-w-4xl rounded-2xl shadow-lg p-6 space-y-5 overflow-y-auto max-h-[90vh]">
+      <div className="bg-white w-full max-w-4xl rounded-2xl shadow-lg p-6 space-y-5 overflow-y-auto max-h-[90vh] relative">
         {" "}
         {/* Header */}{" "}
         <div className="flex justify-between items-center relative">
@@ -31,8 +94,11 @@ export default function CustomerDetail({ customer, onClose }: Props) {
           <h2 className="text-lg font-semibold text-blue-800">
             Customer Details
           </h2>{" "}
-          <button onClick={onClose} className=" fixed right-27 text-sm text-blue-600 bg-blue-100 rounded-full p-1 font-bold">
-            <X size={18} /> 
+          <button
+            onClick={onClose}
+            className=" fixed right-27 text-sm text-blue-600 bg-blue-100 rounded-full p-1 font-bold"
+          >
+            <X size={18} />
           </button>{" "}
         </div>
         {/* Personal */}
@@ -79,7 +145,69 @@ export default function CustomerDetail({ customer, onClose }: Props) {
           <Field label="Phone" value={customer.emergencyContact?.phone} />
           <Field label="Address" value={customer.emergencyContact?.address} />
         </Section>
+        <div className="flex gap-5 items-center justify-end">
+          {customer.status === "deactivated" ? (
+            <button
+              disabled
+              className="bg-red-200 text-red-700 px-4 py-2 rounded-lg cursor-not-allowed"
+            >
+              Deactivated
+            </button>
+          ) : (
+            <button
+              onClick={() => handleDeactivateCustomer(customer.publicId)}
+              className="bg-red-500 px-4 py-2 rounded-lg text-white cursor-pointer"
+            >
+              Deactivate
+          </button>
+            )}
+
+          {customer.status === "approved" ? (
+            <button
+              disabled
+              className="bg-green-200 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed"
+            >
+              Approved
+            </button>
+          ) : (
+            <button
+              onClick={() => handleApproveCustomer(customer._id)}
+              className="bg-green-500 px-4 py-2 rounded-lg text-white hover:bg-green-600 cursor-pointer"
+            >
+              Approve
+            </button>
+          )}
+        </div>
       </div>
+      <AnimatePresence>
+        {feedback.show && (
+          <motion.div
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "100%", opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white shadow-xl border rounded-xl px-6 py-4 flex items-center gap-3 z-50"
+          >
+            {feedback.type === "success" ? (
+              <span className="text-green-600 font-semibold">
+                ✅ {feedback.message}
+              </span>
+            ) : (
+              <span className="text-red-600 font-semibold flex items-center gap-2">
+                <AlertTriangle size={18} />
+                {feedback.message}
+              </span>
+            )}
+
+            <button
+              onClick={() => setFeedback((prev) => ({ ...prev, show: false }))}
+              className="ml-3 text-gray-500"
+            >
+              ✕
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

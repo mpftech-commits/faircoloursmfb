@@ -28,6 +28,7 @@ export default function CashierData () {
   const [error, setError] = useState<string | null>("");
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("")
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -48,26 +49,16 @@ export default function CashierData () {
   }, [page]);
 
   const [selected, setSelected] = useState<Information | null>(null);
+const filteredCashiers = cashiers.filter((c) => {
+  // filter by search (name + phone)
+  const matchesSearch =
+    c.fullName.toLowerCase().includes(search.toLowerCase()) ||
+    String(c.phone || "").includes(search);
 
+  return matchesSearch;
+});
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      {/* TOP CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 bg-white">
-        {[
-          { title: "Total Balance", value: "₦900,000" },
-          { title: "Total Withdrawn", value: "₦180,000" },
-          { title: "Total Contributed", value: "₦90,000" },
-          { title: "Total Members", value: "45" },
-        ].map((card, i) => (
-          <div
-            key={i}
-            className="bg-white p-4 rounded-2xl shadow-sm border border-gray-300"
-          >
-            <p className="text-gray-500 text-sm">{card.title}</p>
-            <h2 className="text-xl font-semibold mt-2">{card.value}</h2>
-          </div>
-        ))}
-      </div>
 
       {/* TABLE HEADER */}
       <div className="flex justify-between items-center mb-4">
@@ -96,6 +87,17 @@ export default function CashierData () {
             <AlertTriangle size={18} /> {error}
           </p>
         )}
+<div className="flex flex-col sm:flex-row gap-3 mb-4 justify-between px-3 mt-5">
+  {/* SEARCH INPUT */}
+  <input
+    type="text"
+    placeholder="Search by name or phone..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="border border-gray-300 px-4 py-2 rounded-xl text-sm w-full sm:w-72 outline-none focus:ring-2 focus:ring-blue-400"
+  />
+</div>
+
         {/* when data has been fetched */}
         {!loading && !error && (
           <table className="w-full text-sm">
@@ -112,7 +114,7 @@ export default function CashierData () {
 
             <tbody>
               {/* map response from backend api */}
-              {cashiers.map((c) => (
+              {filteredCashiers.map((c) => (
                 <tr
                   key={c._id}
                   className="border-t border-gray-300 hover:bg-gray-50 transition"

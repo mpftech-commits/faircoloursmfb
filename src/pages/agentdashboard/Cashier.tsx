@@ -40,21 +40,11 @@ export default function Cashier() {
     );
   };
 
-  // const addCustomer = (name: string, email: string) => {
-  //   setCustomers(prev => [
-  //     ...prev,
-  //     { id: Math.random().toString(), name, email, status: "pending" },
-  //   ]);
-  // };
 
   const createCashier = (name: string, email: string) => {
     console.log("New cashier:", name, email);
   };
   const [open, setOpen] = useState(false);
-
-  // const handleAdd = (name: string, email: string, phone: string) => {
-  //   console.log({ name, email, phone });
-  // };
 
   return (
     <div className="p-6 space-y-6 bg-gray-50 min-h-screen">

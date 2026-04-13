@@ -214,12 +214,6 @@ const CreateCustomer = async (payload: CustomerPayload) => {
 };
 export { CreateCustomer };
 
-// delete customer
-// const DeleteCustomer = async () => {
-//   try{
-//       await api.delete(`/customers/${customerId}/ delete`);
-//   }
-// }
 
 // create Cashier
 const CreateCashier = async (payload: {
@@ -319,3 +313,26 @@ const GetLoans = async (page: number, limit = 10) => {
   }
 };
 export { GetLoans };
+
+// services/dashboard
+
+export const getDashboardStats = async ({
+  filter,
+  startDate,
+  endDate,
+}: {
+  filter: string;
+  startDate?: string;
+  endDate?: string;
+}) => {
+  const params: any = { filter };
+
+  if (filter === "custom") {
+    params.startDate = startDate;
+    params.endDate = endDate;
+  }
+
+  const res = await api.get("/dashboard/cashier", { params });
+
+  return res.data; // { cards: {...} }
+};

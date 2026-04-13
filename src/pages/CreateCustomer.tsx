@@ -134,30 +134,30 @@ export default function CustomerForm() {
   const validateStep = () => {
     let newErrors: any = {};
 
-    // if (step === 0) {
-    //   if (!form.title) newErrors.title = "Required";
-    //   if (!form.surname) newErrors.surname = "Required";
-    //   if (!form.gender) newErrors.gender = "Required";
-    // }
+    if (step === 0) {
+      if (!form.title) newErrors.title = "Required";
+      if (!form.surname) newErrors.surname = "Required";
+      if (!form.gender) newErrors.gender = "Required";
+    }
 
-    // if (step === 1) {
-    //   if (!form.phone) newErrors.phone = "Required";
-    //   if (!form.email) newErrors.email = "Required";
-    // }
-    // if (step === 2) {
-    //   if (!form.bvn) newErrors.phone = "Required";
-    //   if (!form.nin) newErrors.email = "Required";
-    // }
-    // if (step === 3) {
-    //   if (!form.nextOfKin.phone) newErrors.phone = "Required";
-    //   if (!form.nextOfKin.email) newErrors.email = "Required";
-    // }
+    if (step === 1) {
+      if (!form.phone) newErrors.phone = "Required";
+      if (!form.email) newErrors.email = "Required";
+    }
+    if (step === 2) {
+      if (!form.bvn) newErrors.phone = "Required";
+      if (!form.nin) newErrors.email = "Required";
+    }
+    if (step === 3) {
+      if (!form.nextOfKin.phone) newErrors.phone = "Required";
+      if (!form.nextOfKin.email) newErrors.email = "Required";
+    }
 
-    // if (step === 4) {
-    //   if (!form.emergencyContact.fullName)
-    //     newErrors.guarantorFullName = "Required";
-    //   if (!form.emergencyContact.phone) newErrors.guarantorPhone = "Required";
-    // }
+    if (step === 4) {
+      if (!form.emergencyContact.fullName)
+        newErrors.guarantorFullName = "Required";
+      if (!form.emergencyContact.phone) newErrors.guarantorPhone = "Required";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

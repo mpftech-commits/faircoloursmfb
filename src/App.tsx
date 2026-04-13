@@ -61,7 +61,7 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             {/* loan */}
             <Route path="loan-approval" element={<LoanApproval />} />
-            <Route path="cashier-approval" element={<Cashier />} />
+            {/* <Route path="cashier-approval" element={<Cashier />} /> */}
 
             {/* settings */}
             <Route path="settings" element={<Settings />} />
