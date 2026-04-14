@@ -332,7 +332,7 @@ export const getDashboardStats = async ({
     params.endDate = endDate;
   }
 
-  const res = await api.get("/dashboard/cashier", { params });
+  const res = await api.get("/dashboard/admin", { params });
 
   return res.data; // { cards: {...} }
 };

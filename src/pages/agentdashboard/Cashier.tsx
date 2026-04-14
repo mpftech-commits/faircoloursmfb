@@ -2,7 +2,6 @@ import { useState } from "react";
 import CashierStats from "../../components/cashier/CashierStats";
 import TransactionsTable from "../../components/cashier/TransactionTable";
 import CustomerTable from "../../components/cashier/CustomerTable";
-import AddCustomerModal from "../../components/cashier/AddCustomerModal";
 import CreateCashierModal from "../../components/cashier/AddCashierModal";
 
 
@@ -58,12 +57,6 @@ export default function Cashier() {
       >
         Add Customer
       </button>
-
-      <AddCustomerModal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        
-      />
         <CreateCashierModal onCreate={createCashier} />
       </div>
 

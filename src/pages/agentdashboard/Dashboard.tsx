@@ -22,8 +22,9 @@ export default function Dashboard() {
           endDate,
         });
   
-        setData(res.cards);
-      } catch (err) {
+        setData(res.data);
+        console.log("Dashboard data:", res.data);
+      } catch (err: any) {
         console.error("Error fetching dashboard:", err);
       } finally {
         setLoading(false);
@@ -31,6 +32,7 @@ export default function Dashboard() {
     };
   
     useEffect(() => {
+      console.log("Fetching dashboard with:", { filter, startDate, endDate });
       if (filter === "custom" && (!startDate || !endDate)) return;
       fetchData();
     }, [filter, startDate, endDate]);
@@ -71,18 +73,18 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <StatsCard
               title="Deposits"
-              value={data?.deposits}
+              value={data?.cards.deposits}
               loading={loading}
             />
             <StatsCard
               title="Withdrawals"
-              value={data?.withdrawals}
+              value={data?.cards.withdrawals}
               loading={loading}
             />
-            <StatsCard title="Loans" value={data?.loans} loading={loading} />
+            <StatsCard title="Loans" value={data?.cards.loans} loading={loading} />
             <StatsCard
               title="Customers"
-              value={data?.customers}
+              value={data?.cards.customers}
               loading={loading}
             />
           </div>

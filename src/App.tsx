@@ -13,7 +13,7 @@ import ChangePassword from "./pages/ChangePassword";
 import HelpSupport from "./pages/HelpSupport";
 import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
 import LoanApproval from "./pages/agentdashboard/LoanApproval";
-import Cashier from "./pages/agentdashboard/Cashier";
+// import Cashier from "./pages/agentdashboard/Cashier";
 import NotFoundPage from "./NotFound";
 import Customers from "./pages/agentdashboard/Customers";
 // import CashierReport from "./pages/agentdashboard/CashierReport";

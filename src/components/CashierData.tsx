@@ -52,7 +52,7 @@ export default function CashierData () {
 const filteredCashiers = cashiers.filter((c) => {
   // filter by search (name + phone)
   const matchesSearch =
-    c.fullName.toLowerCase().includes(search.toLowerCase()) ||
+    c.fullName?.toLowerCase().includes(search.toLowerCase()) ||
     String(c.phone || "").includes(search);
 
   return matchesSearch;

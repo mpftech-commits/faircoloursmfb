@@ -115,7 +115,7 @@ export default function CustomerForm() {
 
   const [form, setForm] = useState<any>(initialFormState);
 
-  const [errors, setErrors] = useState<any>({});
+  const [ setErrors] = useState<any>({});
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
