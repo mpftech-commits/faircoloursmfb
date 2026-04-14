@@ -236,9 +236,15 @@ export default function CashierData() {
                     { label: "Deposits", value: selected.stats.deposits },
                     { label: "Withdrawals", value: selected.stats.withdrawals },
                     { label: "Loans", value: selected.stats.loans },
-                    { label: "Total Customers", value: selected.stats.totalCustomers },
+                    {
+                      label: "Total Customers",
+                      value: selected.stats.totalCustomers,
+                    },
                     { label: "Total Loans", value: selected.stats.totalLoans },
-                    { label: "Total Transactions", value: selected.stats.totalTransactions },
+                    {
+                      label: "Total Transactions",
+                      value: selected.stats.totalTransactions,
+                    },
                     { label: "Net Balance", value: selected.stats.netBalance },
                   ].map((item) => (
                     <div
@@ -248,9 +254,7 @@ export default function CashierData() {
                       <p className="text-xs text-gray-500 uppercase mb-1">
                         {item.label}
                       </p>
-                      <p className="text-sm font-semibold">
-                        {item.value ?? 0}
-                      </p>
+                      <p className="text-sm font-semibold">{item.value ?? 0}</p>
                     </div>
                   ))
                 ) : (
