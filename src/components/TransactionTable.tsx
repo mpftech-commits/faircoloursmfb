@@ -12,6 +12,7 @@ interface Props {
   fullName: string;
   phone: string;
   }
+  status: "approved" | "pending" | "rejected";
 }
 
 function TransactionTable() {
@@ -60,6 +61,7 @@ function TransactionTable() {
               <th className="px-6 py-2">Transaction Type</th>
               <th className="px-6 py-2">Phone Number</th>
               <th className="px-6 py-2">Amount</th>
+              <th className="px-6 py-2">Status</th>
               <th className="px-6 py-2">Transaction Date</th>
             </tr>
           </thead>
@@ -94,6 +96,21 @@ function TransactionTable() {
                 </td>
                 <td className="px-6 py-4 font-semibold text-gray-800">
                   ₦{t.amount.toLocaleString()}
+                </td>
+                <td className="px-6 py-4 font-semibold text-gray-800">
+                  {t.status === "approved" ? (
+                    <span className="px-3 py-1 rounded-full text-xs bg-green-100 text-green-600">
+                      Approved
+                    </span>
+                  ) : t.status === "pending" ? (
+                    <span className="px-3 py-1 rounded-full text-xs bg-yellow-100 text-yellow-600">
+                      Pending
+                    </span>
+                  ) : (
+                    <span className="px-3 py-1 rounded-full text-xs bg-red-100 text-red-600">
+                      Rejected
+                    </span>
+                  )}
                 </td>
 
                 <td className="px-6 py-4 text-gray-500">{t.createdAt}</td>
