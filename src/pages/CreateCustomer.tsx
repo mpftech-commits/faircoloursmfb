@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreateCustomer } from "../services/Axios";
 
-
 // ---------- Reusable Inputs ----------
 interface InputProps {
   label: string;
@@ -13,6 +12,7 @@ interface InputProps {
   ) => void;
   type?: string;
   placeholder?: string;
+  error?: string;
 }
 
 const InputField: React.FC<InputProps> = ({
@@ -22,6 +22,7 @@ const InputField: React.FC<InputProps> = ({
   value,
   onChange,
   type = "text",
+  error,
 }) => (
   <div className="flex flex-col gap-1 w-full mt-2">
     <label className="text-sm font-medium text-gray-700">{label}</label>
@@ -31,8 +32,13 @@ const InputField: React.FC<InputProps> = ({
       name={name}
       value={value}
       onChange={onChange}
-      className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-700"
+      className={`border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 ${
+        error
+          ? "border-red-500 focus:ring-red-500"
+          : "border-gray-300 focus:ring-blue-700"
+      }`}
     />
+    {error && <p className="text-red-500 text-sm">{error}</p>}
   </div>
 );
 
@@ -42,6 +48,7 @@ interface SelectProps {
   value: string;
   options: string[];
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  error?: string;
 }
 
 const SelectField: React.FC<SelectProps> = ({
@@ -50,6 +57,7 @@ const SelectField: React.FC<SelectProps> = ({
   value,
   options,
   onChange,
+  error,
 }) => (
   <div className="flex flex-col gap-1 w-full">
     <label className="text-sm font-medium text-gray-700">{label}</label>
@@ -57,7 +65,11 @@ const SelectField: React.FC<SelectProps> = ({
       name={name}
       value={value}
       onChange={onChange}
-      className="border rounded-lg px-3 py-4 focus:outline-none focus:ring-2 focus:ring-blue-700"
+      className={`border rounded-lg px-3 py-4 focus:outline-none focus:ring-2 ${
+        error
+          ? "border-red-500 focus:ring-red-500"
+          : "border-gray-300 focus:ring-blue-700"
+      }`}
     >
       <option value="">Select</option>
       {options.map((opt) => (
@@ -66,6 +78,7 @@ const SelectField: React.FC<SelectProps> = ({
         </option>
       ))}
     </select>
+    {error && <p className="text-red-500 text-sm">{error}</p>}
   </div>
 );
 const Section: React.FC<{ title: string; children: React.ReactNode }> = ({
@@ -115,7 +128,7 @@ export default function CustomerForm() {
 
   const [form, setForm] = useState<any>(initialFormState);
 
-  const [ setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<any>({});
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -135,28 +148,56 @@ export default function CustomerForm() {
     let newErrors: any = {};
 
     if (step === 0) {
-      if (!form.title) newErrors.title = "Required";
-      if (!form.surname) newErrors.surname = "Required";
-      if (!form.gender) newErrors.gender = "Required";
+      if (!form.title) newErrors.title = "Title is required";
+      if (!form.surname) newErrors.surname = "Surname is required";
+      if (!form.gender) newErrors.gender = "Gender is required";
     }
 
     if (step === 1) {
-      if (!form.phone) newErrors.phone = "Required";
-      if (!form.email) newErrors.email = "Required";
+      if (!form.phone) newErrors.phone = "Phone is required";
+      if (!form.email) newErrors.email = "Email is required";
+      if (!form.bvn) newErrors.bvn = "BVN is required";
+      if (!form.nin) newErrors.nin = "NIN is required";
     }
+
     if (step === 2) {
-      if (!form.bvn) newErrors.phone = "Required";
-      if (!form.nin) newErrors.email = "Required";
+      // Add validations for employment if needed
     }
+
     if (step === 3) {
-      if (!form.nextOfKin.phone) newErrors.phone = "Required";
-      if (!form.nextOfKin.email) newErrors.email = "Required";
+      if (!form.nextOfKin.fullName)
+        newErrors.nextOfKin = {
+          ...newErrors.nextOfKin,
+          fullName: "Full Name is required",
+        };
+      if (!form.nextOfKin.phone)
+        newErrors.nextOfKin = {
+          ...newErrors.nextOfKin,
+          phone: "Phone is required",
+        };
+      if (!form.nextOfKin.address)
+        newErrors.nextOfKin = {
+          ...newErrors.nextOfKin,
+          address: "Address is required",
+        };
     }
 
     if (step === 4) {
       if (!form.emergencyContact.fullName)
-        newErrors.guarantorFullName = "Required";
-      if (!form.emergencyContact.phone) newErrors.guarantorPhone = "Required";
+        newErrors.emergencyContact = {
+          ...newErrors.emergencyContact,
+          fullName: "Full Name is required",
+        };
+      if (!form.emergencyContact.phone)
+        newErrors.emergencyContact = {
+          ...newErrors.emergencyContact,
+          phone: "Phone is required",
+        };
+      if (!form.emergencyContact.address)
+        newErrors.emergencyContact = {
+          ...newErrors.emergencyContact,
+          address: "Address is required",
+        };
     }
 
     setErrors(newErrors);
@@ -215,7 +256,7 @@ export default function CustomerForm() {
             Step {step + 1} of {steps.length}
           </p>{" "}
         </div>
-        <div  className="space-y-3">
+        <div className="space-y-3">
           {step === 0 && (
             <Section title="Personal Information">
               <SelectField
@@ -224,6 +265,7 @@ export default function CustomerForm() {
                 value={form.title}
                 options={["Mr", "Mrs", "Miss"]}
                 onChange={handleChange}
+                error={errors.title}
               />
               <InputField
                 placeholder="enter your surname"
@@ -231,6 +273,7 @@ export default function CustomerForm() {
                 name="surname"
                 value={form.surname}
                 onChange={handleChange}
+                error={errors.surname}
               />
 
               <InputField
@@ -239,6 +282,7 @@ export default function CustomerForm() {
                 name="otherName"
                 value={form.otherName}
                 onChange={handleChange}
+                error={errors.otherName}
               />
               <SelectField
                 label="Gender"
@@ -246,6 +290,7 @@ export default function CustomerForm() {
                 value={form.gender}
                 options={["male", "female"]}
                 onChange={handleChange}
+                error={errors.gender}
               />
               <SelectField
                 label="Marital Status"
@@ -253,6 +298,7 @@ export default function CustomerForm() {
                 value={form.maritalStatus}
                 options={["single", "married"]}
                 onChange={handleChange}
+                error={errors.maritalStatus}
               />
               <InputField
                 label="Date of Birth"
@@ -260,6 +306,7 @@ export default function CustomerForm() {
                 type="date"
                 value={form.dateOfBirth}
                 onChange={handleChange}
+                error={errors.dateOfBirth}
               />
               <InputField
                 placeholder="enter your nationality"
@@ -268,6 +315,7 @@ export default function CustomerForm() {
                 type="text"
                 value={form.nationality}
                 onChange={handleChange}
+                error={errors.nationality}
               />
             </Section>
           )}
@@ -280,6 +328,7 @@ export default function CustomerForm() {
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
+                error={errors.phone}
               />
               <InputField
                 placeholder="enter your email"
@@ -287,6 +336,7 @@ export default function CustomerForm() {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
+                error={errors.email}
               />
               <InputField
                 placeholder="enter your address"
@@ -301,6 +351,7 @@ export default function CustomerForm() {
                 name="bvn"
                 value={form.bvn}
                 onChange={handleChange}
+                error={errors.bvn}
               />
               <InputField
                 placeholder="enter your nin no"
@@ -308,6 +359,7 @@ export default function CustomerForm() {
                 name="nin"
                 value={form.nin}
                 onChange={handleChange}
+                error={errors.nin}
               />
               <InputField
                 label="Means of Identification"
@@ -374,18 +426,21 @@ export default function CustomerForm() {
                 name="fullName"
                 value={form.nextOfKin.fullName}
                 onChange={(e) => handleNestedChange("nextOfKin", e)}
+                error={errors.nextOfKin?.fullName}
               />
               <InputField
                 label="Phone"
                 name="phone"
                 value={form.nextOfKin.phone}
                 onChange={(e) => handleNestedChange("nextOfKin", e)}
+                error={errors.nextOfKin?.phone}
               />
               <InputField
                 label="Address"
                 name="address"
                 value={form.nextOfKin.address}
                 onChange={(e) => handleNestedChange("nextOfKin", e)}
+                error={errors.nextOfKin?.address}
               />
             </Section>
           )}
@@ -397,18 +452,21 @@ export default function CustomerForm() {
                 name="fullName"
                 value={form.emergencyContact.fullName}
                 onChange={(e) => handleNestedChange("emergencyContact", e)}
+                error={errors.emergencyContact?.fullName}
               />
               <InputField
                 label="Address"
                 name="address"
                 value={form.emergencyContact.address}
                 onChange={(e) => handleNestedChange("emergencyContact", e)}
+                error={errors.emergencyContact?.address}
               />
               <InputField
                 label="Phone"
                 name="phone"
                 value={form.emergencyContact.phone}
                 onChange={(e) => handleNestedChange("emergencyContact", e)}
+                error={errors.emergencyContact?.phone}
               />
             </Section>
           )}
