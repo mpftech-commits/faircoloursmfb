@@ -9,7 +9,7 @@ import {
   Eye,
 } from "lucide-react";
 
-type LoanStatus = "pending" | "approved" | "rejected";
+type LoanStatus = "Pending" | "Approved" | "Rejected";
 interface PersonInfo {
   _id: string;
   fullName?: string;
@@ -99,7 +99,7 @@ export default function LoanTable() {
       // TODO: call your API here
       console.log("Approved loan:", selectedLoan._id);
 
-      setSelectedLoan({ ...selectedLoan, status: "approved" });
+      setSelectedLoan({ ...selectedLoan, status: "Approved" });
     } catch (err) {
       console.error(err);
     } finally {
@@ -116,7 +116,7 @@ export default function LoanTable() {
       // TODO: call your API here
       console.log("Rejected loan:", selectedLoan._id);
 
-      setSelectedLoan({ ...selectedLoan, status: "rejected" });
+      setSelectedLoan({ ...selectedLoan, status: "Rejected" });
     } catch (err) {
       console.error(err);
     } finally {
@@ -174,9 +174,9 @@ export default function LoanTable() {
                 <td className="capitalize">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      loan.status === "approved"
+                      loan.status === "Approved"
                         ? "bg-green-100 text-green-600"
-                        : loan.status === "rejected"
+                        : loan.status === "Rejected"
                           ? "bg-red-100 text-red-600"
                           : "bg-yellow-100 text-yellow-600"
                     }`}
@@ -201,22 +201,19 @@ export default function LoanTable() {
       {isModalOpen && selectedLoan && (
         <div
           onClick={() => setIsModalOpen(false)}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4"
-        >
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4 overflow-auto">
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white w-full max-w-xl rounded-2xl shadow-xl p-6 relative"
-          >
+            className="bg-white w-full max-w-xl rounded-2xl shadow-xl p-6 relative overflow-auto mt-20 mb-10">
             {/* Close */}
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
-            >
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
               ✕
             </button>
 
             {/* Header */}
-            <div className="mb-5">
+            <div className="pt-50 lg:pt-3 mb-4">
               <h2 className="text-xl font-semibold text-gray-800">
                 Loan Overview
               </h2>
@@ -229,13 +226,12 @@ export default function LoanTable() {
             <div className="mb-4">
               <span
                 className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  selectedLoan.status === "approved"
+                  selectedLoan.status === "Approved"
                     ? "bg-green-100 text-green-600"
-                    : selectedLoan.status === "rejected"
+                    : selectedLoan.status === "Rejected"
                       ? "bg-red-100 text-red-600"
                       : "bg-yellow-100 text-yellow-600"
-                }`}
-              >
+                }`}>
                 {selectedLoan.status}
               </span>
             </div>
@@ -374,7 +370,7 @@ export default function LoanTable() {
             </div>
 
             {/* Divider */}
-            <div className="my-6 border-t" />
+            <div className="my-6 border-t border-gray-300" />
 
             {/* Actions */}
             <div className="flex justify-end gap-3">

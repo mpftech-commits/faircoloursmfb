@@ -96,6 +96,7 @@ const [search, setSearch] = useState("");
        type: "success",
        message: "Customer deleted successfully",
      });
+     
    } catch (err: any) {
      setFeedback({
        show: true,
@@ -109,6 +110,7 @@ const [search, setSearch] = useState("");
      setFeedback((prev) => ({ ...prev, show: false }));
    }, 3000);
  };
+
   const [selected, setSelected] = useState<Information | null>(null);
 
   const [feedback, setFeedback] = useState<{

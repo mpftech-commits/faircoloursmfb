@@ -88,7 +88,7 @@ export default function CashierData() {
     <div className="p-6 bg-gray-50 min-h-screen">
       {/* TABLE HEADER */}
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-lg">Customers</h3>
+        <h3 className="font-semibold text-lg">Cashiers</h3>
 
         <button
           onClick={() => setOpen(true)}

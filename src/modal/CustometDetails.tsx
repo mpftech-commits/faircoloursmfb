@@ -24,23 +24,23 @@ export default function CustomerDetail({ customer, onClose }: Props) {
   if (!customer) return null;
 
 
-  // reject customer
+  // Deactivate customer
    const handleDeactivateCustomer = async (publicId: string) => {
      try {
-       await api.patch(`/customers/${publicId}/deactivate`);
+       await api.patch(`/customers/${publicId}/toggle-deactivate`);
 
        // show success
        setFeedback({
          show: true,
          type: "success",
-         message: "Customer approved deactivated",
+         message: "Customer successfully deactivated",
        });
        console.log("Customer deactivated:", customer);
      } catch (err: any) {
        setFeedback({
          show: true,
          type: "error",
-         message: err?.response?.data?.message || "Failed to deactivated customer",
+         message: err?.response?.data?.message || "Failed to deactivate customer",
        });
      }
      // auto close
@@ -48,7 +48,7 @@ export default function CustomerDetail({ customer, onClose }: Props) {
        setFeedback((prev) => ({ ...prev, show: false }));
      }, 3000);
    };
-  //  approve customers
+  //  Approve Customers
    const handleApproveCustomer = async (publicId: string) => {
      try {
        await api.patch(`/customers/${publicId}/approve`);
@@ -146,12 +146,12 @@ export default function CustomerDetail({ customer, onClose }: Props) {
           <Field label="Address" value={customer.emergencyContact?.address} />
         </Section>
         <div className="flex gap-5 items-center justify-end">
-          {customer.status === "deactivated" ? (
+          {customer.isDeactivated === true ? (
             <button
-              disabled
-              className="bg-red-200 text-red-700 px-4 py-2 rounded-lg cursor-not-allowed"
+              
+              className="bg-red-200 text-red-700 px-4 py-2 rounded-lg cursor-pointer"
             >
-              Deactivated
+              Reactivate
             </button>
           ) : (
             <button
@@ -159,19 +159,19 @@ export default function CustomerDetail({ customer, onClose }: Props) {
               className="bg-red-500 px-4 py-2 rounded-lg text-white cursor-pointer"
             >
               Deactivate
-          </button>
-            )}
+            </button>
+          )}
 
-          {customer.status === "approved" ? (
+          {customer.isDeactivated === true ? (
             <button
-              disabled
+             
               className="bg-green-200 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed"
             >
               Approved
             </button>
           ) : (
             <button
-              onClick={() => handleApproveCustomer(customer._id)}
+              onClick={() => handleApproveCustomer(customer.publicId)}
               className="bg-green-500 px-4 py-2 rounded-lg text-white hover:bg-green-600 cursor-pointer"
             >
               Approve
