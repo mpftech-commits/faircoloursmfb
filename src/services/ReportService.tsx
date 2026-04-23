@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "./Axios";
 
 export type ReportFilter = "weekly" | "monthly" | "quarterly" | "yearly";

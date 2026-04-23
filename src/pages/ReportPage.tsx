@@ -9,7 +9,7 @@ import {
 
 export default function ReportsPage() {
   const [filter, setFilter] = useState<ReportFilter>("weekly");
-  const [data, setData] = useState<any[]>([]);
+  const [data] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState("");
