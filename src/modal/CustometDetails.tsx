@@ -36,6 +36,9 @@ export default function CustomerDetail({ customer, onClose }: Props) {
          message: "Customer successfully deactivated",
        });
        console.log("Customer deactivated:", customer);
+      //  update local state
+      customer.isDeactivated = !customer.isDeactivated;
+       onClose(); // close modal after action
      } catch (err: any) {
        setFeedback({
          show: true,
@@ -60,6 +63,9 @@ export default function CustomerDetail({ customer, onClose }: Props) {
          message: "Customer approved successfully",
        });
        console.log("Customer approved:", customer);
+       //  update local state
+       customer.isApproved = !customer.isApproved;
+       onClose(); // close modal after action
      } catch (err: any) {
        setFeedback({
          show: true,
@@ -145,12 +151,28 @@ export default function CustomerDetail({ customer, onClose }: Props) {
           <Field label="Phone" value={customer.emergencyContact?.phone} />
           <Field label="Address" value={customer.emergencyContact?.address} />
         </Section>
+        {/* Account Status */}
+        <Section title="Account Status">
+          <Field
+            label="Status"
+            value={customer.accountStatus}
+          />
+        </Section>
+        <Section title="Assigned To">
+          <Field
+            label="Assigned to Cashier"
+            value={customer.assignedTo}
+          />
+        </Section>
+        <Section title="Assigned To">
+          <Field
+            label="Assigned to Cashier"
+            value={customer.assignedTo}
+          />
+        </Section>
         <div className="flex gap-5 items-center justify-end">
-          {customer.isDeactivated === true ? (
-            <button
-              
-              className="bg-red-200 text-red-700 px-4 py-2 rounded-lg cursor-pointer"
-            >
+          {customer.isDeactivated ? (
+            <button className="bg-red-200 text-red-700 px-4 py-2 rounded-lg cursor-pointer">
               Reactivate
             </button>
           ) : (
@@ -162,11 +184,8 @@ export default function CustomerDetail({ customer, onClose }: Props) {
             </button>
           )}
 
-          {customer.isDeactivated === true ? (
-            <button
-             
-              className="bg-green-200 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed"
-            >
+          {customer.isApproved ? (
+            <button className="bg-green-200 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed">
               Approved
             </button>
           ) : (

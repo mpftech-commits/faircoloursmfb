@@ -151,6 +151,10 @@ export default function CustomerForm() {
       if (!form.title) newErrors.title = "Title is required";
       if (!form.surname) newErrors.surname = "Surname is required";
       if (!form.gender) newErrors.gender = "Gender is required";
+      if (!form.otherName) newErrors.otherName = "Other Name is required";
+      if (!form.maritalStatus) newErrors.maritalStatus = "Marital Status is required";
+      if (!form.dateOfBirth) newErrors.dateOfBirth = "Date of Birth is required";
+      if (!form.nationality) newErrors.nationality = "Nationality is required";
     }
 
     if (step === 1) {
@@ -227,11 +231,18 @@ export default function CustomerForm() {
       setSuccess(true);
       setForm(initialFormState);
     } catch (err: any) {
-      console.log(
-        "Create customer error:",
-        err.response?.data || err?.message || err,
-      );
-    } finally {
+  const backendError = err?.response?.data;
+
+  if (backendError?.errors) {
+    // Field-specific errors
+    setErrors(backendError.errors);
+  } else if (backendError?.message) {
+    // General error (e.g. duplicate email)
+    setErrors({ general: backendError.message });
+  } else {
+    setErrors({ general: "Something went wrong" });
+  }
+} finally {
       setIsLoading(false);
     }
   };
@@ -256,6 +267,10 @@ export default function CustomerForm() {
             Step {step + 1} of {steps.length}
           </p>{" "}
         </div>
+
+        {/* error */}
+        {errors.general && ( <p className="text-red-500">{errors.general}</p>)}
+
         <div className="space-y-3">
           {step === 0 && (
             <Section title="Personal Information">
@@ -344,6 +359,7 @@ export default function CustomerForm() {
                 name="address"
                 value={form.address}
                 onChange={handleChange}
+                 error={errors.address}
               />
               <InputField
                 placeholder="enter your bvn no"
@@ -366,6 +382,7 @@ export default function CustomerForm() {
                 name="meansOfIdentification"
                 value={form.meansOfIdentification}
                 onChange={handleChange}
+                error={errors.meansOfIdentification}
               />
             </Section>
           )}
@@ -378,6 +395,7 @@ export default function CustomerForm() {
                 name="occupation"
                 value={form.occupation}
                 onChange={handleChange}
+                 error={errors.occupation}
               />
               <InputField
                 placeholder="enter your bank name"
@@ -385,36 +403,42 @@ export default function CustomerForm() {
                 name="bankName"
                 value={form.bankName}
                 onChange={handleChange}
+                 error={errors}
               />
               <InputField
                 label="Account Name"
                 name="accountName"
                 value={form.accountName}
                 onChange={handleChange}
+                 error={errors.accountName}
               />
               <InputField
                 label="Account Number"
                 name="accountNumber"
                 value={form.accountNumber}
                 onChange={handleChange}
+                 error={errors.accountNumber}
               />
               <InputField
                 label="Business Address"
                 name="businessAddress"
                 value={form.businessAddress}
                 onChange={handleChange}
+                 error={errors.businessAddress}
               />
               <InputField
                 label="Employer Name"
                 name="employerName"
                 value={form.employerName}
                 onChange={handleChange}
+                 error={errors.employerName}
               />
               <InputField
                 label="Employer Address"
                 name="employerAddress"
                 value={form.employerAddress}
                 onChange={handleChange}
+                 error={errors.employerAddress}
               />
             </Section>
           )}

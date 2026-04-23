@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import RiskBadge from "./RiskBadge";
-import { GetLoans } from "../../services/Axios";
+import api, { GetLoans } from "../../services/Axios";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Loader,
   AlertTriangle,
@@ -9,7 +10,7 @@ import {
   Eye,
 } from "lucide-react";
 
-type LoanStatus = "Pending" | "Approved" | "Rejected";
+type LoanStatus = "pending" | "approved" | "rejected";
 interface PersonInfo {
   _id: string;
   fullName?: string;
@@ -90,40 +91,77 @@ export default function LoanTable() {
   };
 
   // approving & rejecting loans
-  const handleApprove = async () => {
+  const handleApprove = async (publicId: string) => {
     if (!selectedLoan) return;
 
     try {
       setActionLoading("approve");
 
-      // TODO: call your API here
-      console.log("Approved loan:", selectedLoan._id);
+      await api.patch(`/loans/${publicId}/approve`);
+      // show success
+      setFeedback({
+        show: true,
+        type: "success",
+        message: "Loan approved successfully",
+      });
+      console.log("Loan approved:", selectedLoan.publicId);
 
-      setSelectedLoan({ ...selectedLoan, status: "Approved" });
-    } catch (err) {
-      console.error(err);
+      setSelectedLoan({ ...selectedLoan, status: "approved" });
+    } catch (err: any) {
+      setFeedback({
+        show: true,
+        type: "error",
+        message: err?.response?.data?.message || "Failed to approve loan",
+      });
+      // auto close
+      setTimeout(() => {
+        setFeedback((prev) => ({ ...prev, show: false }));
+      }, 3000);
     } finally {
       setActionLoading(null);
     }
   };
 
-  const handleReject = async () => {
+  // reject loans
+  const handleReject = async (publicId: string) => {
     if (!selectedLoan) return;
 
     try {
       setActionLoading("reject");
+      await api.patch(`/loans/${publicId}/reject`);
+      // show success
+      setFeedback({
+        show: true,
+        type: "success",
+        message: "loan rejected successfully",
+      });
+      console.log("Customer approved:", selectedLoan.publicId);
 
-      // TODO: call your API here
-      console.log("Rejected loan:", selectedLoan._id);
-
-      setSelectedLoan({ ...selectedLoan, status: "Rejected" });
-    } catch (err) {
-      console.error(err);
+      setSelectedLoan({ ...selectedLoan, status: "rejected" });
+    } catch (err: any) {
+      setFeedback({
+        show: true,
+        type: "error",
+        message: err?.response?.data?.message || "Failed to reject customer",
+      });
+      // auto close
+      setTimeout(() => {
+        setFeedback((prev) => ({ ...prev, show: false }));
+      }, 3000);
     } finally {
       setActionLoading(null);
     }
   };
-
+  // modal feedback
+  const [feedback, setFeedback] = useState<{
+    show: boolean;
+    type: "success" | "error";
+    message: string;
+  }>({
+    show: false,
+    type: "success",
+    message: "",
+  });
   return (
     <div className="bg-white rounded-2xl shadow-sm border overflow-x-auto border-gray-300">
       {loading && (
@@ -155,11 +193,11 @@ export default function LoanTable() {
           <tbody>
             {loansState.map((loan) => (
               <tr
-                key={loan._id}
+                key={loan.publicId || loan._id}
                 // onClick={() => onSelect(loan)}
                 className="border-t border-gray-300 cursor-pointer text-center hover:bg-gray-50 text-xs px-5 border-b border-b-gray-300 pb-5"
               >
-                <td className="p-3">{loan._id}</td>
+                <td className="p-3">{loan.publicId}</td>
                 <td className="p-3">{loan.customerId?.fullName}</td>
                 <td>₦{loan.amount.toLocaleString()}</td>
                 <td>
@@ -174,9 +212,9 @@ export default function LoanTable() {
                 <td className="capitalize">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      loan.status === "Approved"
+                      loan.status === "approved"
                         ? "bg-green-100 text-green-600"
-                        : loan.status === "Rejected"
+                        : loan.status === "rejected"
                           ? "bg-red-100 text-red-600"
                           : "bg-yellow-100 text-yellow-600"
                     }`}
@@ -201,14 +239,17 @@ export default function LoanTable() {
       {isModalOpen && selectedLoan && (
         <div
           onClick={() => setIsModalOpen(false)}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4 overflow-auto">
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4 overflow-auto"
+        >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white w-full max-w-xl rounded-2xl shadow-xl p-6 relative overflow-auto mt-20 mb-10">
+            className="bg-white w-full max-w-xl rounded-2xl shadow-xl p-6 relative overflow-auto mt-20 mb-10"
+          >
             {/* Close */}
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
+            >
               ✕
             </button>
 
@@ -226,12 +267,13 @@ export default function LoanTable() {
             <div className="mb-4">
               <span
                 className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  selectedLoan.status === "Approved"
+                  selectedLoan.status === "approved"
                     ? "bg-green-100 text-green-600"
-                    : selectedLoan.status === "Rejected"
+                    : selectedLoan.status === "rejected"
                       ? "bg-red-100 text-red-600"
                       : "bg-yellow-100 text-yellow-600"
-                }`}>
+                }`}
+              >
                 {selectedLoan.status}
               </span>
             </div>
@@ -366,29 +408,73 @@ export default function LoanTable() {
                     {selectedLoan.guarantor?.address || "-"}
                   </p>
                 </div>
+                <div>
+                  <p className="text-gray-500 text-xs">
+                    Guarantor Relationship
+                  </p>
+                  <p className="font-medium">
+                    {selectedLoan.guarantor?.relationship || "-"}
+                  </p>
+                </div>
+                <div >
+                  <p className="text-gray-500 text-xs">
+                    Guarantor Marital Status
+                  </p>
+                  <p className="font-medium">
+                    {selectedLoan.guarantor?.maritalStatus || "-"}
+                  </p>
+                </div>
+                <div >
+                  <p className="text-gray-500 text-xs">
+                    Guarantor State
+                  </p>
+                  <p className="font-medium">
+                    {selectedLoan.guarantor?.state || "-"}
+                  </p>
+                </div>
+                <div >
+                  <p className="text-gray-500 text-xs">
+                    Guarantor Country
+                  </p>
+                  <p className="font-medium">
+                    {selectedLoan.guarantor?.country || "-"}
+                  </p>
+                </div>
               </div>
             </div>
 
             {/* Divider */}
             <div className="my-6 border-t border-gray-300" />
 
-            {/* Actions */}
             <div className="flex justify-end gap-3">
+              {/* REJECTION OF LOANS */}
+
               <button
-                onClick={handleReject}
+                onClick={() =>
+                  handleReject(selectedLoan.publicId || selectedLoan._id)
+                }
                 disabled={actionLoading !== null}
                 className="px-4 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-600 hover:bg-red-200 disabled:opacity-50"
               >
                 {actionLoading === "reject" ? "Rejecting..." : "Reject"}
               </button>
 
-              <button
-                onClick={handleApprove}
-                disabled={actionLoading !== null}
-                className="px-4 py-2 rounded-lg text-sm font-medium bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
-              >
-                {actionLoading === "approve" ? "Approving..." : "Approve"}
-              </button>
+              {/* APPROVAL OF LOANS */}
+              {selectedLoan.status ? (
+                <button className="bg-green-200 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed">
+                  Approved
+                </button>
+              ) : (
+                <button
+                  onClick={() =>
+                    handleApprove(selectedLoan.publicId || selectedLoan._id)
+                  }
+                  disabled={actionLoading !== null}
+                  className="px-4 py-2 rounded-lg text-sm font-medium bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+                >
+                  {actionLoading === "approve" ? "Approving..." : "Approve"}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -411,6 +497,36 @@ export default function LoanTable() {
           Next <ArrowRight size={18} />
         </button>
       </div>
+      {/* success modal  */}
+      <AnimatePresence>
+        {feedback.show && (
+          <motion.div
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "100%", opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white shadow-xl border rounded-xl px-6 py-4 flex items-center gap-3 z-50"
+          >
+            {feedback.type === "success" ? (
+              <span className="text-green-600 font-semibold">
+                ✅ {feedback.message}
+              </span>
+            ) : (
+              <span className="text-red-600 font-semibold flex items-center gap-2">
+                <AlertTriangle size={18} />
+                {feedback.message}
+              </span>
+            )}
+
+            <button
+              onClick={() => setFeedback((prev) => ({ ...prev, show: false }))}
+              className="ml-3 text-gray-500"
+            >
+              ✕
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
