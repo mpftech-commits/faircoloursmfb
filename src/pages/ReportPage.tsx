@@ -59,7 +59,7 @@ export default function ReportsPage() {
         <button
           onClick={handleDownload}
           disabled={downloading}
-          className="bg-black text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 disabled:opacity-50"
+          className="bg-blue-700 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 disabled:opacity-50"
         >
           {downloading ? "Downloading..." : "Download PDF"}
         </button>

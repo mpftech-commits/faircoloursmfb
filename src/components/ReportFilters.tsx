@@ -17,7 +17,7 @@ export default function ReportFilters({ selected, onChange }: Props) {
           className={`px-4 py-2 rounded-lg text-sm capitalize transition
             ${
               selected === f
-                ? "bg-green-600 text-white"
+                ? "bg-blue-700 text-white"
                 : "bg-gray-100 hover:bg-gray-200"
             }`}
         >

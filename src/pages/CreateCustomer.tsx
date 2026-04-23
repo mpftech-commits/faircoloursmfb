@@ -23,24 +23,34 @@ const InputField: React.FC<InputProps> = ({
   onChange,
   type = "text",
   error,
-}) => (
-  <div className="flex flex-col gap-1 w-full mt-2">
-    <label className="text-sm font-medium text-gray-700">{label}</label>
-    <input
-      placeholder={placeholder}
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      className={`border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 ${
-        error
-          ? "border-red-500 focus:ring-red-500"
-          : "border-gray-300 focus:ring-blue-700"
-      }`}
-    />
-    {error && <p className="text-red-500 text-sm">{error}</p>}
-  </div>
-);
+}) => {
+  // Handle error as string or object
+  const errorMessage: string | null =
+    typeof error === "string"
+      ? error
+      : error && typeof error === "object"
+        ? (Object.values(error)[0] as string) || null
+        : null;
+
+  return (
+    <div className="flex flex-col gap-1 w-full mt-2">
+      <label className="text-sm font-medium text-gray-700">{label}</label>
+      <input
+        placeholder={placeholder}
+        type={type}
+        name={name}
+        value={value}
+        onChange={onChange}
+        className={`border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 ${
+          error
+            ? "border-red-500 focus:ring-red-500"
+            : "border-gray-300 focus:ring-blue-700"
+        }`}
+      />
+      {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
+    </div>
+  );
+};
 
 interface SelectProps {
   label: string;
@@ -58,29 +68,39 @@ const SelectField: React.FC<SelectProps> = ({
   options,
   onChange,
   error,
-}) => (
-  <div className="flex flex-col gap-1 w-full">
-    <label className="text-sm font-medium text-gray-700">{label}</label>
-    <select
-      name={name}
-      value={value}
-      onChange={onChange}
-      className={`border rounded-lg px-3 py-4 focus:outline-none focus:ring-2 ${
-        error
-          ? "border-red-500 focus:ring-red-500"
-          : "border-gray-300 focus:ring-blue-700"
-      }`}
-    >
-      <option value="">Select</option>
-      {options.map((opt) => (
-        <option key={opt} value={opt}>
-          {opt}
-        </option>
-      ))}
-    </select>
-    {error && <p className="text-red-500 text-sm">{error}</p>}
-  </div>
-);
+}) => {
+  // Handle error as string or object
+  const errorMessage: string | null =
+    typeof error === "string"
+      ? error
+      : error && typeof error === "object"
+        ? (Object.values(error)[0] as string) || null
+        : null;
+
+  return (
+    <div className="flex flex-col gap-1 w-full">
+      <label className="text-sm font-medium text-gray-700">{label}</label>
+      <select
+        name={name}
+        value={value}
+        onChange={onChange}
+        className={`border rounded-lg px-3 py-4 focus:outline-none focus:ring-2 ${
+          error
+            ? "border-red-500 focus:ring-red-500"
+            : "border-gray-300 focus:ring-blue-700"
+        }`}
+      >
+        <option value="">Select</option>
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+      </select>
+      {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
+    </div>
+  );
+};
 const Section: React.FC<{ title: string; children: React.ReactNode }> = ({
   title,
   children,
@@ -152,8 +172,10 @@ export default function CustomerForm() {
       if (!form.surname) newErrors.surname = "Surname is required";
       if (!form.gender) newErrors.gender = "Gender is required";
       if (!form.otherName) newErrors.otherName = "Other Name is required";
-      if (!form.maritalStatus) newErrors.maritalStatus = "Marital Status is required";
-      if (!form.dateOfBirth) newErrors.dateOfBirth = "Date of Birth is required";
+      if (!form.maritalStatus)
+        newErrors.maritalStatus = "Marital Status is required";
+      if (!form.dateOfBirth)
+        newErrors.dateOfBirth = "Date of Birth is required";
       if (!form.nationality) newErrors.nationality = "Nationality is required";
     }
 
@@ -231,18 +253,18 @@ export default function CustomerForm() {
       setSuccess(true);
       setForm(initialFormState);
     } catch (err: any) {
-  const backendError = err?.response?.data;
+      const backendError = err?.response?.data;
 
-  if (backendError?.errors) {
-    // Field-specific errors
-    setErrors(backendError.errors);
-  } else if (backendError?.message) {
-    // General error (e.g. duplicate email)
-    setErrors({ general: backendError.message });
-  } else {
-    setErrors({ general: "Something went wrong" });
-  }
-} finally {
+      if (backendError?.errors) {
+        // Field-specific errors
+        setErrors(backendError.errors);
+      } else if (backendError?.message) {
+        // General error (e.g. duplicate email)
+        setErrors({ general: backendError.message });
+      } else {
+        setErrors({ general: "Something went wrong" });
+      }
+    } finally {
       setIsLoading(false);
     }
   };
@@ -267,10 +289,8 @@ export default function CustomerForm() {
             Step {step + 1} of {steps.length}
           </p>{" "}
         </div>
-
         {/* error */}
-        {errors.general && ( <p className="text-red-500">{errors.general}</p>)}
-
+        {errors.general && <p className="text-red-500">{errors.general}</p>}
         <div className="space-y-3">
           {step === 0 && (
             <Section title="Personal Information">
@@ -359,7 +379,7 @@ export default function CustomerForm() {
                 name="address"
                 value={form.address}
                 onChange={handleChange}
-                 error={errors.address}
+                error={errors.address}
               />
               <InputField
                 placeholder="enter your bvn no"
@@ -395,7 +415,7 @@ export default function CustomerForm() {
                 name="occupation"
                 value={form.occupation}
                 onChange={handleChange}
-                 error={errors.occupation}
+                error={errors.occupation}
               />
               <InputField
                 placeholder="enter your bank name"
@@ -403,42 +423,42 @@ export default function CustomerForm() {
                 name="bankName"
                 value={form.bankName}
                 onChange={handleChange}
-                 error={errors}
+                error={errors}
               />
               <InputField
                 label="Account Name"
                 name="accountName"
                 value={form.accountName}
                 onChange={handleChange}
-                 error={errors.accountName}
+                error={errors.accountName}
               />
               <InputField
                 label="Account Number"
                 name="accountNumber"
                 value={form.accountNumber}
                 onChange={handleChange}
-                 error={errors.accountNumber}
+                error={errors.accountNumber}
               />
               <InputField
                 label="Business Address"
                 name="businessAddress"
                 value={form.businessAddress}
                 onChange={handleChange}
-                 error={errors.businessAddress}
+                error={errors.businessAddress}
               />
               <InputField
                 label="Employer Name"
                 name="employerName"
                 value={form.employerName}
                 onChange={handleChange}
-                 error={errors.employerName}
+                error={errors.employerName}
               />
               <InputField
                 label="Employer Address"
                 name="employerAddress"
                 value={form.employerAddress}
                 onChange={handleChange}
-                 error={errors.employerAddress}
+                error={errors.employerAddress}
               />
             </Section>
           )}
