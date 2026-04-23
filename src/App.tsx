@@ -18,10 +18,6 @@ import NotFoundPage from "./NotFound";
 import Customers from "./pages/agentdashboard/Customers";
 // import CashierReport from "./pages/agentdashboard/CashierReport";
 import Cashiers from "./pages/Cashiers";
-import GenerateReports from "./pages/ReportPage/GenerateReportsPage";
-import ReportPage from "./pages/ReportPage/ReportPage";
-
-// import { AnimatePresence } from 'framer-motion';
 import {
   DashboardProvider,
   useDashboard,
@@ -40,6 +36,7 @@ import {
 import { TransactionDetailModal } from "./cashier/components/shared/TransactionDetailModal";
 import JoinRolePage from "./pages/JoinRolesPage";
 import CustomerForm from "./pages/CreateCustomer";
+import ReportsPage from "./pages/ReportPage";
 
 function App() {
   return (
@@ -83,8 +80,7 @@ function App() {
             <Route path="create-customer" element={<CustomerForm />} />
             {/* <Route path="report" element={<CashierReport />} /> */}
             <Route path="cashier" element={<Cashiers />} />
-            <Route path="report" element={<ReportPage />} />
-            <Route path="generate-reports" element={<GenerateReports />} />
+            <Route path="report" element={<ReportsPage />} />
           </Route>
         </Route>
         </Routes>
