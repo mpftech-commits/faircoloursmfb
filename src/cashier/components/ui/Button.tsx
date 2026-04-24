@@ -9,10 +9,10 @@ export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { 
   
 }) => {
   const variants = {
-    primary: 'bg-primary text-white hover:bg-primary/90 shadow-sm shadow-primary/20 text-slate-500',
-    secondary: 'bg-slate-100 text-slate-500 hover:bg-slate-200 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700',
-    outline: 'bg-transparent border border-slate-200 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800',
-    ghost: 'bg-transparent text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800',
+    primary: 'bg-primary text-slate-700 hover:bg-primary/90 shadow-sm shadow-primary/20',
+    secondary: 'bg-slate-100 text-slate-500 hover:bg-slate-200',
+    outline: 'bg-transparent border border-slate-200 text-slate-700 hover:bg-slate-50',
+    ghost: 'bg-transparent text-slate-600 hover:bg-slate-100',
     danger: 'bg-rose-500 text-white hover:bg-rose-600 shadow-sm shadow-rose-500/20',
   };
 

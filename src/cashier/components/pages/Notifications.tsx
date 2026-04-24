@@ -7,10 +7,10 @@ import {
   Clock 
 } from 'lucide-react';
 import { Button, Card } from '../ui';
-import { useDashboard } from '../../context/DashboardContext';
+import { mockNotifications } from '../../mockData';
 
 export const Notifications: React.FC = () => {
-  const { notifications } = useDashboard();
+  const notifications = mockNotifications;
   return (
     <motion.div 
       key="notifications"

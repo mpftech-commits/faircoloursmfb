@@ -37,46 +37,46 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
       }
     >
       <div className="space-y-8">
-        <div className="flex items-center justify-between p-6 bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-slate-100 dark:border-slate-800">
+        <div className="flex items-center justify-between p-6 bg-slate-50 rounded-3xl border border-slate-100">
           <div>
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Transaction ID</p>
-            <h4 className="text-2xl font-black text-slate-900 dark:text-white">{transaction.id}</h4>
+            <h4 className="text-2xl font-black text-slate-900">{transaction.id}</h4>
           </div>
           <div className="text-right">
             <StatusBadge status={transaction.status} />
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium">{transaction.date}</p>
+            <p className="text-sm text-slate-500 mt-2 font-medium">{transaction.date}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-6">
             <div>
-              <h5 className="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+              <h5 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <User size={16} className="text-primary" />
                 Customer Information
               </h5>
-              <div className="p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl space-y-3">
+              <div className="p-4 bg-white border border-slate-100 rounded-2xl space-y-3">
                 <div className="flex justify-between">
                   <span className="text-xs text-slate-400">Name</span>
-                  <span className="text-sm font-bold dark:text-white">{transaction.customerName}</span>
+                  <span className="text-sm font-bold">{transaction.customerName}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-xs text-slate-400">Customer ID</span>
-                  <span className="text-sm font-bold dark:text-white">{transaction.customerId}</span>
+                  <span className="text-sm font-bold">{transaction.customerId}</span>
                 </div>
                 {customer ? (
                   <>
                     <div className="flex justify-between">
                       <span className="text-xs text-slate-400">Phone</span>
-                      <span className="text-sm font-bold dark:text-white">{customer.phone}</span>
+                      <span className="text-sm font-bold">{customer.phone}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-xs text-slate-400">Email</span>
-                      <span className="text-sm font-bold dark:text-white">{customer.email}</span>
+                      <span className="text-sm font-bold">{customer.email}</span>
                     </div>
                   </>
                 ) : (
-                  <div className="pt-2 border-t border-slate-50 dark:border-slate-800">
+                  <div className="pt-2 border-t border-slate-50">
                     <p className="text-[10px] text-slate-400 italic">Detailed profile data unavailable for this customer.</p>
                   </div>
                 )}
@@ -84,11 +84,11 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
             </div>
 
             <div>
-              <h5 className="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+              <h5 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <ArrowLeftRight size={16} className="text-primary" />
                 Transaction Summary
               </h5>
-              <div className="p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl space-y-3">
+              <div className="p-4 bg-white border border-slate-100 rounded-2xl space-y-3">
                 <div className="flex justify-between">
                   <span className="text-xs text-slate-400">Type</span>
                   <Badge variant={transaction.type === 'repayment' ? 'success' : 'info'}>
@@ -101,7 +101,7 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-xs text-slate-400">Method</span>
-                  <span className="text-sm font-bold dark:text-white">Bank Transfer</span>
+                  <span className="text-sm font-bold">Bank Transfer</span>
                 </div>
               </div>
             </div>
@@ -109,19 +109,19 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
 
           <div className="space-y-6">
             <div>
-              <h5 className="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+              <h5 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <FileText size={16} className="text-primary" />
                 Associated Loan
               </h5>
               {loan ? (
-                <div className="p-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl space-y-3">
+                <div className="p-4 bg-white border border-slate-100 rounded-2xl space-y-3">
                   <div className="flex justify-between">
                     <span className="text-xs text-slate-400">Loan ID</span>
-                    <span className="text-sm font-bold dark:text-white">{loan.id}</span>
+                    <span className="text-sm font-bold">{loan.id}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-xs text-slate-400">Total Amount</span>
-                    <span className="text-sm font-bold dark:text-white">৳{loan.amount.toLocaleString()}</span>
+                    <span className="text-sm font-bold">৳{loan.amount.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-xs text-slate-400">Status</span>
@@ -133,18 +133,18 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                   </Button>
                 </div>
               ) : (
-                <div className="p-6 border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-2xl text-center">
+                <div className="p-6 border-2 border-dashed border-slate-100 rounded-2xl text-center">
                   <p className="text-xs text-slate-400">No loan associated with this transaction.</p>
                 </div>
               )}
             </div>
 
-            <div className="p-6 bg-amber-50 dark:bg-amber-900/10 rounded-2xl border border-amber-100 dark:border-amber-900/30">
+            <div className="p-6 bg-amber-50 rounded-2xl border border-amber-100">
               <div className="flex gap-3">
                 <Clock size={18} className="text-amber-600 shrink-0" />
                 <div>
-                  <p className="text-xs font-bold text-amber-800 dark:text-amber-400 uppercase tracking-wider">Audit Trail</p>
-                  <p className="text-xs text-amber-700 dark:text-amber-500 mt-1">Processed by Mercy Goodness on {transaction.date} at 14:30 PM.</p>
+                  <p className="text-xs font-bold text-amber-800 uppercase tracking-wider">Audit Trail</p>
+                  <p className="text-xs text-amber-700 mt-1">Processed by Mercy Goodness on {transaction.date} at 14:30 PM.</p>
                 </div>
               </div>
             </div>

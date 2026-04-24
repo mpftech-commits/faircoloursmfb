@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -12,18 +12,27 @@ import {
   Clock 
 } from 'lucide-react';
 import { Button, Input, Select, Card } from '../ui';
-import { useDashboard } from '../../context/DashboardContext';
+import { mockCustomers } from '../../mockData';
+
+interface NewLoanData {
+  customerId?: string;
+  customerName?: string;
+  amount?: number;
+  duration?: number;
+  interestType?: 'fixed' | 'reducing';
+}
 
 export const NewLoan: React.FC = () => {
   const navigate = useNavigate();
-  const { 
-    loanStep, 
-    setLoanStep, 
-    customers, 
-    newLoanData, 
-    setNewLoanData,
-    handleApplyLoan 
-  } = useDashboard();
+  const [loanStep, setLoanStep] = useState(1);
+  const [newLoanData, setNewLoanData] = useState<NewLoanData>({});
+  const customers = mockCustomers;
+
+  const handleApplyLoan = () => {
+    // Handle loan application submission
+    console.log('Submitting loan application:', newLoanData);
+    navigate('/cashier/loans');
+  };
 
   return (
     <motion.div 
@@ -36,11 +45,11 @@ export const NewLoan: React.FC = () => {
       <div className="flex items-center gap-4">
         <button 
           onClick={() => navigate(-1)}
-          className="p-2 rounded-xl hover:bg-white dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all text-slate-600 dark:text-slate-400"
+          className="p-2 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 transition-all text-slate-600"
         >
           <ArrowLeftRight className="rotate-180" size={20} />
         </button>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">New Loan Application</h1>
+        <h1 className="text-2xl font-bold text-slate-900">New Loan Application</h1>
       </div>
 
       {/* Stepper */}
@@ -64,14 +73,14 @@ export const NewLoan: React.FC = () => {
       <Card className="p-8">
         {loanStep === 1 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Select Customer</h2>
+            <h2 className="text-xl font-bold text-slate-900">Select Customer</h2>
             <div className="space-y-4">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                 <input 
                   type="text" 
                   placeholder="Search existing customer..." 
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/20 dark:text-white text-slate-500"
+                  className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/20 text-slate-500"
                 />
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -82,15 +91,15 @@ export const NewLoan: React.FC = () => {
                       setNewLoanData({ ...newLoanData, customerId: cust.id, customerName: cust.name });
                       setLoanStep(2);
                     }}
-                    className="p-4 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-primary hover:bg-primary/5 text-left transition-all"
+                    className="p-4 rounded-2xl border border-slate-100 hover:border-primary hover:bg-primary/5 text-left transition-all"
                   >
-                    <p className="font-bold text-slate-900 dark:text-white">{cust.name}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{cust.phone}</p>
+                    <p className="font-bold text-slate-900">{cust.name}</p>
+                    <p className="text-xs text-slate-500">{cust.phone}</p>
                   </button>
                 ))}
               </div>
-              <div className="pt-4 border-t border-slate-50 dark:border-slate-800">
-                <button className="w-full py-4 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 font-medium hover:bg-slate-50 dark:hover:bg-slate-900 transition-all flex items-center justify-center gap-2">
+              <div className="pt-4 border-t border-slate-50">
+                <button className="w-full py-4 rounded-2xl border-2 border-dashed border-slate-200 text-slate-500 font-medium hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
                   <Plus size={20} />
                   Register New Customer
                 </button>
@@ -101,7 +110,7 @@ export const NewLoan: React.FC = () => {
 
         {loanStep === 2 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Loan Details</h2>
+            <h2 className="text-xl font-bold text-slate-900">Loan Details</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <Input 
                 label="Loan Amount ($)"
@@ -122,21 +131,21 @@ export const NewLoan: React.FC = () => {
                 ]}
               />
               <div className="space-y-2 sm:col-span-2">
-                <label className="text-sm font-medium text-slate-500 dark:text-slate-300">Interest Type</label>
+                <label className="text-sm font-medium text-slate-500">Interest Type</label>
                 <div className="grid grid-cols-2 gap-4">
                   <button 
                     onClick={() => setNewLoanData({...newLoanData, interestType: 'fixed'})}
-                    className={`p-4 rounded-xl border-2 transition-all text-left ${newLoanData.interestType === 'fixed' ? 'border-primary bg-primary/5' : 'border-slate-100 dark:border-slate-800'}`}
+                    className={`p-4 rounded-xl border-2 transition-all text-left ${newLoanData.interestType === 'fixed' ? 'border-primary bg-primary/5' : 'border-slate-100'}`}
                   >
-                    <p className="font-bold text-sm text-slate-500 dark:text-white">Fixed Rate</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Constant interest throughout</p>
+                    <p className="font-bold text-sm text-slate-500">Fixed Rate</p>
+                    <p className="text-xs text-slate-500">Constant interest throughout</p>
                   </button>
                   <button 
                     onClick={() => setNewLoanData({...newLoanData, interestType: 'reducing'})}
-                    className={`p-4 rounded-xl border-2 transition-all text-left ${newLoanData.interestType === 'reducing' ? 'border-primary bg-primary/5' : 'border-slate-100 dark:border-slate-800'}`}
+                    className={`p-4 rounded-xl border-2 transition-all text-left ${newLoanData.interestType === 'reducing' ? 'border-primary bg-primary/5' : 'border-slate-100'}`}
                   >
-                    <p className="font-bold text-sm text-slate-500 dark:text-white">Reducing Balance</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Interest on remaining principal</p>
+                    <p className="font-bold text-sm text-slate-500">Reducing Balance</p>
+                    <p className="text-xs text-slate-500">Interest on remaining principal</p>
                   </button>
                 </div>
               </div>
@@ -150,24 +159,24 @@ export const NewLoan: React.FC = () => {
 
         {loanStep === 3 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Upload Documents</h2>
+            <h2 className="text-xl font-bold text-slate-900">Upload Documents</h2>
             <div className="space-y-4">
-              <div className="p-8 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl flex flex-col items-center justify-center text-center gap-4 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all cursor-pointer">
+              <div className="p-8 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-center gap-4 hover:bg-slate-50 transition-all cursor-pointer">
                 <div className="p-4 bg-primary/10 rounded-full text-primary">
                   <Upload size={32} />
                 </div>
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Click to upload or drag and drop</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">NID, Proof of Income, or Bank Statements (PDF, JPG up to 10MB)</p>
+                  <p className="font-bold text-slate-900">Click to upload or drag and drop</p>
+                  <p className="text-sm text-slate-500">NID, Proof of Income, or Bank Statements (PDF, JPG up to 10MB)</p>
                 </div>
               </div>
               <div className="space-y-2">
-                <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800">
+                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
                   <div className="flex items-center gap-3">
                     <FileText className="text-primary" size={20} />
-                    <span className="text-sm font-medium dark:text-white">NID_Copy.pdf</span>
+                    <span className="text-sm font-medium">NID_Copy.pdf</span>
                   </div>
-                  <button className="text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 p-1 rounded-lg transition-all"><XCircle size={18} /></button>
+                  <button className="text-rose-500 hover:bg-rose-50 p-1 rounded-lg transition-all"><XCircle size={18} /></button>
                 </div>
               </div>
             </div>
@@ -180,40 +189,40 @@ export const NewLoan: React.FC = () => {
 
         {loanStep === 4 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
-            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Review & Submit</h2>
+            <h2 className="text-xl font-bold text-slate-900">Review & Submit</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Customer Info</h3>
                 <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Name</p>
-                  <p className="font-bold text-slate-900 dark:text-white">{newLoanData.customerName || 'Rahim Ahmed'}</p>
+                  <p className="text-sm text-slate-500">Name</p>
+                  <p className="font-bold text-slate-900">{newLoanData.customerName || 'Rahim Ahmed'}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Customer ID</p>
-                  <p className="font-bold text-slate-900 dark:text-white">{newLoanData.customerId || 'CUST-001'}</p>
+                  <p className="text-sm text-slate-500">Customer ID</p>
+                  <p className="font-bold text-slate-900">{newLoanData.customerId || 'CUST-001'}</p>
                 </div>
               </div>
               <div className="space-y-4">
                 <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Loan Details</h3>
                 <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Amount</p>
-                  <p className="font-bold text-slate-900 dark:text-white">৳{newLoanData.amount?.toLocaleString() || '50,000'}</p>
+                  <p className="text-sm text-slate-500">Amount</p>
+                  <p className="font-bold text-slate-900">৳{newLoanData.amount?.toLocaleString() || '50,000'}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">Duration</p>
-                  <p className="font-bold text-slate-900 dark:text-white">{newLoanData.duration || '12'} Months</p>
+                  <p className="text-sm text-slate-500">Duration</p>
+                  <p className="font-bold text-slate-900">{newLoanData.duration || '12'} Months</p>
                 </div>
               </div>
             </div>
-            <div className="p-4 bg-amber-50 dark:bg-amber-900/10 rounded-2xl border border-amber-100 dark:border-amber-900/30 flex gap-3">
+            <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex gap-3">
               <Clock className="text-amber-600 shrink-0" size={20} />
-              <p className="text-xs text-amber-700 dark:text-amber-400">This application will be sent to the administrator for approval. You will be notified once a decision is made.</p>
+              <p className="text-xs text-amber-700">This application will be sent to the administrator for approval. You will be notified once a decision is made.</p>
             </div>
             <div className="flex justify-between pt-6">
               <Button variant="ghost" onClick={() => setLoanStep(3)}>Back</Button>
               <Button 
                 onClick={() => handleApplyLoan()}
-                className="bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-200 dark:shadow-none"
+                className="bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-200"
               >
                 Submit Application
               </Button>

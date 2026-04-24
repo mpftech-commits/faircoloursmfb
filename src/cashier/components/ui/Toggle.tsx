@@ -9,21 +9,21 @@ export const Toggle: React.FC<{
   icon?: React.ReactNode;
   className?: string;
 }> = ({ enabled, onChange, label, description, icon }) => (
-  <div className="flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all">
+  <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-slate-200 transition-all">
     <div className="flex items-center gap-4">
       {icon && (
-        <div className="p-2 bg-white dark:bg-slate-800 rounded-lg text-slate-600 dark:text-slate-400 shadow-sm">
+        <div className="p-2 bg-white rounded-lg text-slate-600 shadow-sm">
           {icon}
         </div>
       )}
       <div>
-        {label && <p className="font-bold text-sm text-slate-900 dark:text-white">{label}</p>}
-        {description && <p className="text-xs text-slate-500 dark:text-slate-400">{description}</p>}
+        {label && <p className="font-bold text-sm text-slate-900">{label}</p>}
+        {description && <p className="text-xs text-slate-500">{description}</p>}
       </div>
     </div>
     <button 
       onClick={() => onChange(!enabled)}
-      className={`w-12 h-6 rounded-full transition-all relative ${enabled ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-700'}`}
+      className={`w-12 h-6 rounded-full transition-all relative ${enabled ? 'bg-primary' : 'bg-slate-300'}`}
     >
       <motion.div 
         animate={{ x: enabled ? 24 : 4 }}

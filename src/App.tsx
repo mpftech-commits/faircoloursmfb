@@ -13,15 +13,9 @@ import ChangePassword from "./pages/ChangePassword";
 import HelpSupport from "./pages/HelpSupport";
 import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
 import LoanApproval from "./pages/agentdashboard/LoanApproval";
-// import Cashier from "./pages/agentdashboard/Cashier";
 import NotFoundPage from "./NotFound";
 import Customers from "./pages/agentdashboard/Customers";
-// import CashierReport from "./pages/agentdashboard/CashierReport";
 import Cashiers from "./pages/Cashiers";
-import {
-  DashboardProvider,
-  useDashboard,
-} from "./cashier/context/DashboardContext";
 import { CashierDashboardLayout } from "./cashier/components/layout/CashierDashboardLayout";
 
 import {
@@ -33,7 +27,6 @@ import {
   Setting,
   Transactions,
 } from "./cashier/components/pages";
-import { TransactionDetailModal } from "./cashier/components/shared/TransactionDetailModal";
 import JoinRolePage from "./pages/JoinRolesPage";
 import CustomerForm from "./pages/CreateCustomer";
 import ReportsPage from "./pages/ReportPage";
@@ -83,23 +76,9 @@ function App() {
             <Route path="report" element={<ReportsPage />} />
           </Route>
         </Route>
-        </Routes>
-        <DashboardProvider>
-          <AppRoutes />
-        </DashboardProvider>
-      </Router>
-    </>
-  );
-}
 
-export default App;
-const AppRoutes = () => {
-  const { selectedTransaction, setSelectedTransaction, getTransactionDetails } =
-    useDashboard();
-
-  return (
-    <>
-      <Routes>
+        {/* CASHIER ROUTES */}
+ 
         <Route element={<CashierDashboardLayout />}>
           <Route path="/cashier-dashboard" element={<CashierDashboard />} />
           <Route path="/cashiers/customers" element={<Customer />} />
@@ -110,17 +89,47 @@ const AppRoutes = () => {
           <Route path="/cashiers/loans/new" element={<NewLoan />} />
           {/* <Route path="*" element={<Navigate to="/cashiers" replace />} /> */}
         </Route>
-      </Routes>
-      <TransactionDetailModal
-        isOpen={!!selectedTransaction}
-        onClose={() => setSelectedTransaction(null)}
-        transaction={selectedTransaction}
-        details={
-          selectedTransaction
-            ? getTransactionDetails(selectedTransaction)
-            : { customer: undefined, loan: undefined }
-        }
-      />
+      
+      {/* <TransactionDetailModal/> */}
+       
+        
+        </Routes>
+      </Router>
     </>
   );
-};
+}
+
+export default App;
+
+  // <AppRoutes />
+  // const AppRoutes = () => {
+  //   const { selectedTransaction, setSelectedTransaction, getTransactionDetails } =
+      
+
+  //   return (
+  //     <>
+  //       <Routes>
+  //         <Route element={<CashierDashboardLayout />}>
+  //           <Route path="/cashier-dashboard" element={<CashierDashboard />} />
+  //           <Route path="/cashiers/customers" element={<Customer />} />
+  //           <Route path="/cashiers/loans" element={<Loans />} />
+  //           <Route path="/cashiers/transactions" element={<Transactions />} />
+  //           <Route path="/cashiers/notifications" element={<Notifications />} />
+  //           <Route path="/cashiers/settings" element={<Setting />} />
+  //           <Route path="/cashiers/loans/new" element={<NewLoan />} />
+  //           {/* <Route path="*" element={<Navigate to="/cashiers" replace />} /> */}
+  //         </Route>
+  //       </Routes>
+  //       <TransactionDetailModal
+  //         isOpen={!!selectedTransaction}
+  //         onClose={() => setSelectedTransaction(null)}
+  //         transaction={selectedTransaction}
+  //         details={
+  //           selectedTransaction
+  //             ? getTransactionDetails(selectedTransaction)
+  //             : { customer: undefined, loan: undefined }
+  //         }
+  //       />
+  //     </>
+  //   );
+  // };
