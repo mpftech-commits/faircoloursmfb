@@ -9,7 +9,7 @@ export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { 
   
 }) => {
   const variants = {
-    primary: 'bg-primary text-slate-700 hover:bg-primary/90 shadow-sm shadow-primary/20',
+    primary: 'bg-primary text-white hover:bg-primary/90 shadow-sm shadow-primary/20',
     secondary: 'bg-slate-100 text-slate-500 hover:bg-slate-200',
     outline: 'bg-transparent border border-slate-200 text-slate-700 hover:bg-slate-50',
     ghost: 'bg-transparent text-slate-600 hover:bg-slate-100',

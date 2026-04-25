@@ -6,10 +6,12 @@ import {
   ArrowRight,
   Loader,
   AlertTriangle,
+  X
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { GetCashiers } from "../services/Axios";
 import AddCashier from "../modal/AddCashier";
+// import type { ReportFilter } from "../services/ReportService";
 
 type CashierStats = {
   deposits: number;
@@ -75,6 +77,9 @@ export default function CashierData() {
     fetchCustomers();
   }, [page]);
 
+  // download logic
+  
+
   const [selected, setSelected] = useState<Information | null>(null);
   const filteredCashiers = cashiers.filter((c) => {
     // filter by search (name + phone)
@@ -137,7 +142,7 @@ export default function CashierData() {
             </thead>
 
             <tbody>
-              {/* map response from backend api */}
+              {/* map response from backend api (c= cashier) */}
               {filteredCashiers.map((c) => (
                 <tr
                   key={c.publicId}
@@ -187,13 +192,21 @@ export default function CashierData() {
       {/* MODAL */}
       {selected && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center px-4 mt-10">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-lg overflow-auto max-h-[90vh]">
-            <h2 className="text-lg font-semibold mb-4 text-center mt-5">
-              cashier Information
-            </h2>
+          <div className="bg-white rounded-2xl p-6 w-full lg:max-w-2xl max-w-lg shadow-lg overflow-auto max-h-[80vh] mt-10 ">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold mb-4 text-center mt-5">
+                cashier Information
+              </h2>
+              <button
+                onClick={() => setSelected(null)}
+                className="cursor-pointer w-fit bg-blue-100 text-gray-600  rounded-full text-xs  p-2"
+              >
+               <X />
+              </button>
+            </div>
 
             <div className=" text-sm">
-              <div className="grid grid-cols-2 gap-3 mb-2">
+              <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-2">
                 <div className=" ">
                   <label className="block font-medium text-xs ">FullName</label>
                   <input
@@ -212,7 +225,7 @@ export default function CashierData() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3 mb-2">
+              <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-2">
                 <div className="">
                   <label className="block font-medium text-xs ">Phone</label>
                   <input
@@ -268,9 +281,13 @@ export default function CashierData() {
             <div className=" flex items-center gap-4 justify-end mt-2">
               <button
                 onClick={() => setSelected(null)}
-                className="cursor-pointer w-full bg-blue-800 text-white py-2 rounded-xl text-xs"
+                className="cursor-pointer w-full bg-blue-700 text-white py-2 rounded-xl text-xs py-2"
               >
                 Close
+              </button>
+              {/* DOWNLOAD REPORT BUTTON */}
+              <button className="bg-blue-700 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 disabled:opacity-50 w-full">
+                Download report
               </button>
             </div>
           </div>

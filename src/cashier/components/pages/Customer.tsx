@@ -37,10 +37,10 @@ export const Customer: React.FC = () => {
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 ">Customers</h1>
-          <p className="text-slate-500 ">Manage and view your client database.</p>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Customers</h1>
+          <p className="text-slate-500 dark:text-slate-400">Manage and view your client database.</p>
         </div>
-        <Button className="flex items-center justify-center gap-2 bg-blue-700 cursor-pointer">
+        <Button className="flex items-center justify-center gap-2">
           <Plus size={20} />
           Add New Customer
         </Button>
@@ -53,7 +53,7 @@ export const Customer: React.FC = () => {
             <input 
               type="text" 
               placeholder="Search by name or phone..." 
-              className="w-full pl-10 pr-4 py-2 bg-slate-50  border border-slate-200  rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-700/20 text-slate-700"
+              className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 dark:text-white text-slate-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -71,7 +71,7 @@ export const Customer: React.FC = () => {
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-slate-50/50 text-slate-700 text-xs uppercase tracking-wider">
+            <thead className="bg-slate-50/50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
               <tr>
                 <th className="px-6 py-4 font-medium">Name</th>
                 <th className="px-6 py-4 font-medium">Contact</th>
@@ -82,39 +82,39 @@ export const Customer: React.FC = () => {
             </thead>
             <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
               {filteredCustomers.map(cust => (
-                <tr key={cust.id} className=" transition-all hover:bg-slate-100">
+                <tr key={cust.id} className=" dark:hover:bg-slate-800/50 transition-all hover:bg-slate-100">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-slate-900/10 flex items-center justify-center text-sm font-bold text-primary">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
                         {cust.name.split(' ').map(n => n[0]).join('')}
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-slate-800 ">{cust.name}</p>
-                        <p className="text-xs text-slate-600 ">{cust.id}</p>
+                        <p className="text-sm font-bold text-slate-500 dark:text-white">{cust.name}</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500">{cust.id}</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="text-sm text-slate-800 ">{cust.phone}</p>
-                    <p className="text-xs text-slate-800 ">{cust.email}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-300">{cust.phone}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-500">{cust.email}</p>
                   </td>
                   <td className="px-6 py-4">
                     <StatusBadge status={cust.status} />
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-800 ">{cust.joinedDate}</td>
+                  <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">{cust.joinedDate}</td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <button 
                         onClick={() => handleApplyLoan(cust)}
-                        className="p-2 rounded-lg hover:bg-primary/10 text-blue-700 cursor-pointer transition-all" 
+                        className="p-2 rounded-lg hover:bg-primary/10 text-primary transition-all" 
                         title="Apply for Loan"
                       >
                         <Plus size={18} />
                       </button>
-                      <button className="p-2 rounded-lg cursor-pointer hover:bg-slate-100  text-slate-500 transition-all">
+                      <button className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-all">
                         <Eye size={18} />
                       </button>
-                      <button className="p-2 rounded-lg  cursor-pointer hover:bg-slate-100  text-slate-400 transition-all">
+                      <button className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 transition-all">
                         <MoreVertical size={18} />
                       </button>
                     </div>

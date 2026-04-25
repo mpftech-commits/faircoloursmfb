@@ -41,7 +41,7 @@ export const Loans: React.FC = () => {
         </div>
         <Button 
           onClick={() => handleApplyLoan()}
-          className="flex items-center justify-center gap-2 bg-blue-700 cursor-pointer"
+          className="flex items-center justify-center gap-2"
         >
           <Plus size={20} />
           New Application
@@ -93,7 +93,7 @@ export const Loans: React.FC = () => {
                       <span className="text-sm font-medium text-slate-900">{loan.customerName}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-500 font-medium">₦{loan.amount.toLocaleString()}</td>
+                  <td className="px-6 py-4 text-sm text-slate-500 font-medium">${loan.amount.toLocaleString()}</td>
                   <td className="px-6 py-4">
                     <StatusBadge status={loan.status} />
                   </td>

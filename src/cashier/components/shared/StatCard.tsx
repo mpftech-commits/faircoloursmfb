@@ -11,7 +11,7 @@ export const StatCard = ({ title, value, icon: Icon, trend }: { title: string, v
         </p>
       )}
     </div>
-    <div className="p-3 bg-blue-50 rounded-xl text-blue-700">
+    <div className="p-3 bg-slate-50 rounded-xl text-primary">
       <Icon size={20} />
     </div>
   </div>
