@@ -5,12 +5,13 @@ import { useState } from "react";
 
 export default function DashboardLayout() {
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col overflow-hidden">
 
       {/* Sidebar */}
-        <Navigation collapsed={collapsed} setCollapsed={setCollapsed} />
+        <Navigation collapsed={collapsed} setCollapsed={setCollapsed} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
 
       {/* Main Content */}
       <div
@@ -19,7 +20,7 @@ export default function DashboardLayout() {
       >
         
           <div className="">
-            <Navbar />
+            <Navbar collapsed={collapsed} mobileOpen={mobileOpen} />
           </div>
          
        

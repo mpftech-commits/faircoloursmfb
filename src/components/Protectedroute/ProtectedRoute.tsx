@@ -4,8 +4,9 @@ const isTokenExpired = (token: string | null) => {
   if (!token) return true;
 
   try {
-    const [, payload] = token.split(".");
-    if (!payload) return false;
+    const parts = token.split(".");
+    const payload = parts[1];
+    if (!payload) return true;
 
     const decoded = JSON.parse(
       decodeURIComponent(
@@ -19,7 +20,7 @@ const isTokenExpired = (token: string | null) => {
     if (!decoded.exp) return false;
     return Date.now() >= decoded.exp * 1000;
   } catch {
-    return false;
+    return true;
   }
 };
 

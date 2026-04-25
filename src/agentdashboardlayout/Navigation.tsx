@@ -4,8 +4,7 @@ import { useState } from "react";
 
 import { LogoutUser } from "../services/Axios";
 
-export default function Navigation({ collapsed, setCollapsed }: any)  {
-  const [mobileOpen, setMobileOpen] = useState(false);
+export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMobileOpen }: any)  {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
