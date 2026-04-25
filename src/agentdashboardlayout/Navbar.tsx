@@ -11,7 +11,7 @@ if (!user) {
 
   return (
     <div className={`w-full bg-white border-b border-gray-200 top-0 left-0 right-0 z-10 `}>
-      <div className={`fixed z-50 w-full mx-auto flex items-center bg-white justify-between px-4 py-10 transition-all duration-300  ${
+      <div className={`fixed z-50 w-full mx-auto flex items-center bg-white justify-between px-4 py-10 md:py-4 transition-all duration-300  ${
         mobileOpen 
           ? "md:max-w-full" 
           : collapsed 

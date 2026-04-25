@@ -2,6 +2,7 @@ import { X, Eye, EyeOff } from "lucide-react";
 import "../modal/AddCashier.css";
 import { useState } from "react";
 import { CreateCashier } from "../services/Axios";
+import { motion, AnimatePresence } from "framer-motion";
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -11,9 +12,11 @@ export default function AddCashier({ isOpen, onClose }: Props) {
   const [showPassword, setShowPassword] = useState<boolean | null>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [name, setName] = useState<string>("");
+  const [fullName, setfullName] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
   const [loading, setLoading] = useState<boolean | undefined>(false);
   const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<boolean>(false);
 
   if (!isOpen) return null;
 
@@ -27,15 +30,18 @@ export default function AddCashier({ isOpen, onClose }: Props) {
 
     try {
       const response = await CreateCashier({
-        name,
+        fullName,
         email,
         password,
+        phone,
       });
       console.log(response, "user created successfully");
       setLoading(false);
+      setSuccess(true);
       setEmail("");
       setPassword("");
-      setName("");
+      setfullName("");
+      setPhone("");
     } catch (error) {
       console.log("error creating cashier.:", error);
       setLoading(false);
@@ -74,9 +80,9 @@ export default function AddCashier({ isOpen, onClose }: Props) {
             <label>Full-Name</label>
             <div className="input-box">
               <input
-                value={name}
+                value={fullName}
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setfullName(e.target.value);
                   setError("");
                 }}
                 type="text"
@@ -93,6 +99,18 @@ export default function AddCashier({ isOpen, onClose }: Props) {
                 }}
                 type="email"
                 placeholder=" enter your Email"
+              />
+            </div>
+            <label>Phone Number</label>
+            <div className="input-box">
+              <input
+                value={phone}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  setError("");
+                }}
+                type="tel"
+                placeholder=" enter your Phone Number"
               />
             </div>
             <label>password</label>
@@ -125,6 +143,38 @@ export default function AddCashier({ isOpen, onClose }: Props) {
           </form>
         </div>
       </div>
+      {/* Success Modal */}
+      <AnimatePresence>
+        {success && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white p-6 rounded-xl text-center"
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+            >
+              <h2 className="text-lg font-semibold text-green-800">Success</h2>
+              <p className="mt-2 text-gray-600">
+                Cashier created successfully!
+              </p>
+              <button
+                onClick={() => {
+                  setSuccess(false);
+                  handleClose();
+                }}
+                className="mt-4 bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-900 transition-colors"
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

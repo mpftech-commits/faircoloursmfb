@@ -217,9 +217,10 @@ export { CreateCustomer };
 
 // create Cashier
 const CreateCashier = async (payload: {
-  name: string;
+  fullName: string;
   email: string;
   password: string;
+  phone: string;
 }) => {
   try {
     const response = await api.post(`/users/cashiers`, payload);
