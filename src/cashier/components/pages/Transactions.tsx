@@ -1,15 +1,15 @@
-import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Download, 
-  Search, 
-  Eye 
-} from 'lucide-react';
-import { StatusBadge, Button, Card } from '../ui';
-import { mockTransactions } from '../../mockData';
+import React, { useState, useMemo } from "react";
+import { motion } from "framer-motion";
+import { Download, Search, Eye } from "lucide-react";
+import { StatusBadge, Button, Card } from "../ui";
+import { TransactionDetailModal } from "../shared/TransactionDetailModal";
+import { mockTransactions, mockCustomers, mockLoans } from "../../mockData";
+import type { Transaction } from "../../types";
 
 export const Transactions: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
 
   const filteredTransactions = useMemo(() => {
     return mockTransactions.filter(
@@ -18,6 +18,12 @@ export const Transactions: React.FC = () => {
         txn.id.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [searchQuery]);
+
+  const getTransactionDetails = (transaction: Transaction) => {
+    const customer = mockCustomers.find((c) => c.id === transaction.customerId);
+    const loan = mockLoans.find((l) => l.id === transaction.loanId);
+    return { customer, loan };
+  };
 
   const exportToCSV = (data: any[], filename: string) => {
     if (data.length === 0) return;
@@ -40,7 +46,7 @@ export const Transactions: React.FC = () => {
     document.body.removeChild(link);
   };
   return (
-    <motion.div 
+    <motion.div
       key="transactions"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -50,11 +56,13 @@ export const Transactions: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Transactions</h1>
-          <p className="text-slate-500">History of disbursements, repayments, and fees.</p>
+          <p className="text-slate-500">
+            History of disbursements, repayments, and fees.
+          </p>
         </div>
-        <Button 
+        <Button
           variant="outline"
-          onClick={() => exportToCSV(filteredTransactions, 'transactions')}
+          onClick={() => exportToCSV(filteredTransactions, "transactions")}
           className="flex items-center justify-center gap-2"
         >
           <Download size={20} />
@@ -65,10 +73,13 @@ export const Transactions: React.FC = () => {
       <Card className="overflow-hidden">
         <div className="p-4 border-b border-slate-50 flex flex-col sm:flex-row gap-4 items-center justify-between">
           <div className="relative w-full sm:max-w-xs">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-            <input 
-              type="text" 
-              placeholder="Search transactions..." 
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+              size={16}
+            />
+            <input
+              type="text"
+              placeholder="Search transactions..."
               className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 text-slate-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -89,37 +100,57 @@ export const Transactions: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {filteredTransactions.map(tx => (
+              {filteredTransactions.map((tx) => (
                 <tr key={tx.id} className="hover:bg-slate-50/50 transition-all">
-                  <td className="px-6 py-4 text-sm font-bold text-slate-900">{tx.id}</td>
+                  <td className="px-6 py-4 text-sm font-bold text-slate-900">
+                    {tx.id}
+                  </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-600">
-                        {tx.customerName.split(' ').map(n => n[0]).join('')}
+                        {tx.customerName
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
                       </div>
-                      <span className="text-sm font-medium text-slate-900">{tx.customerName}</span>
+                      <span className="text-sm font-medium text-slate-900">
+                        {tx.customerName}
+                      </span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`text-xs font-bold uppercase tracking-wider ${
-                      tx.type === 'disbursement' ? 'text-primary' : 
-                      tx.type === 'repayment' ? 'text-emerald-600' : 'text-slate-500'
-                    }`}>
+                    <span
+                      className={`text-xs font-bold uppercase tracking-wider ${
+                        tx.type === "disbursement"
+                          ? "text-primary"
+                          : tx.type === "repayment"
+                            ? "text-emerald-600"
+                            : "text-slate-500"
+                      }`}
+                    >
                       {tx.type}
                     </span>
                   </td>
-                  <td className={`px-6 py-4 text-sm font-bold ${
-                    tx.type === 'repayment' ? 'text-emerald-600' : 'text-slate-900'
-                  }`}>
-                    {tx.type === 'repayment' ? '+' : '-'}${tx.amount.toLocaleString()}
+                  <td
+                    className={`px-6 py-4 text-sm font-bold ${
+                      tx.type === "repayment"
+                        ? "text-emerald-600"
+                        : "text-slate-900"
+                    }`}
+                  >
+                    {tx.type === "repayment" ? "+" : "-"}$
+                    {tx.amount.toLocaleString()}
                   </td>
                   <td className="px-6 py-4">
                     <StatusBadge status={tx.status} />
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-500">{tx.date}</td>
+                  <td className="px-6 py-4 text-sm text-slate-500">
+                    {tx.date}
+                  </td>
                   <td className="px-6 py-4 text-right">
-                    <button 
+                    <button
                       className="p-2 rounded-lg hover:bg-slate-100 text-slate-500 transition-all"
+                      onClick={() => setSelectedTransaction(tx)}
                     >
                       <Eye size={18} />
                     </button>
@@ -130,6 +161,17 @@ export const Transactions: React.FC = () => {
           </table>
         </div>
       </Card>
+
+      <TransactionDetailModal
+        isOpen={!!selectedTransaction}
+        onClose={() => setSelectedTransaction(null)}
+        transaction={selectedTransaction}
+        details={
+          selectedTransaction
+            ? getTransactionDetails(selectedTransaction)
+            : { customer: undefined, loan: undefined }
+        }
+      />
     </motion.div>
   );
 };
