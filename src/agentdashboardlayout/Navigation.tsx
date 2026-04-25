@@ -1,6 +1,6 @@
 import { Home, User, Settings, Menu, LogOut, Currency, ReceiptIcon, X } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
+// import { useState } from "react";
 
 import { LogoutUser } from "../services/Axios";
 
