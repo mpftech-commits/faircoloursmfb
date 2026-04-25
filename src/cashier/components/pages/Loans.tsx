@@ -41,7 +41,7 @@ export const Loans: React.FC = () => {
         </div>
         <Button 
           onClick={() => handleApplyLoan()}
-          className="flex items-center justify-center gap-2"
+          className="flex items-center justify-center gap-2 bg-blue-700 text-white"
         >
           <Plus size={20} />
           New Application
@@ -51,7 +51,7 @@ export const Loans: React.FC = () => {
       <Card className="overflow-hidden">
         <div className="p-4 border-b border-slate-50 flex flex-col sm:flex-row gap-4 items-center justify-between">
           <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
-            <Button variant="primary" size="sm">All</Button>
+            <Button variant="primary" size="sm" className='text-gray-600'>All</Button>
             <Button variant="ghost" size="sm" className="text-slate-600">Pending</Button>
             <Button variant="ghost" size="sm" className="text-slate-600">Approved</Button>
             <Button variant="ghost" size="sm" className="text-slate-600">Rejected</Button>

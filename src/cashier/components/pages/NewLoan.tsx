@@ -58,7 +58,7 @@ export const NewLoan: React.FC = () => {
         {[1, 2, 3, 4].map(step => (
           <div key={step} className="relative z-10 flex flex-col items-center gap-2">
             <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
-              loanStep === step ? 'bg-primary text-white ring-4 ring-primary/20' : 
+              loanStep === step ? 'bg-primary text-slate-500 ring-4 ring-primary/20' : 
               loanStep > step ? 'bg-emerald-500 text-white' : 'bg-white border-2 border-slate-200 text-slate-400'
             }`}>
               {loanStep > step ? <Check size={20} /> : step}

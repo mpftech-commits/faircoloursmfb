@@ -51,8 +51,8 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-6">
             <div>
-              <h5 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <User size={16} className="text-primary" />
+              <h5 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                <User size={16} className="text-white" />
                 Customer Information
               </h5>
               <div className="p-4 bg-white border border-slate-100 rounded-2xl space-y-3">
@@ -84,8 +84,8 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
             </div>
 
             <div>
-              <h5 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <ArrowLeftRight size={16} className="text-primary" />
+              <h5 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                <ArrowLeftRight size={16} className="text-white" />
                 Transaction Summary
               </h5>
               <div className="p-4 bg-white border border-slate-100 rounded-2xl space-y-3">
@@ -97,7 +97,7 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                 </div>
                 <div className="flex justify-between">
                   <span className="text-xs text-slate-400">Amount</span>
-                  <span className="text-lg font-black text-primary">৳{transaction.amount.toLocaleString()}</span>
+                  <span className="text-lg font-black text-primary">₦{transaction.amount.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-xs text-slate-400">Method</span>
@@ -109,7 +109,7 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
 
           <div className="space-y-6">
             <div>
-              <h5 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
+              <h5 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
                 <FileText size={16} className="text-primary" />
                 Associated Loan
               </h5>
@@ -121,7 +121,7 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                   </div>
                   <div className="flex justify-between">
                     <span className="text-xs text-slate-400">Total Amount</span>
-                    <span className="text-sm font-bold">৳{loan.amount.toLocaleString()}</span>
+                    <span className="text-sm font-bold">₦{loan.amount.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-xs text-slate-400">Status</span>

@@ -23,7 +23,7 @@ export const Toggle: React.FC<{
     </div>
     <button 
       onClick={() => onChange(!enabled)}
-      className={`w-12 h-6 rounded-full transition-all relative ${enabled ? 'bg-primary' : 'bg-slate-300'}`}
+      className={`w-12 h-6 rounded-full transition-all relative ${enabled ? 'bg-blue-700' : 'bg-slate-300'}`}
     >
       <motion.div 
         animate={{ x: enabled ? 24 : 4 }}
