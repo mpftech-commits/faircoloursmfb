@@ -191,7 +191,7 @@ export default function CashierData() {
 
       {/* MODAL */}
       {selected && (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center px-4 mt-10">
+        <div className="fixed inset-0 bg-black/30 flex items-center justify-center px-4  z-50">
           <div className="bg-white rounded-2xl p-6 w-full lg:max-w-2xl max-w-lg shadow-lg overflow-auto max-h-[80vh] mt-10 ">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold mb-4 text-center mt-5">
