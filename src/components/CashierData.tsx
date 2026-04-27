@@ -1,7 +1,7 @@
 import {
   Eye,
   // Edit,
-  // Trash,
+  Trash,
   ArrowLeft,
   ArrowRight,
   Loader,
@@ -9,8 +9,9 @@ import {
   X
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { GetCashiers } from "../services/Axios";
+import api, { GetCashiers } from "../services/Axios";
 import AddCashier from "../modal/AddCashier";
+import {motion, AnimatePresence} from "framer-motion";
 // import type { ReportFilter } from "../services/ReportService";
 
 type CashierStats = {
@@ -42,13 +43,26 @@ export default function CashierData() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
 
+
+   const [feedback, setFeedback] = useState<{
+      show: boolean;
+      type: "success" | "error";
+      message: string;
+    }>({
+      show: false,
+      type: "success",
+      message: "",
+    });
+
   useEffect(() => {
     const fetchCustomers = async () => {
       setLoading(true);
       setError(null);
       try {
+        // call api to fetch cashiers
         const response = await GetCashiers(page);
         console.log(response, "cashiers fetched successfully");
+        // handle different response structures
         const cashierData: any =
           response?.data ??
           response?.data?.data ??
@@ -56,6 +70,7 @@ export default function CashierData() {
           response?.cashiers ??
           response ??
           [];
+          // normalize data to ensure we have stats for each cashier
         const parsedCashiers = Array.isArray(cashierData)
           ? cashierData.map((item: any) => {
               const cashier = item?.cashier ?? item;
@@ -77,7 +92,37 @@ export default function CashierData() {
     fetchCustomers();
   }, [page]);
 
-  // download logic
+  // delete logic
+        const HandleDeleteCashier = async (publicId: string) => {
+          try {
+            // call api to delete cashier
+            await api.delete(`/users/cashiers/${publicId}`);
+            // remove cashier from the ui
+            setCashiers((prev) =>
+              prev.filter((cashier) => cashier.publicId !== publicId),
+            );
+            // show success feedback
+            setFeedback({
+              show: true,
+              type: "success",
+              message: "Customer deleted successfully",
+            });
+          } catch (err: any) {
+            console.error("Error deleting cashier:", err);
+            // show error feedback
+            setFeedback({
+              show: true,
+              type: "error",
+              message:
+                err?.response?.data?.message || "Failed to delete customer",
+            });
+          }
+          //  auto hide feedback after 3 seconds
+          setTimeout(() => {
+            setFeedback((prev) => ({ ...prev, show: false }));
+          }, 3000);
+        };
+
   
 
   const [selected, setSelected] = useState<Information | null>(null);
@@ -154,14 +199,18 @@ export default function CashierData() {
                   <td className="px-6 py-4 text-gray-500">{c.phone}</td>
 
                   {/* ACTION BUTTON */}
-                  <td className=" py-4 flex justify-center px-3 ">
+                  <td className=" py-4 gap-4 flex justify-center px-3 ">
                     <button
                       onClick={() => setSelected(c)}
                       className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
                     >
                       <Eye size={18} className="text-blue-500 text-center" />
-                      {/* <Edit size={18} className="text-blue-500"/> */}
-                      {/* <Trash size={18} className="text-red-500" /> */}
+                    </button>
+                    <button
+                      onClick={() => HandleDeleteCashier(c.publicId)}
+                      className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
+                    >
+                      <Trash size={18} className="text-red-500" />
                     </button>
                   </td>
                 </tr>
@@ -293,6 +342,37 @@ export default function CashierData() {
           </div>
         </div>
       )}
+
+{/* FEEDBACK TOADT MODAL */}
+       <AnimatePresence>
+        {feedback.show && (
+          <motion.div
+            initial={{ y: "100%", opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: "100%", opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white shadow-xl border rounded-xl px-6 py-4 flex items-center gap-3 z-50"
+          >
+            {feedback.type === "success" ? (
+              <span className="text-green-600 font-semibold">
+                ✅ {feedback.message}
+              </span>
+            ) : (
+              <span className="text-red-600 font-semibold flex items-center gap-2">
+                <AlertTriangle size={18} />
+                {feedback.message}
+              </span>
+            )}
+
+            <button
+              onClick={() => setFeedback((prev) => ({ ...prev, show: false }))}
+              className="ml-3 text-gray-500"
+            >
+              ✕
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -102,7 +102,7 @@ export default function CustomerDetail({ customer, onClose }: Props) {
           </h2>{" "}
           <button
             onClick={onClose}
-            className=" fixed right-27 text-sm text-blue-600 bg-blue-100 rounded-full p-1 font-bold"
+            className=" fixed md:right-27 right-10 text-sm text-blue-600 bg-blue-100 rounded-full p-1 font-bold"
           >
             <X size={18} />
           </button>{" "}
@@ -164,12 +164,12 @@ export default function CustomerDetail({ customer, onClose }: Props) {
             value={customer.assignedTo}
           />
         </Section>
-        <Section title="Assigned To">
+        {/* <Section title="Assigned To">
           <Field
             label="Assigned to Cashier"
             value={customer.assignedTo}
           />
-        </Section>
+        </Section> */}
         <div className="flex gap-5 items-center justify-end">
           {customer.isDeactivated ? (
             <button className="bg-red-200 text-red-700 px-4 py-2 rounded-lg cursor-pointer">
