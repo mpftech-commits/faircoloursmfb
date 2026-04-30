@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -13,21 +13,52 @@ import {
 import { StatCard } from '../shared/StatCard';
 import { StatusBadge, Button, Card } from '../ui';
 import { mockLoans, mockActivityLogs } from '../../mockData';
+import { GetTransaction } from '../../../services/Axios';
+
+type Transactions = {
+  publicId: string;
+  _id: string;
+  name: string;
+  phone: string;
+  dateCreated: string;
+  amount: string;
+  status: string;
+}
 
 export const CashierDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [searchQuery] = useState('');
+  const [searchQuery] = useState("");
+  const [transactions, setTransactions] = useState<Transactions[]>([]);
 
-  const filteredLoans = useMemo(() => {
-    return mockLoans.filter(
-      (loan) =>
-        loan.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        loan.id.toLowerCase().includes(searchQuery.toLowerCase()),
+  // Transaction Logic
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const res = await GetTransaction(1, 10);
+        console.log("Fetched transactions:", res);
+        setTransactions(res?.data ?? []);
+      } catch (error) {
+        console.error("Failed to fetch transactions:", error);
+      }
+    };
+    fetchTransactions();
+  }, []);
+
+  const filteredTransactions = useMemo(() => {
+    return transactions?.filter(
+      (transaction) =>
+        transaction.name
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()) ||
+        transaction._id
+          .toString()
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase()),
     );
-  }, [searchQuery]);
+  }, [transactions, searchQuery]);
 
   const handleApplyLoan = () => {
-    navigate('/cashiers/loans/new');
+    navigate("/cashiers/loans/new");
   };
 
   const exportToCSV = (data: any[], filename: string) => {
@@ -71,7 +102,7 @@ export const CashierDashboard: React.FC = () => {
         <div className="flex items-center gap-3 text-gray-900">
           <Button
             variant="outline"
-            onClick={() => exportToCSV(filteredLoans, "loan_report")}
+            onClick={() => exportToCSV(filteredTransactions, "loan_report")}
             className="flex items-center gap-2 "
           >
             <Download size={16} />
@@ -123,55 +154,55 @@ export const CashierDashboard: React.FC = () => {
                   <th className="px-6 py-4 font-medium">Amount</th>
                   <th className="px-6 py-4 font-medium">Status</th>
                   <th className="px-6 py-4 font-medium">Date</th>
-                  <th className="px-6 py-4 font-medium"></th>
+                  <th className="px-6 py-4 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50 ">
-                {filteredLoans.slice(0, 5).map((loan) => {
-                  return (
-                    <tr
-                      key={loan.id}
-                      className=" text-slate-500 transition-all group  hover:bg-slate-100"
-                    >
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-slate-100  flex items-center justify-center text-xs font-bold text-slate-600 ">
-                            {loan.customerName
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")}
+                {filteredTransactions
+                  .slice(0, 5)
+                  .map((transaction: Transactions) => {
+                    return (
+                      <tr
+                        key={transaction._id}
+                        className=" text-slate-500 transition-all group  hover:bg-slate-100"
+                      >
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-slate-100  flex items-center justify-center text-xs font-bold text-slate-600 ">
+                              {transaction.name
+                                .split(" ")
+                                .map((n: string) => n[0])
+                                .join("")}
+                            </div>
+                            <span className="text-sm font-medium text-slate-900 ">
+                              {transaction.name}
+                            </span>
                           </div>
-                          <span className="text-sm font-medium text-slate-900 ">
-                            {loan.customerName}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-sm text-slate-500 ">
-                        ${loan.amount.toLocaleString()}
-                      </td>
-                      <td className="px-6 py-4">
-                        <StatusBadge status={loan.status} />
-                      </td>
-                      <td className="px-6 py-4 text-sm text-slate-500 ">
-                        {loan.dateSubmitted}
-                      </td>
-                      <td className="px-6 py-4 text-right">
-                        <button className="p-2 rounded-lg hover:bg-slate-100 text-slate-500  group-hover:opacity-100 transition-all">
-                          <Eye size={16} />
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-slate-500 ">
+                          ₦{transaction.amount.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4">
+                          <StatusBadge status={transaction.status} />
+                        </td>
+                        <td className="px-6 py-4 text-sm text-slate-500 ">
+                          {transaction.dateCreated}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          <button className="p-2 rounded-lg hover:bg-slate-100 text-slate-500  group-hover:opacity-100 transition-all">
+                            <Eye size={16} />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>
         </Card>
 
         <Card className="p-6">
-          <h3 className="font-bold text-slate-900  mb-6">
-            Quick Actions
-          </h3>
+          <h3 className="font-bold text-slate-900  mb-6">Quick Actions</h3>
           <div className="space-y-3">
             <button
               onClick={() => handleApplyLoan()}
@@ -181,38 +212,33 @@ export const CashierDashboard: React.FC = () => {
                 <Plus size={20} />
               </div>
               <div className="text-left">
-                <p className="font-bold text-slate-900 ">
-                  Apply for Loan
-                </p>
+                <p className="font-bold text-slate-900 ">Apply for Loan</p>
                 <p className="text-xs text-slate-500 ">
                   Submit a new application
                 </p>
               </div>
             </button>
             <Link
-              to="/customers"
+              to="/cashiers/create-customers"
               className="w-full flex items-center gap-4 p-4 rounded-2xl border border-slate-100 hover:border-primary/30 hover:bg-primary/5 transition-all group"
             >
               <div className="p-3 bg-slate-100  rounded-xl text-slate-600  group-hover:bg-primary  transition-all">
                 <Users size={20} />
               </div>
-              <div className="text-left">
-                <p className="font-bold text-slate-900 ">
-                  Add Customer
-                </p>
-                <p className="text-xs text-slate-500 ">
-                  Register a new client
-                </p>
-              </div>
+             
+                <div className="text-left">
+                  <p className="font-bold text-slate-900 ">Add Customer</p>
+                  <p className="text-xs text-slate-500 ">
+                    Register a new client
+                  </p>
+                </div>
             </Link>
             <button className="w-full flex items-center gap-4 p-4 rounded-2xl border border-slate-100  hover:border-primary/30 hover:bg-primary/5 transition-all group">
               <div className="p-3 bg-slate-100 rounded-xl text-slate-600  group-hover:bg-primary transition-all">
                 <Download size={20} />
               </div>
               <div className="text-left">
-                <p className="font-bold text-slate-900 ">
-                  Download Forms
-                </p>
+                <p className="font-bold text-slate-900 ">Download Forms</p>
                 <p className="text-xs text-slate-500  ">
                   Get offline documents
                 </p>
@@ -255,4 +281,4 @@ export const CashierDashboard: React.FC = () => {
       </div>
     </motion.div>
   );
-};
+};;

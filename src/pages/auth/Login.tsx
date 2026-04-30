@@ -3,15 +3,15 @@ import LoginForm from "../../components/LoginForm";
 
 export default function Login() {
   return (
-    <div className="min-h-screen bg-[#3e3e3e] flex items-center justify-center ">
-      <div className=" w-full grid md:grid-cols-2 grid-cols-1 rounded-xl  bg-white shadow-2xl relative">
+    <div className="min-h-screen bg-[#ffffff] flex items-center justify-center ">
+      <div className=" w-full grid md:grid-cols-2 grid-cols-1 rounded-xl  bg-white  relative">
         {/* LEFT IMAGE */}
         <div className="">
           <LeftSection />
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="   ">
+        <div className="  ">
           <LoginForm />
         </div>
       </div>

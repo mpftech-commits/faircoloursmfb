@@ -1,8 +1,8 @@
 import Welcome from "./pages/Welcome";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Signup from "./pages/auth/Signup";
+// import Signup from "./pages/auth/Signup";
 import ScrollToTop from "./components/ScrollToTop";
-import VerifyPhone from "./pages/VerifyPhone";
+// import VerifyPhone from "./pages/VerifyPhone";
 import Login from "./pages/auth/Login";
 import DashboardLayout from "./agentdashboardlayout/DashboardLayout";
 import Dashboard from "./pages/agentdashboard/Dashboard";
@@ -22,14 +22,14 @@ import {
   CashierDashboard,
   Customer,
   Loans,
-  NewLoan,
   Notifications,
   Setting,
   Transactions,
 } from "./cashier/components/pages";
-import JoinRolePage from "./pages/JoinRolesPage";
+// import JoinRolePage from "./pages/JoinRolesPage";
 import CustomerForm from "./pages/CreateCustomer";
 import ReportsPage from "./pages/ReportPage";
+import CreateCustomerForm from "./cashier/components/pages/CashierCreateCustomer";
 
 function App() {
   return (
@@ -37,62 +37,57 @@ function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<JoinRolePage />} />
-          <Route path="admin/welcome" element={<Welcome />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/verify-phone" element={<VerifyPhone />} />
+          {/* <Route path="/" element={<JoinRolePage />} /> */}
+          <Route path="/" element={<Welcome />} />
+          {/* <Route path="/signup" element={<Signup />} /> */}
+          {/* <Route path="/verify-phone" element={<VerifyPhone />} /> */}
           <Route path="/login" element={<Login />} />
-
+          <Route path="settings/help-support" element={<HelpSupport />} />
+          <Route path="404" element={<NotFoundPage />} />
           {/* Protected routes */}
           <Route element={<ProtectedRoute />}>
-         
-       
-          <Route element={<DashboardLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            {/* loan */}
-            <Route path="loan-approval" element={<LoanApproval />} />
-            {/* <Route path="cashier-approval" element={<Cashier />} /> */}
+            <Route element={<DashboardLayout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              {/* loan */}
+              <Route path="loan-approval" element={<LoanApproval />} />
 
-            {/* settings */}
-            <Route path="settings" element={<Settings />} />
-            <Route
-              path="settings/personal-info"
-              element={<PersonalInformation />}
-            />
-            <Route
-              path="settings/business-info"
-              element={<BusinessInformation />}
-            />
-            <Route
-              path="settings/change-password"
-              element={<ChangePassword />}
-            />
-            <Route path="settings/help-support" element={<HelpSupport />} />
-            <Route path="404" element={<NotFoundPage />} />
-            <Route path="customer" element={<Customers />} />
-            <Route path="create-customer" element={<CustomerForm />} />
-            {/* <Route path="report" element={<CashierReport />} /> */}
-            <Route path="cashier" element={<Cashiers />} />
-            <Route path="report" element={<ReportsPage />} />
+              {/* settings */}
+              <Route path="settings" element={<Settings />} />
+              <Route
+                path="settings/personal-info"
+                element={<PersonalInformation />}
+              />
+              <Route
+                path="settings/business-info"
+                element={<BusinessInformation />}
+              />
+              <Route
+                path="settings/change-password"
+                element={<ChangePassword />}
+              />
+
+              <Route path="customer" element={<Customers />} />
+              <Route path="create-customer" element={<CustomerForm />} />
+              <Route path="cashier" element={<Cashiers />} />
+              <Route path="report" element={<ReportsPage />} />
+            </Route>
+            {/* CASHIER ROUTES */}
+            <Route element={<CashierDashboardLayout />}>
+              <Route path="/cashier-dashboard" element={<CashierDashboard />} />
+              <Route path="/cashiers/customers" element={<Customer />} />
+              <Route
+                path="/cashiers/create-customers"
+                element={<CreateCustomerForm />}
+              />
+              <Route path="/cashiers/loans" element={<Loans />} />
+              <Route path="/cashiers/transactions" element={<Transactions />} />
+              <Route
+                path="/cashiers/notifications"
+                element={<Notifications />}
+              />
+              <Route path="/cashiers/settings" element={<Setting />} />
+            </Route>
           </Route>
-        </Route>
-
-        {/* CASHIER ROUTES */}
- 
-        <Route element={<CashierDashboardLayout />}>
-          <Route path="/cashier-dashboard" element={<CashierDashboard />} />
-          <Route path="/cashiers/customers" element={<Customer />} />
-          <Route path="/cashiers/loans" element={<Loans />} />
-          <Route path="/cashiers/transactions" element={<Transactions />} />
-          <Route path="/cashiers/notifications" element={<Notifications />} />
-          <Route path="/cashiers/settings" element={<Setting />} />
-          <Route path="/cashiers/loans/new" element={<NewLoan />} />
-          {/* <Route path="*" element={<Navigate to="/cashiers" replace />} /> */}
-        </Route>
-      
-      {/* <TransactionDetailModal/> */}
-       
-        
         </Routes>
       </Router>
     </>
@@ -100,36 +95,3 @@ function App() {
 }
 
 export default App;
-
-  // <AppRoutes />
-  // const AppRoutes = () => {
-  //   const { selectedTransaction, setSelectedTransaction, getTransactionDetails } =
-      
-
-  //   return (
-  //     <>
-  //       <Routes>
-  //         <Route element={<CashierDashboardLayout />}>
-  //           <Route path="/cashier-dashboard" element={<CashierDashboard />} />
-  //           <Route path="/cashiers/customers" element={<Customer />} />
-  //           <Route path="/cashiers/loans" element={<Loans />} />
-  //           <Route path="/cashiers/transactions" element={<Transactions />} />
-  //           <Route path="/cashiers/notifications" element={<Notifications />} />
-  //           <Route path="/cashiers/settings" element={<Setting />} />
-  //           <Route path="/cashiers/loans/new" element={<NewLoan />} />
-  //           {/* <Route path="*" element={<Navigate to="/cashiers" replace />} /> */}
-  //         </Route>
-  //       </Routes>
-  //       <TransactionDetailModal
-  //         isOpen={!!selectedTransaction}
-  //         onClose={() => setSelectedTransaction(null)}
-  //         transaction={selectedTransaction}
-  //         details={
-  //           selectedTransaction
-  //             ? getTransactionDetails(selectedTransaction)
-  //             : { customer: undefined, loan: undefined }
-  //         }
-  //       />
-  //     </>
-  //   );
-  // };

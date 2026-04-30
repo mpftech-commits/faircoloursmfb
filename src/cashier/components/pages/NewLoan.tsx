@@ -1,235 +1,393 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  ArrowLeftRight, 
-  Check, 
-  Search, 
-  Plus, 
-  Upload, 
-  FileText, 
-  XCircle, 
-  Clock 
-} from 'lucide-react';
-import { Button, Input, Select, Card } from '../ui';
-import { mockCustomers } from '../../mockData';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Loader2 } from "lucide-react";
+import { Button, Input, Select } from "../ui";
+import { Modal } from "../ui/Modal";
+import { CreateLoan } from "../../../services/Axios";
 
-interface NewLoanData {
-  customerId?: string;
-  customerName?: string;
-  amount?: number;
-  duration?: number;
-  interestType?: 'fixed' | 'reducing';
+const initialformstate = {
+  publicId: "",
+  amount: "",
+  duration: "",
+  purpose: "",
+  repaymentMethod: "monthly",
+
+  guarantorData: {
+    fullName: "",
+    maritalStatus: "",
+    dateOfBirth: "",
+    state: "",
+    address: "",
+    landmark: "",
+    lga: "",
+    phone: "",
+    email: "",
+    relationship: "",
+    country: "",
+  },
+};
+
+interface NewLoanModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  publicId: string;
+  error?: string;
 }
 
-export const NewLoan: React.FC = () => {
-  const navigate = useNavigate();
-  const [loanStep, setLoanStep] = useState(1);
-  const [newLoanData, setNewLoanData] = useState<NewLoanData>({});
-  const customers = mockCustomers;
+export const NewLoanModal: React.FC<NewLoanModalProps> = ({
+  isOpen,
+  onClose,
+  publicId
+,
+}) => {
+  const [errors, setErrors] = useState<any>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [form, setForm] = useState(initialformstate);
 
-  const handleApplyLoan = () => {
-    // Handle loan application submission
-    console.log('Submitting loan application:', newLoanData);
-    navigate('/cashier/loans');
+  useEffect(() => {
+    if (!isOpen) {
+      setForm(initialformstate);
+      setErrors({});
+      setIsSubmitting(false);
+      return;
+    }
+
+    setForm((currentForm) => ({
+      ...currentForm,
+      publicId,
+    }));
+  }, [isOpen, publicId]);
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+
+    // Loan validation
+    if (!form.amount || Number(form.amount) <= 0) {
+      newErrors.amount = "Enter a valid loan amount";
+    }
+
+    if (!form.duration) {
+      newErrors.duration = "Select loan duration";
+    }
+
+    if (!form.purpose.trim()) {
+      newErrors.purpose = "Purpose is required";
+    }
+
+    if (!form.repaymentMethod) {
+      newErrors.repaymentMethod = "Select repayment method";
+    }
+
+    // Guarantor validation
+    if (!form.guarantorData.fullName.trim()) {
+      newErrors.fullName = "Full name is required";
+    }
+
+    if (!form.guarantorData.phone) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^0\d{10}$/.test(form.guarantorData.phone)) {
+      newErrors.phone = "Enter a valid Nigerian phone number";
+    }
+
+    if (!form.guarantorData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/^\S+@\S+\.\S+$/.test(form.guarantorData.email)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (!form.guarantorData.relationship.trim()) {
+      newErrors.relationship = "Relationship is required";
+    }
+
+    if (!form.guarantorData.state.trim()) {
+      newErrors.state = "State is required";
+    }
+
+    if (!form.guarantorData.lga.trim()) {
+      newErrors.lga = "LGA is required";
+    }
+
+    if (!form.guarantorData.address.trim()) {
+      newErrors.address = "Address is required";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async () => {
+    if (!validate()) return;
+    setIsSubmitting(true);
+    const payload = {
+      ...form,
+      publicId,
+    };
+
+    try {
+      await CreateLoan(payload);
+      onClose();
+      // Reset form
+      setForm(initialformstate);
+    } catch (error) {
+      console.error("Failed to create loan:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <motion.div 
-      key="new-loan"
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      className="max-w-3xl mx-auto space-y-8"
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="New Loan Application"
+      size="lg"
+      footer={
+        <div className="flex justify-end gap-3">
+          <Button variant="ghost" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="bg-emerald-600 hover:bg-emerald-700"
+          >
+            {isSubmitting ? (
+              <Loader2 className="animate-spin mr-2" size={18} />
+            ) : null}
+            Submit Application
+          </Button>
+        </div>
+      }
     >
-      <div className="flex items-center gap-4">
-        <button 
-          onClick={() => navigate(-1)}
-          className="p-2 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 transition-all text-slate-600"
-        >
-          <ArrowLeftRight className="rotate-180" size={20} />
-        </button>
-        <h1 className="text-2xl font-bold text-slate-900">New Loan Application</h1>
-      </div>
+      <motion.div
+        key="new-loan-modal"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="space-y-6"
+      >
+        {/* Customer ID Display */}
+        <div className="p-4 bg-slate-50 rounded-xl">
+          <p className="text-sm text-slate-500">Customer ID</p>
+          <p className="font-bold text-slate-900">{publicId}</p>
+        </div>
 
-      {/* Stepper */}
-      <div className="flex items-center justify-between relative px-4">
-        <div className="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -translate-y-1/2 z-0"></div>
-        {[1, 2, 3, 4].map(step => (
-          <div key={step} className="relative z-10 flex flex-col items-center gap-2">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
-              loanStep === step ? 'bg-primary text-slate-500 ring-4 ring-primary/20' : 
-              loanStep > step ? 'bg-emerald-500 text-white' : 'bg-white border-2 border-slate-200 text-slate-400'
-            }`}>
-              {loanStep > step ? <Check size={20} /> : step}
-            </div>
-            <span className={`text-[10px] font-bold uppercase tracking-wider ${loanStep === step ? 'text-primary' : 'text-slate-400'}`}>
-              {step === 1 ? 'Customer' : step === 2 ? 'Details' : step === 3 ? 'Documents' : 'Review'}
-            </span>
+        {/* Loan Details */}
+        <div className="space-y-4 bg-white">
+          <h3 className="text-lg font-bold text-slate-900">Loan Details</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input
+              label="Loan Amount (₦)"
+              type="number"
+              placeholder="e.g. 117000"
+              value={form.amount}
+              onChange={(e) => setForm({ ...form, amount: e.target.value })}
+              error={errors.amount}
+            />
+            <Select
+              label="Duration (Months)"
+              value={form.duration}
+              onChange={(e) => setForm({ ...form, duration: e.target.value })}
+              options={[
+                { value: "3", label: "3 Months" },
+                { value: "6", label: "6 Months" },
+                { value: "12", label: "12 Months" },
+                { value: "18", label: "18 Months" },
+                { value: "24", label: "24 Months" },
+              ]}
+            />
+            <Input
+              label="Purpose"
+              placeholder="e.g. Business capital for stock purchase"
+              value={form.purpose}
+              onChange={(e) => setForm({ ...form, purpose: e.target.value })}
+            />
+            <Select
+              label="Repayment Method"
+              value={form.repaymentMethod}
+              onChange={(e) =>
+                setForm({ ...form, repaymentMethod: e.target.value })
+              }
+              options={[
+                { value: "monthly", label: "Monthly" },
+                { value: "weekly", label: "Weekly" },
+                { value: "daily", label: "Daily" },
+              ]}
+            />
           </div>
-        ))}
-      </div>
+        </div>
 
-      <Card className="p-8">
-        {loanStep === 1 && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-            <h2 className="text-xl font-bold text-slate-900">Select Customer</h2>
-            <div className="space-y-4">
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-                <input 
-                  type="text" 
-                  placeholder="Search existing customer..." 
-                  className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/20 text-slate-500"
-                />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {customers.slice(0, 4).map(cust => (
-                  <button 
-                    key={cust.id}
-                    onClick={() => {
-                      setNewLoanData({ ...newLoanData, customerId: cust.id, customerName: cust.name });
-                      setLoanStep(2);
-                    }}
-                    className="p-4 rounded-2xl border border-slate-100 hover:border-primary hover:bg-primary/5 text-left transition-all"
-                  >
-                    <p className="font-bold text-slate-900">{cust.name}</p>
-                    <p className="text-xs text-slate-500">{cust.phone}</p>
-                  </button>
-                ))}
-              </div>
-              <div className="pt-4 border-t border-slate-50">
-                <button className="w-full py-4 rounded-2xl border-2 border-dashed border-slate-200 text-slate-500 font-medium hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
-                  <Plus size={20} />
-                  Register New Customer
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-
-        {loanStep === 2 && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-            <h2 className="text-xl font-bold text-slate-900">Loan Details</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <Input 
-                label="Loan Amount ($)"
-                type="number" 
-                placeholder="e.g. 50000"
-                value={newLoanData.amount?.toString() || ''}
-                onChange={e => setNewLoanData({...newLoanData, amount: Number(e.target.value)})}
+        {/* Guarantor Details */}
+        <div className="space-y-4 pt-4 border-t border-slate-100">
+          <h3 className="text-lg font-bold text-slate-900">
+            Guarantor Details
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input
+              label="Full Name"
+              placeholder="e.g. John Doe"
+              value={form.guarantorData.fullName}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  guarantorData: {
+                    ...form.guarantorData,
+                    fullName: e.target.value,
+                  },
+                })
+              }
+            />
+            <Select
+              label="Marital Status"
+              value={form.guarantorData.maritalStatus}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  guarantorData: {
+                    ...form.guarantorData,
+                    maritalStatus: e.target.value,
+                  },
+                })
+              }
+              options={[
+                { value: "single", label: "Single" },
+                { value: "married", label: "Married" },
+                { value: "divorced", label: "Divorced" },
+                { value: "widowed", label: "Widowed" },
+              ]}
+            />
+            <Input
+              label="Date of Birth"
+              type="date"
+              value={form.guarantorData.dateOfBirth}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  guarantorData: {
+                    ...form.guarantorData,
+                    dateOfBirth: e.target.value,
+                  },
+                })
+              }
+            />
+            <Input
+              label="Phone Number"
+              placeholder="e.g. 08098765432"
+              value={form.guarantorData.phone}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  guarantorData: {
+                    ...form.guarantorData,
+                    phone: e.target.value,
+                  },
+                })
+              }
+            />
+            <Input
+              label="Email"
+              type="email"
+              placeholder="e.g. john.doe@gmail.com"
+              value={form.guarantorData.email}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  guarantorData: {
+                    ...form.guarantorData,
+                    email: e.target.value,
+                  },
+                })
+              }
+            />
+            <Input
+              label="Relationship"
+              placeholder="e.g. Brother"
+              value={form.guarantorData.relationship}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  guarantorData: {
+                    ...form.guarantorData,
+                    relationship: e.target.value,
+                  },
+                })
+              }
+            />
+            <Input
+              label="State"
+              placeholder="e.g. Lagos"
+              value={form.guarantorData.state}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  guarantorData: {
+                    ...form.guarantorData,
+                    state: e.target.value,
+                  },
+                })
+              }
+            />
+            <Input
+              label="LGA"
+              placeholder="e.g. Ikeja"
+              value={form.guarantorData.lga}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  guarantorData: {
+                    ...form.guarantorData,
+                    lga: e.target.value,
+                  },
+                })
+              }
+            />
+            <div className="sm:col-span-2">
+              <Input
+                label="Address"
+                placeholder="e.g. 5 Abuja Crescent, Ikeja"
+                value={form.guarantorData.address}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    guarantorData: {
+                      ...form.guarantorData,
+                      address: e.target.value,
+                    },
+                  })
+                }
               />
-              <Select 
-                label="Duration (Months)"
-                value={newLoanData.duration?.toString() || '12'}
-                onChange={e => setNewLoanData({...newLoanData, duration: Number(e.target.value)})}
-                options={[
-                  { value: '6', label: '6 Months' },
-                  { value: '12', label: '12 Months' },
-                  { value: '24', label: '24 Months' },
-                  { value: '36', label: '36 Months' },
-                ]}
-              />
-              <div className="space-y-2 sm:col-span-2">
-                <label className="text-sm font-medium text-slate-500">Interest Type</label>
-                <div className="grid grid-cols-2 gap-4">
-                  <button 
-                    onClick={() => setNewLoanData({...newLoanData, interestType: 'fixed'})}
-                    className={`p-4 rounded-xl border-2 transition-all text-left ${newLoanData.interestType === 'fixed' ? 'border-primary bg-primary/5' : 'border-slate-100'}`}
-                  >
-                    <p className="font-bold text-sm text-slate-500">Fixed Rate</p>
-                    <p className="text-xs text-slate-500">Constant interest throughout</p>
-                  </button>
-                  <button 
-                    onClick={() => setNewLoanData({...newLoanData, interestType: 'reducing'})}
-                    className={`p-4 rounded-xl border-2 transition-all text-left ${newLoanData.interestType === 'reducing' ? 'border-primary bg-primary/5' : 'border-slate-100'}`}
-                  >
-                    <p className="font-bold text-sm text-slate-500">Reducing Balance</p>
-                    <p className="text-xs text-slate-500">Interest on remaining principal</p>
-                  </button>
-                </div>
-              </div>
             </div>
-            <div className="flex justify-between pt-6">
-              <Button variant="ghost" onClick={() => setLoanStep(1)}>Back</Button>
-              <Button onClick={() => setLoanStep(3)}>Continue</Button>
-            </div>
-          </motion.div>
-        )}
-
-        {loanStep === 3 && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-            <h2 className="text-xl font-bold text-slate-900">Upload Documents</h2>
-            <div className="space-y-4">
-              <div className="p-8 border-2 border-dashed border-slate-200 rounded-3xl flex flex-col items-center justify-center text-center gap-4 hover:bg-slate-50 transition-all cursor-pointer">
-                <div className="p-4 bg-primary/10 rounded-full text-primary">
-                  <Upload size={32} />
-                </div>
-                <div>
-                  <p className="font-bold text-slate-900">Click to upload or drag and drop</p>
-                  <p className="text-sm text-slate-500">NID, Proof of Income, or Bank Statements (PDF, JPG up to 10MB)</p>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
-                  <div className="flex items-center gap-3">
-                    <FileText className="text-primary" size={20} />
-                    <span className="text-sm font-medium">NID_Copy.pdf</span>
-                  </div>
-                  <button className="text-rose-500 hover:bg-rose-50 p-1 rounded-lg transition-all"><XCircle size={18} /></button>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-between pt-6">
-              <Button variant="ghost" onClick={() => setLoanStep(2)}>Back</Button>
-              <Button onClick={() => setLoanStep(4)}>Review Application</Button>
-            </div>
-          </motion.div>
-        )}
-
-        {loanStep === 4 && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
-            <h2 className="text-xl font-bold text-slate-900">Review & Submit</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Customer Info</h3>
-                <div>
-                  <p className="text-sm text-slate-500">Name</p>
-                  <p className="font-bold text-slate-900">{newLoanData.customerName || 'Rahim Ahmed'}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500">Customer ID</p>
-                  <p className="font-bold text-slate-900">{newLoanData.customerId || 'CUST-001'}</p>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Loan Details</h3>
-                <div>
-                  <p className="text-sm text-slate-500">Amount</p>
-                  <p className="font-bold text-slate-900">৳{newLoanData.amount?.toLocaleString() || '50,000'}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500">Duration</p>
-                  <p className="font-bold text-slate-900">{newLoanData.duration || '12'} Months</p>
-                </div>
-              </div>
-            </div>
-            <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex gap-3">
-              <Clock className="text-amber-600 shrink-0" size={20} />
-              <p className="text-xs text-amber-700">This application will be sent to the administrator for approval. You will be notified once a decision is made.</p>
-            </div>
-            <div className="flex justify-between pt-6">
-              <Button variant="ghost" onClick={() => setLoanStep(3)}>Back</Button>
-              <Button 
-                onClick={() => handleApplyLoan()}
-                className="bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-200"
-              >
-                Submit Application
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </Card>
-    </motion.div>
+            <Input
+              label="Landmark"
+              placeholder="e.g. Near Total Filling Station"
+              value={form.guarantorData.landmark}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  guarantorData: {
+                    ...form.guarantorData,
+                    landmark: e.target.value,
+                  },
+                })
+              }
+            />
+            <Select
+              label="Country"
+              value={form.guarantorData.country}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  guarantorData: {
+                    ...form.guarantorData,
+                    country: e.target.value,
+                  },
+                })
+              }
+              options={[{ value: "Nigeria", label: "Nigeria" }]}
+            />
+          </div>
+        </div>
+      </motion.div>
+    </Modal>
   );
 };

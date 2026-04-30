@@ -176,29 +176,29 @@ const SigninUser: () => Promise<LoginResponse> = async () => {
 
 export { SigninUser };
 type CustomerPayload = {
-   title: string,
-    surname: string,
-    otherName: string,
-    gender: string,
-    maritalStatus: string,
-    dateOfBirth: string,
-    nationality: string,
-    bvn: string,
-    nin: string,
-    meansOfIdentification: string,
-    phone: string,
-    email: string,
-    address: string,
-    businessAddress: string,
-    occupation: string,
-    employerName: string,
-    employerAddress: string,
-    bankName: string,
-    accountName: string,
-    accountNumber: string,
-    nextOfKin: { fullName: string, phone: string, address: string },
-    emergencyContact: { fullName: string, phone: string, address: string }
-}
+  title: string;
+  surname: string;
+  otherName: string;
+  gender: string;
+  maritalStatus: string;
+  dateOfBirth: string;
+  nationality: string;
+  bvn: string;
+  nin: string;
+  meansOfIdentification: string;
+  phone: string;
+  email: string;
+  address: string;
+  businessAddress: string;
+  occupation: string;
+  employerName: string;
+  employerAddress: string;
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  nextOfKin: { fullName: string; phone: string; address: string };
+  emergencyContact: { fullName: string; phone: string; address: string };
+};
 // create customer
 const CreateCustomer = async (payload: CustomerPayload) => {
   try {
@@ -213,7 +213,6 @@ const CreateCustomer = async (payload: CustomerPayload) => {
   }
 };
 export { CreateCustomer };
-
 
 // create Cashier
 const CreateCashier = async (payload: {
@@ -314,6 +313,42 @@ const GetLoans = async (page: number, limit = 10) => {
   }
 };
 export { GetLoans };
+
+// create loan
+ type payload = {
+  customerId: string;
+  amount: string;
+  duration: string;
+  purpose: string;
+  repaymentMethod: string;
+  guarantorData: {
+    fullName: string;
+    maritalStatus: string;
+    dateOfBirth: string;
+    state: string;
+    address: string;
+    landmark: string;
+    lga: string;
+    phone: string;
+    email: string;
+    relationship: string;
+    country: string;
+  };
+};
+
+const CreateLoan = async (payload: payload) => {
+  try {
+    const response = await api.post(`/loans`, payload);
+    return response.data;
+  } catch (error: string | any) {
+    console.error(
+      "Create loan error:",
+      error.response?.data || error?.message || error,
+    );
+    throw error;
+  }
+};
+export { CreateLoan };
 
 // services/dashboard
 

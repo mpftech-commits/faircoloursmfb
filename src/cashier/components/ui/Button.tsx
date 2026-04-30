@@ -1,13 +1,11 @@
 import React from 'react';
 
-export const Button: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'; size?: 'sm' | 'md' | 'lg' }> = ({ 
-  children, 
-  variant = 'primary', 
-  size = 'md',
-  onClick,
-  ...props
-  
-}) => {
+export const Button: React.FC<
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+    size?: 'sm' | 'md' | 'lg';
+  }
+> = ({ children, variant = 'primary', size = 'md', ...props }) => {
   const variants = {
     primary: 'bg-primary text-slate-700 hover:bg-primary/90 shadow-sm shadow-primary/20',
     secondary: 'bg-slate-100 text-slate-500 hover:bg-slate-200',

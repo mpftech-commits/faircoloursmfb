@@ -61,7 +61,7 @@ export default function LoginForm() {
       } else if (role === "cashier") {
         navigate("/cashier-dashboard");
       } else {
-        navigate("/customer-dashboard");
+        navigate("/login");
       }
     } catch (error: any) {
       const errormessage =
@@ -143,20 +143,20 @@ export default function LoginForm() {
             {isLoading ? "Signing in..." : "Sign In"}
           </button>
 
-          <p className="text-center text-[12px]">
+          {/* <p className="text-center text-[12px]">
             Don't have an account?{" "}
             <Link to="/signup" className="text-blue-500 font-medium">
               Create an account
             </Link>
-          </p>
+          </p> */}
         </form>
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between text-xs md:px-10 px-5 text-gray-500 mt-12 border-t border-gray-300 pt-5">
-        <span>© {new Date().getFullYear()} FairColors MFB</span>
+      <div className="flex justify-between text-xs md:px-10 px-5 text-gray-500 mt-12 border-t border-gray-300 pt-5 xl:fixed xl:w-full xl:bottom-5 ">
+        <span>© 2026 FairColors MFB</span>
 
-        <div className="flex gap-5">
+        <div className="flex gap-5  xl:fixed xl:right-5">
           <span className="hover:underline cursor-pointer">Privacy</span>
           <span className="hover:underline cursor-pointer">Terms</span>
           <span className="hover:underline cursor-pointer">Get help</span>

@@ -37,7 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       </div>
 
       <div className="flex items-center gap-3 md:gap-6">
-        <Link to="/404">
+        <Link to="/cashiers/transactions">
           <button className="hidden lg:flex items-center gap-2 bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-primary/90 transition-all shadow-sm shadow-primary/20 cursor-pointer">
             <Plus size={18} />
             <span>Transactions </span>

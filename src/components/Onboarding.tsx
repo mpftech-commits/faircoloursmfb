@@ -40,12 +40,12 @@ export default function Onboarding() {
 
         {/* Buttons */}
         <div className="flex flex-col gap-4 mt-10">
-          <Link
+          {/* <Link
             to="/signup"
             className="bg-blue-900 text-white py-3 rounded-lg hover:bg-blue-800 transition font-medium text-[16px] text-center"
           >
             <button>Create Account</button>
-          </Link>
+          </Link> */}
 
           <Link
             to="/login"
