@@ -13,7 +13,7 @@ import {
 import { StatCard } from '../shared/StatCard';
 import { StatusBadge, Button, Card } from '../ui';
 import { mockActivityLogs } from '../../mockData';
-import { GetTransaction } from '../../../services/Axios';
+import { getCashierDashboardData, GetTransaction } from '../../../services/Axios';
 
 type Transactions = {
   publicId: string;
@@ -24,24 +24,46 @@ type Transactions = {
   amount: string;
   status: string;
 }
+type cashierDataProps = {
+  deposit: number;
+  withdrawals: number;
+  loans: number;
+  customers: number;
+}
 
 export const CashierDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [searchQuery] = useState("");
   const [transactions, setTransactions] = useState<Transactions[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [cashierData, setCashierData] = useState<cashierDataProps>({
+    deposit: 0,
+    withdrawals: 0,
+    loans: 0,
+    customers: 0
+  });
 
   // Transaction Logic
   useEffect(() => {
-    const fetchTransactions = async () => {
+    const fetchTAllDashboardData = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const res = await GetTransaction(1, 10);
+        const cashierRes = await getCashierDashboardData();
         console.log("Fetched transactions:", res);
+        console.log("Fetched cashier data:", cashierRes);
         setTransactions(res?.data ?? []);
+        setCashierData(cashierRes?.data ?? []);
       } catch (error) {
-        console.error("Failed to fetch transactions:", error);
+        console.error("Failed to fetch dashboard data:", error);
+        setError("Failed to fetch dashboard data");
+      } finally {
+        setLoading(false);
       }
     };
-    fetchTransactions();
+    fetchTAllDashboardData();
   }, []);
 
   const filteredTransactions = useMemo(() => {
@@ -82,6 +104,20 @@ export const CashierDashboard: React.FC = () => {
     document.body.removeChild(link);
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-full text-red-500 text-lg font-semibold">
+        <p> {error}</p>
+      </div>
+    );
+  }
   return (
     <motion.div
       key="dashboard"
@@ -114,20 +150,24 @@ export const CashierDashboard: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <StatCard
           title="Total Customers"
-          value="1,284"
+          value={cashierData.customers || "0"}
           icon={Users}
           trend="+12%"
         />
         <StatCard
           title="Loans Submitted"
-          value="452"
+          value={cashierData.loans || "0"}
           icon={FileText}
           trend="+5.4%"
         />
-        <StatCard title="Pending Approvals" value="28" icon={Clock} />
         <StatCard
-          title="Approved Loans"
-          value="384"
+          title="Pending Approvals"
+          value={cashierData.withdrawals || "0"}
+          icon={Clock}
+        />
+        <StatCard
+          title="Total Deposit"
+          value={cashierData.deposit || "0"}
           icon={CheckCircle2}
           trend="+8.2%"
         />
@@ -225,13 +265,11 @@ export const CashierDashboard: React.FC = () => {
               <div className="p-3 bg-slate-100  rounded-xl text-slate-600  group-hover:bg-primary  transition-all">
                 <Users size={20} />
               </div>
-             
-                <div className="text-left">
-                  <p className="font-bold text-slate-900 ">Add Customer</p>
-                  <p className="text-xs text-slate-500 ">
-                    Register a new client
-                  </p>
-                </div>
+
+              <div className="text-left">
+                <p className="font-bold text-slate-900 ">Add Customer</p>
+                <p className="text-xs text-slate-500 ">Register a new client</p>
+              </div>
             </Link>
             <button className="w-full flex items-center gap-4 p-4 rounded-2xl border border-slate-100  hover:border-primary/30 hover:bg-primary/5 transition-all group">
               <div className="p-3 bg-slate-100 rounded-xl text-slate-600  group-hover:bg-primary transition-all">

@@ -33,6 +33,7 @@ type Information = {
   phone: string ;
   method?: string;
   createdAt: string;
+  email:string;
 
   status: "approved" | "pending" | "deactivated";
   CustomerPayload: {
@@ -168,50 +169,50 @@ export const Customer: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
-              {filteredCustomers.map((cust) => (
+              {filteredCustomers.map((customer) => (
                 <tr
-                  key={cust._id}
+                  key={customer._id}
                   className=" transition-all hover:bg-slate-100"
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-blue-700/10 flex items-center justify-center text-sm font-bold text-primary">
-                        {cust.fullName
+                        {customer.fullName
                           .split(" ")
                           .map((n) => n[0])
                           .join("")}
                       </div>
                       <div>
                         <p className="text-sm font-bold text-slate-800 ">
-                          {cust.fullName}
+                          {customer.fullName}
                         </p>
                         <p className="text-xs text-slate-400 ">
-                          {cust.publicId}
+                          {customer.publicId}
                         </p>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="text-sm text-slate-800 ">{cust.phone}</p>
-                    <p className="text-xs text-slate-800 ">{cust.CustomerPayload.email}</p>
+                    <p className="text-sm text-slate-800 ">{customer.phone}</p>
+                    <p className="text-xs text-slate-800 ">{customer.email}</p>
                   </td>
                   <td className="px-6 py-4">
-                    <StatusBadge status={cust.status} />
+                    <StatusBadge status={customer.status} />
                   </td>
                   <td className="px-6 py-4 text-sm text-slate-800 ">
-                    {cust.createdAt}
+                    {customer.createdAt}
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <button
-                        onClick={() => handleApplyLoan(cust)}
+                        onClick={() => handleApplyLoan(customer)}
                         className="p-2 rounded-lg hover:bg-blue-700/10 text-primary transition-all"
                         title="Apply for Loan"
                       >
                         <Plus size={18} />
                       </button>
                       <button
-                        onClick={() => setSelected(cust)}
+                        onClick={() => setSelected(customer)}
                         className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
                       >
                         <Eye size={18} className="text-green-500" />

@@ -313,14 +313,29 @@ const GetLoans = async (page: number, limit = 10) => {
   }
 };
 export { GetLoans };
+// get cashier dashboard data
+const getCashierDashboardData = async () => {
+  try {
+    const response = await api.get(`/dashboard/cashier`);
+    return response.data;
+  } catch (error: string | any) {
+    console.error(
+      "error fetching cashier dashboard data:",
+      error.response?.data || error?.message || error,
+    );
+    throw error;
+  }
+};
+export { getCashierDashboardData };
 
 // create loan
  type payload = {
   publicId: string;
-  amount: string;
-  duration: string;
+  amount: number;
+  duration: number;
   purpose: string;
   repaymentMethod: string;
+
   guarantorData: {
     fullName: string;
     maritalStatus: string;

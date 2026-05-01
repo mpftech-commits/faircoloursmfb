@@ -7,8 +7,8 @@ import { CreateLoan } from "../../../services/Axios";
 
 const initialformstate = {
   publicId: "",
-  amount: "",
-  duration: "",
+  amount: 0,
+  duration: 0,
   purpose: "",
   repaymentMethod: "monthly",
 
@@ -181,13 +181,17 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
               type="number"
               placeholder="e.g. 117000"
               value={form.amount}
-              onChange={(e) => setForm({ ...form, amount: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, amount: Number(e.target.value) })
+              }
               error={errors.amount}
             />
             <Select
               label="Duration (Months)"
               value={form.duration}
-              onChange={(e) => setForm({ ...form, duration: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, duration: Number(e.target.value) })
+              }
               options={[
                 { value: "3", label: "3 Months" },
                 { value: "6", label: "6 Months" },
@@ -382,8 +386,9 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
               }
               error={errors.guarantorData?.landmark}
             />
-            <Select
+            <Input
               label="Country"
+              placeholder="e.g. Nigeria"
               value={form.guarantorData.country}
               onChange={(e) =>
                 setForm({
@@ -394,8 +399,6 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
-              options={[{ value: "Nigeria", label: "Nigeria" }]}
-              // error={errors.guarantorData?.country}
             />
           </div>
         </div>
