@@ -21,7 +21,7 @@ import { CashierDashboardLayout } from "./cashier/components/layout/CashierDashb
 import {
   CashierDashboard,
   Customer,
-  Loans,
+  // Loans,
   Notifications,
   Setting,
   Transactions,
@@ -79,7 +79,7 @@ function App() {
                 path="/cashiers/create-customers"
                 element={<CreateCustomerForm />}
               />
-              <Route path="/cashiers/loans" element={<Loans />} />
+              {/* <Route path="/cashiers/loans" element={<Loans />} /> */}
               <Route path="/cashiers/transactions" element={<Transactions />} />
               <Route
                 path="/cashiers/notifications"

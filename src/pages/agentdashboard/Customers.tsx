@@ -211,7 +211,7 @@ const [search, setSearch] = useState("");
             </thead>
 
             <tbody>
-              {/* map response from backend api */}
+              {/* response from backend api */}
               {filteredCustomers.map((c) => (
                 <tr
                   key={c.publicId}

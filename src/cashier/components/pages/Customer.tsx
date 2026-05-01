@@ -13,39 +13,70 @@ import { StatusBadge, Button, Card } from "../ui";
 import { GetCustomers } from "../../../services/Axios";
 import { NewLoanModal } from "./NewLoan";
 import { Link } from "react-router-dom";
+import CustomerDetail from "./CustomerDetails";
 
-interface CustomerData {
+// interface CustomerData {
+//   _id: string;
+//   publicId: string;
+//   fullName: string;
+//   phone: string;
+//   email: string;
+//   status: string;
+//   updatedAt: string;
+// }
+
+type Information = {
   publicId: string;
+  _id: string;
   fullName: string;
-  phone: string;
-  email: string;
-  status: string;
-  updatedAt: string;
-}
+  address?: string | number;
+  phone: string ;
+  method?: string;
+  createdAt: string;
+
+  status: "approved" | "pending" | "deactivated";
+  CustomerPayload: {
+    _id: string;
+    fullName: string;
+    method?: string;
+    createdAt: string;
+    title: string;
+    surname: string;
+    otherName: string;
+    gender: string;
+    maritalStatus: string;
+    dateOfBirth: string;
+    nationality: string;
+    bvn: string;
+    nin: string;
+    meansOfIdentification: string;
+    phone: string;
+    email: string;
+    address?: string | number;
+    businessAddress: string;
+    occupation: string;
+    employerName: string;
+    employerAddress: string;
+    bankName: string;
+    accountName: string;
+    accountNumber: string;
+    nextOfKin: { fullName: string; phone: string; address: string };
+    emergencyContact: { fullName: string; phone: string; address: string };
+  };
+};
 
 export const Customer: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [customers, setCustomers] = useState<CustomerData[]>([]);
+  const [customers, setCustomers] = useState<Information[]>([]);
   const [isLoanModalOpen, setIsLoanModalOpen] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
+  const [selected, setSelected] = useState<Information | null>(null)
 
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
         const res = await GetCustomers(1, 10);
         console.log("Fetched customers:", res);
-        // Transform API response to match expected format
-        // const transformedCustomers =
-        //   res.customers?.map((cust: any) => ({
-        //     id: cust.id || cust.customerId,
-        //     name: `${cust.surname} ${cust.otherName}`,
-        //     phone: cust.phone,
-        //     email: cust.email,
-        //     status: cust.status || "active",
-        //     joinedDate: cust.createdAt
-        //       ? new Date(cust.createdAt).toLocaleDateString()
-        //       : new Date().toLocaleDateString(),
-        //   })) || [];
         setCustomers(res?.data);
       } catch (error) {
         console.error("Failed to fetch customers:", error);
@@ -64,7 +95,7 @@ export const Customer: React.FC = () => {
     );
   }, [searchQuery, customers]);
 
-  const handleApplyLoan = (customer: CustomerData) => {
+  const handleApplyLoan = (customer: Information) => {
     setSelectedCustomerId(customer.publicId);
     setIsLoanModalOpen(true);
   };
@@ -139,7 +170,7 @@ export const Customer: React.FC = () => {
             <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
               {filteredCustomers.map((cust) => (
                 <tr
-                  key={cust.id}
+                  key={cust._id}
                   className=" transition-all hover:bg-slate-100"
                 >
                   <td className="px-6 py-4">
@@ -154,19 +185,21 @@ export const Customer: React.FC = () => {
                         <p className="text-sm font-bold text-slate-800 ">
                           {cust.fullName}
                         </p>
-                        <p className="text-xs text-slate-400 ">{cust.id}</p>
+                        <p className="text-xs text-slate-400 ">
+                          {cust.publicId}
+                        </p>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <p className="text-sm text-slate-800 ">{cust.phone}</p>
-                    <p className="text-xs text-slate-800 ">{cust.email}</p>
+                    <p className="text-xs text-slate-800 ">{cust.CustomerPayload.email}</p>
                   </td>
                   <td className="px-6 py-4">
                     <StatusBadge status={cust.status} />
                   </td>
                   <td className="px-6 py-4 text-sm text-slate-800 ">
-                    {cust.updatedAt}
+                    {cust.createdAt}
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
@@ -177,8 +210,11 @@ export const Customer: React.FC = () => {
                       >
                         <Plus size={18} />
                       </button>
-                      <button className="p-2 rounded-lg hover:bg-slate-100  text-slate-500 transition-all">
-                        <Eye size={18} />
+                      <button
+                        onClick={() => setSelected(cust)}
+                        className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
+                      >
+                        <Eye size={18} className="text-green-500" />
                       </button>
                       <button className="p-2 rounded-lg hover:bg-slate-100  text-slate-400 transition-all">
                         <MoreVertical size={18} />
@@ -191,6 +227,11 @@ export const Customer: React.FC = () => {
           </table>
         </div>
       </Card>
+
+      {/* MODAL */}
+      {selected && (
+        <CustomerDetail customer={selected} onClose={() => setSelected(null)} />
+      )}
 
       {/* New Loan Modal */}
       <NewLoanModal

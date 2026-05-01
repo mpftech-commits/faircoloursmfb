@@ -6,7 +6,7 @@ import {
   ChevronLeft,
   LayoutDashboard,
   Users,
-  FileText,
+  // FileText,
   ArrowLeftRight,
   Bell,
   Settings,
@@ -94,12 +94,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
             icon={Users}
             title="customers"
           />
-          <SidebarItem
+          {/* <SidebarItem
             to="/cashiers/loans"
             label="Loan Applications"
             icon={FileText}
             title="loans"
-          />
+          /> */}
           <SidebarItem
             to="/cashiers/transactions"
             label="Transactions"
@@ -178,11 +178,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   label="Customers"
                   icon={Users}
                 />
-                <SidebarItem
+                {/* <SidebarItem
                   to="/cashiers/loans"
                   label="Loan Applications"
                   icon={FileText}
-                />
+                /> */}
                 <SidebarItem
                   to="/cashiers/transactions"
                   label="Transactions"

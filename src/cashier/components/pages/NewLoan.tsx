@@ -150,7 +150,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
           <Button
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="bg-emerald-600 hover:bg-emerald-700"
+            className="bg-blue-700 text-white"
           >
             {isSubmitting ? (
               <Loader2 className="animate-spin mr-2" size={18} />
@@ -164,7 +164,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
         key="new-loan-modal"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="space-y-6"
+        className="space-y-6 bg-white"
       >
         {/* Customer ID Display */}
         <div className="p-4 bg-slate-50 rounded-xl">
@@ -195,6 +195,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                 { value: "18", label: "18 Months" },
                 { value: "24", label: "24 Months" },
               ]}
+              // error={errors.duration}
             />
             <Input
               label="Purpose"
@@ -236,6 +237,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
+              error={errors.guarantorData?.fullName}
             />
             <Select
               label="Marital Status"
@@ -255,6 +257,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                 { value: "divorced", label: "Divorced" },
                 { value: "widowed", label: "Widowed" },
               ]}
+              // error={errors.guarantorData?.maritalStatus}
             />
             <Input
               label="Date of Birth"
@@ -269,6 +272,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
+              error={errors.guarantorData?.dateOfBirth}
             />
             <Input
               label="Phone Number"
@@ -283,6 +287,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
+              error={errors.guarantorData?.phone}
             />
             <Input
               label="Email"
@@ -298,6 +303,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
+              error={errors.guarantorData?.email}
             />
             <Input
               label="Relationship"
@@ -312,6 +318,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
+              error={errors.guarantorData?.relationship}
             />
             <Input
               label="State"
@@ -326,6 +333,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
+              error={errors.guarantorData?.state}
             />
             <Input
               label="LGA"
@@ -340,6 +348,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
+              error={errors.guarantorData?.lga}
             />
             <div className="sm:col-span-2">
               <Input
@@ -355,6 +364,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                     },
                   })
                 }
+                error={errors.guarantorData?.address}
               />
             </div>
             <Input
@@ -370,6 +380,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
+              error={errors.guarantorData?.landmark}
             />
             <Select
               label="Country"
@@ -384,6 +395,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                 })
               }
               options={[{ value: "Nigeria", label: "Nigeria" }]}
+              // error={errors.guarantorData?.country}
             />
           </div>
         </div>

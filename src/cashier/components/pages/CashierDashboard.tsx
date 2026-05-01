@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { StatCard } from '../shared/StatCard';
 import { StatusBadge, Button, Card } from '../ui';
-import { mockLoans, mockActivityLogs } from '../../mockData';
+import { mockActivityLogs } from '../../mockData';
 import { GetTransaction } from '../../../services/Axios';
 
 type Transactions = {
@@ -58,7 +58,7 @@ export const CashierDashboard: React.FC = () => {
   }, [transactions, searchQuery]);
 
   const handleApplyLoan = () => {
-    navigate("/cashiers/loans/new");
+    navigate("/cashiers/customers");
   };
 
   const exportToCSV = (data: any[], filename: string) => {

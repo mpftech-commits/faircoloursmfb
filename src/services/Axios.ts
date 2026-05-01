@@ -316,7 +316,7 @@ export { GetLoans };
 
 // create loan
  type payload = {
-  customerId: string;
+  publicId: string;
   amount: string;
   duration: string;
   purpose: string;
