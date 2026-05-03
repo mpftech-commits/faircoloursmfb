@@ -1,6 +1,11 @@
 import React from 'react';
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string;
+  options: { value: string; label: string }[];
+  error?: string;
+}
 
-export const Select: React.FC<React.SelectHTMLAttributes<HTMLSelectElement> & { label?: string; options: { value: string; label: string }[] }> = ({ label, options, ...props }) => (
+export const Select: React.FC<SelectProps> = ({ label, options, error, ...props }) => (
   <div className="space-y-1">
     {label && <label className="text-xs font-bold text-slate-400  uppercase tracking-wider">{label}</label>}
     <select 
@@ -11,5 +16,6 @@ export const Select: React.FC<React.SelectHTMLAttributes<HTMLSelectElement> & { 
         <option key={opt.value} value={opt.value}>{opt.label}</option>
       ))}
     </select>
+    {error && <p className="text-xs text-red-500">{error}</p>}
   </div>
 );

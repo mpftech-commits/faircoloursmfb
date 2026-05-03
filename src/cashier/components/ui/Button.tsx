@@ -23,7 +23,7 @@ export const Button: React.FC<
   return (
     <button 
       {...props}
-      className={`rounded-xl font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${props.className || ''} `}
+      className={`rounded-xl font-bold transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${sizes[size]} ${props.className || ''} `}
     >
       {children}
     </button>

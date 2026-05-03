@@ -10,9 +10,10 @@ import {
   ArrowLeftRight,
   Bell,
   Settings,
-  LogOut,
   X,
   type LucideIcon,
+  LogOutIcon,
+  LogOut,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -121,13 +122,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
 
         <div className="p-4 border-t border-slate-100">
-          <Link to="/login" title="logout">
+          <Link to="/login" title="logout" className="w-full flex gap-3 items-center"> 
             <button
-              className={`sidebar-item w-full hover:bg-rose-50 hover:text-red-500 cursor-pointer ${isSidebarCollapsed ? "justify-center px-0" : ""}`}
+              className={`sidebar-item w-full  hover:text-red-500 cursor-pointer flex gap-3 items-center ${isSidebarCollapsed ? "justify-center px-0" : ""}`}
             >
-              <LogOut size={20} className="text-red-500 flex items-center gap-3 px-3 py-2" />
+              <LogOutIcon size={18} className={`${isSidebarCollapsed ? "" : "hidden text-red-500"} text-red-500`}/>
               {!isSidebarCollapsed && (
-                <span className="text-red-500">Logout</span>
+                <span className="text-red-500 flex gap-3 items-center">< LogOutIcon size={18}/> Logout</span>
               )}
             </button>
           </Link>
@@ -153,12 +154,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">
-                    F
-                  </div>
-                  <span className="font-bold text-xl tracking-tight">
-                    FinDash
-                  </span>
+                  <div className="flex items-center gap-2">
+              <img src="/logo.png" alt="" />
+            </div>
                 </div>
                 <button
                   onClick={() => setIsMobileMenuOpen?.(false)}
@@ -197,6 +195,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   to="/cashiers/settings"
                   label="Settings"
                   icon={Settings}
+                />
+                <SidebarItem
+                  to="/logout"
+                  label="Logout"
+                  icon={LogOutIcon}
                 />
               </nav>
             </motion.div>

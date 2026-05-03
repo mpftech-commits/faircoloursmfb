@@ -5,10 +5,15 @@ import { Button, Input, Select } from "../ui";
 import { Modal } from "../ui/Modal";
 import { CreateLoan } from "../../../services/Axios";
 
+// interface formState extends Omit<payload, 'amount ' | 'duration'> {
+//   amount: number | "";
+//   duration: number | '';
+// }
+
 const initialformstate = {
-  publicId: "",
-  amount: 0,
-  duration: 0,
+  customerId: "",
+  amount: "",
+  duration: "",
   purpose: "",
   repaymentMethod: "monthly",
 
@@ -54,74 +59,86 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
 
     setForm((currentForm) => ({
       ...currentForm,
-      publicId,
+      customerId:publicId,
+      guarantorData: {
+        ...currentForm.guarantorData,
+      },
     }));
   }, [isOpen, publicId]);
 
   const validate = () => {
-    const newErrors: Record<string, string> = {};
+  const newErrors: Record<string, string> = {};
 
-    // Loan validation
-    if (!form.amount || Number(form.amount) <= 0) {
-      newErrors.amount = "Enter a valid loan amount";
-    }
+  // Loan validation
+  if (!form.amount || Number(form.amount) <= 0) {
+    newErrors.amount = "Enter a valid loan amount";
+  }
 
-    if (!form.duration) {
-      newErrors.duration = "Select loan duration";
-    }
+  // Ensure duration is one of the allowed numbers, not 0
+  if (!form.duration || Number(form.duration) === 0) {
+    newErrors.duration = "Please select a loan duration";
+  }
 
-    if (!form.purpose.trim()) {
-      newErrors.purpose = "Purpose is required";
-    }
+  if (!form.purpose.trim()) {
+    newErrors.purpose = "Purpose is required";
+  }
 
-    if (!form.repaymentMethod) {
-      newErrors.repaymentMethod = "Select repayment method";
-    }
+  // Guarantor validation
+  if (!form.guarantorData.fullName.trim()) {
+    newErrors["guarantorData.fullName"] = "Full name is required";
+  }
 
-    // Guarantor validation
-    if (!form.guarantorData.fullName.trim()) {
-      newErrors.fullName = "Full name is required";
-    }
+  // More flexible phone check (strips spaces/dashes for the test)
+  const phoneClean = form.guarantorData.phone.replace(/[\s-]/g, "");
+  if (!phoneClean) {
+    newErrors["guarantorData.phone"] = "Phone number is required";
+  } else if (!/^0\d{10}$/.test(phoneClean)) {
+    newErrors["guarantorData.phone"] = "Enter a valid 11-digit number starting with 0";
+  }
 
-    if (!form.guarantorData.phone) {
-      newErrors.phone = "Phone number is required";
-    } else if (!/^0\d{10}$/.test(form.guarantorData.phone)) {
-      newErrors.phone = "Enter a valid Nigerian phone number";
-    }
+  if (!form.guarantorData.email.trim()) {
+    newErrors["guarantorData.email"] = "Email is required";
+  }
 
-    if (!form.guarantorData.email) {
-      newErrors.email = "Email is required";
-    } else if (!/^\S+@\S+\.\S+$/.test(form.guarantorData.email)) {
-      newErrors.email = "Invalid email format";
-    }
+  if (!form.guarantorData.relationship.trim()) {
+    newErrors["guarantorData.relationship"] = "Relationship is required";
+  }
 
-    if (!form.guarantorData.relationship.trim()) {
-      newErrors.relationship = "Relationship is required";
-    }
+  if (!form.guarantorData.state.trim()) {
+    newErrors["guarantorData.state"] = "State is required";
+  }
 
-    if (!form.guarantorData.state.trim()) {
-      newErrors.state = "State is required";
-    }
+  if (!form.guarantorData.lga.trim()) {
+    newErrors["guarantorData.lga"] = "LGA is required";
+  }
 
-    if (!form.guarantorData.lga.trim()) {
-      newErrors.lga = "LGA is required";
-    }
+  if (!form.guarantorData.address.trim()) {
+    newErrors["guarantorData.address"] = "Address is required";
+  }
+  
+  // Add this since you have a Country input!
+  if (!form.guarantorData.country.trim()) {
+    newErrors["guarantorData.country"] = "Country is required";
+  }
 
-    if (!form.guarantorData.address.trim()) {
-      newErrors.address = "Address is required";
-    }
+  setErrors(newErrors);
+  
+  // Debug log to see exactly which field is the hater
+  if (Object.keys(newErrors).length > 0) {
+    console.log("Validation Failed on fields:", Object.keys(newErrors));
+  }
 
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
-  };
+  return Object.keys(newErrors).length === 0;
+};
 
   const handleSubmit = async () => {
-    if (!validate()) return;
+    if (!validate()){
+      console.log("Validation failed.current errors");
+    return;} 
     setIsSubmitting(true);
     const payload = {
       ...form,
-      publicId,
+      customerId: publicId,
     };
 
     try {
@@ -129,7 +146,9 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
       onClose();
       // Reset form
       setForm(initialformstate);
-    } catch (error) {
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.message || error?.message || "Failed to create loan";
+      setErrors({ submit: errorMessage });
       console.error("Failed to create loan:", error);
     } finally {
       setIsSubmitting(false);
@@ -166,6 +185,13 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
         animate={{ opacity: 1 }}
         className="space-y-6 bg-white"
       >
+        {/* Error Display */}
+        {errors.submit && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+            <p className="text-sm text-red-600">{errors.submit}</p>
+          </div>
+        )}
+
         {/* Customer ID Display */}
         <div className="p-4 bg-slate-50 rounded-xl">
           <p className="text-sm text-slate-500">Customer ID</p>
@@ -182,7 +208,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
               placeholder="e.g. 117000"
               value={form.amount}
               onChange={(e) =>
-                setForm({ ...form, amount: Number(e.target.value) })
+                setForm({ ...form, amount: (e.target.value) })
               }
               error={errors.amount}
             />
@@ -190,22 +216,24 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
               label="Duration (Months)"
               value={form.duration}
               onChange={(e) =>
-                setForm({ ...form, duration: Number(e.target.value) })
+                setForm({ ...form, duration: (e.target.value) })
               }
               options={[
+                { value: "", label: "Select Duration" },
                 { value: "3", label: "3 Months" },
                 { value: "6", label: "6 Months" },
                 { value: "12", label: "12 Months" },
                 { value: "18", label: "18 Months" },
                 { value: "24", label: "24 Months" },
               ]}
-              // error={errors.duration}
+              error={errors.duration}
             />
             <Input
               label="Purpose"
               placeholder="e.g. Business capital for stock purchase"
               value={form.purpose}
               onChange={(e) => setForm({ ...form, purpose: e.target.value })}
+              error={errors.purpose}
             />
             <Select
               label="Repayment Method"
@@ -214,10 +242,12 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                 setForm({ ...form, repaymentMethod: e.target.value })
               }
               options={[
+                { value: "", label: "Select Repayment Method" },
                 { value: "monthly", label: "Monthly" },
                 { value: "weekly", label: "Weekly" },
                 { value: "daily", label: "Daily" },
               ]}
+              error={errors.repaymentMethod}
             />
           </div>
         </div>
@@ -241,7 +271,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
-              error={errors.guarantorData?.fullName}
+              error={errors["guarantorData.fullName"]}
             />
             <Select
               label="Marital Status"
@@ -256,12 +286,13 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                 })
               }
               options={[
+                { value: "", label: "Select Marital Status" },
                 { value: "single", label: "Single" },
                 { value: "married", label: "Married" },
                 { value: "divorced", label: "Divorced" },
                 { value: "widowed", label: "Widowed" },
               ]}
-              // error={errors.guarantorData?.maritalStatus}
+              error={errors["guarantorData.maritalStatus"]}
             />
             <Input
               label="Date of Birth"
@@ -291,7 +322,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
-              error={errors.guarantorData?.phone}
+              error={errors["guarantorData.phone"]}
             />
             <Input
               label="Email"
@@ -307,7 +338,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
-              error={errors.guarantorData?.email}
+              error={errors["guarantorData.email"]}
             />
             <Input
               label="Relationship"
@@ -322,7 +353,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
-              error={errors.guarantorData?.relationship}
+              error={errors["guarantorData.relationship"]}
             />
             <Input
               label="State"
@@ -337,7 +368,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
-              error={errors.guarantorData?.state}
+              error={errors["guarantorData.state"]}
             />
             <Input
               label="LGA"
@@ -352,7 +383,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
-              error={errors.guarantorData?.lga}
+              error={errors["guarantorData.lga"]}
             />
             <div className="sm:col-span-2">
               <Input
@@ -368,7 +399,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                     },
                   })
                 }
-                error={errors.guarantorData?.address}
+                error={errors["guarantorData.address"]}
               />
             </div>
             <Input
@@ -399,6 +430,7 @@ export const NewLoanModal: React.FC<NewLoanModalProps> = ({
                   },
                 })
               }
+               error={errors["guarantorData.country"]}
             />
           </div>
         </div>

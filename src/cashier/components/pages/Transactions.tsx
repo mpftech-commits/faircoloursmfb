@@ -1,18 +1,42 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Download, Search, Eye } from "lucide-react";
 import { StatusBadge, Button, Card } from "../ui";
 import { TransactionDetailModal } from "../shared/TransactionDetailModal";
 import { mockTransactions, mockCustomers, mockLoans } from "../../mockData";
 import type { Transaction } from "../../types";
+import { GetTransaction } from "../../../services/Axios";
 
 export const Transactions: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTransaction, setSelectedTransaction] =
     useState<Transaction | null>(null);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+// fetch gtransactions
+useEffect(() => {
+  const fetchTransactions = async () => {
+    try {
+      setLoading(true);
+      const res = await GetTransaction(1, 50); // Fetch first 50 transactions
+      console.log("Fetched transactions:", res);
+      setTransactions(res.transactions); // Assuming API returns { transactions: [...] }
+    } catch (error) {
+      console.error("Failed to fetch transactions:", error);
+      setError("Failed to fetch transactions");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchTransactions();
+}, []);
+ 
 
   const filteredTransactions = useMemo(() => {
-    return mockTransactions.filter(
+    return transactions.filter(
       (txn) =>
         txn.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         txn.id.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -45,6 +69,22 @@ export const Transactions: React.FC = () => {
     link.click();
     document.body.removeChild(link);
   };
+
+if(loading){
+  return (
+    <div className="flex items-center justify-center h-64">
+      <p>Loading transactions...</p>
+    </div>
+  );
+}
+if(error){
+  return (
+    <div className="flex items-center justify-center h-64">
+      <p className="text-red-500">{error}</p>
+    </div>
+  );
+}
+
   return (
     <motion.div
       key="transactions"

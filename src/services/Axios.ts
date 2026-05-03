@@ -313,29 +313,14 @@ const GetLoans = async (page: number, limit = 10) => {
   }
 };
 export { GetLoans };
-// get cashier dashboard data
-const getCashierDashboardData = async () => {
-  try {
-    const response = await api.get(`/dashboard/cashier`);
-    return response.data;
-  } catch (error: string | any) {
-    console.error(
-      "error fetching cashier dashboard data:",
-      error.response?.data || error?.message || error,
-    );
-    throw error;
-  }
-};
-export { getCashierDashboardData };
 
 // create loan
  type payload = {
-  publicId: string;
-  amount: number;
-  duration: number;
+  customerId: string;
+  amount: number | string;
+  duration: number | string;
   purpose: string;
   repaymentMethod: string;
-
   guarantorData: {
     fullName: string;
     maritalStatus: string;
@@ -384,6 +369,19 @@ export const getDashboardStats = async ({
   }
 
   const res = await api.get("/dashboard/admin", { params });
+
+  return res.data; // { cards: {...} }
+};
+
+export const getCashierDashboardStats = async () => {
+  // const params: any = { filter };
+
+  // if (filter === "custom") {
+  //   params.startDate = startDate;
+  //   params.endDate = endDate;
+  // }
+
+  const res = await api.get("/dashboard/cashier");
 
   return res.data; // { cards: {...} }
 };

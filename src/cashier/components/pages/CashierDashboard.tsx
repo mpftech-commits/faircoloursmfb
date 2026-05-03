@@ -8,12 +8,14 @@ import {
   CheckCircle2, 
   Download, 
   Plus, 
-  Eye 
+  Eye,
+  AlertTriangle, 
+   
 } from 'lucide-react';
 import { StatCard } from '../shared/StatCard';
 import { StatusBadge, Button, Card } from '../ui';
 import { mockActivityLogs } from '../../mockData';
-import { getCashierDashboardData, GetTransaction } from '../../../services/Axios';
+import { getCashierDashboardStats, GetTransaction } from '../../../services/Axios';
 
 type Transactions = {
   publicId: string;
@@ -21,7 +23,7 @@ type Transactions = {
   name: string;
   phone: string;
   dateCreated: string;
-  amount: string;
+  amount: number;
   status: string;
 }
 type cashierDataProps = {
@@ -51,7 +53,7 @@ export const CashierDashboard: React.FC = () => {
       setError(null);
       try {
         const res = await GetTransaction(1, 10);
-        const cashierRes = await getCashierDashboardData();
+        const cashierRes = await getCashierDashboardStats();
         console.log("Fetched transactions:", res);
         console.log("Fetched cashier data:", cashierRes);
         setTransactions(res?.data ?? []);
@@ -113,11 +115,16 @@ export const CashierDashboard: React.FC = () => {
   }
   if (error) {
     return (
-      <div className="flex items-center justify-center h-full text-red-500 text-lg font-semibold">
-        <p> {error}</p>
+      <div className="flex items-center justify-center h-full text-red-500 text-2xl font-semibold">
+        <p className="flex items-center gap-5"> <AlertTriangle size={18} /> {error}</p>
       </div>
     );
   }
+
+  const userStr = localStorage.getItem("user");
+  if (!userStr) return;
+  const user = JSON.parse(userStr);
+
   return (
     <motion.div
       key="dashboard"
@@ -129,7 +136,7 @@ export const CashierDashboard: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900 ">
-            Welcome back, Mercy!
+            Welcome back, {user.fullName} !
           </h1>
           <p className="text-slate-500">
             Here's what's happening with your applications today.
