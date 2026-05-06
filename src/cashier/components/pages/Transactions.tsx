@@ -4,8 +4,20 @@ import { Download, Search, Eye } from "lucide-react";
 import { StatusBadge, Button, Card } from "../ui";
 import { TransactionDetailModal } from "../shared/TransactionDetailModal";
 import { mockTransactions, mockCustomers, mockLoans } from "../../mockData";
-import type { Transaction } from "../../types";
+// import type { Transaction } from "../../types";
 import { GetTransaction } from "../../../services/Axios";
+
+type Transaction = {
+  _id: string;
+  publicId: string;
+  customerId: string;
+  customerName: string;
+  loanId?: string;
+  type: 'disbursement' | 'repayment' | 'fee';
+  amount: number;
+  status: 'completed' | 'pending' | 'failed';
+  date: string;
+}
 
 export const Transactions: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,7 +51,7 @@ useEffect(() => {
     return transactions.filter(
       (txn) =>
         txn.customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        txn.id.toLowerCase().includes(searchQuery.toLowerCase()),
+        txn._id.toLowerCase().includes(searchQuery.toLowerCase()),
     );
   }, [searchQuery]);
 
@@ -141,9 +153,9 @@ if(error){
             </thead>
             <tbody className="divide-y divide-slate-50">
               {filteredTransactions.map((tx) => (
-                <tr key={tx.id} className="hover:bg-slate-50/50 transition-all">
+                <tr key={tx._id} className="hover:bg-slate-50/50 transition-all">
                   <td className="px-6 py-4 text-sm font-bold text-slate-900">
-                    {tx.id}
+                    {tx.publicId}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">

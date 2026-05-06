@@ -9,25 +9,38 @@ import {
   Download, 
   Plus, 
   Eye,
-  AlertTriangle, 
+  AlertTriangle,
+  Loader, 
    
 } from 'lucide-react';
 import { StatCard } from '../shared/StatCard';
-import { StatusBadge, Button, Card } from '../ui';
+import { StatusBadge, Button, Card, TypeBadge } from '../ui';
 import { mockActivityLogs } from '../../mockData';
 import { getCashierDashboardStats, GetTransaction } from '../../../services/Axios';
 
 type Transactions = {
   publicId: string;
   _id: string;
-  name: string;
   phone: string;
-  dateCreated: string;
+createdAt: string;
   amount: number;
   status: string;
+  type: string;
+  customerId: {
+    fullName: string;
+    publicId: string;
+  };
+  cashierId: {  
+    email:string;
+    fullName:string; 
+    phone:string;
+    publicId:string;
+    _id:string
+  };
+
 }
 type cashierDataProps = {
-  deposit: number;
+  deposits: number;
   withdrawals: number;
   loans: number;
   customers: number;
@@ -36,11 +49,11 @@ type cashierDataProps = {
 export const CashierDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [searchQuery] = useState("");
-  const [transactions, setTransactions] = useState<Transactions[]>([]);
+  const [transactions, setTransactions] = useState<Transactions[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [cashierData, setCashierData] = useState<cashierDataProps>({
-    deposit: 0,
+    deposits: 0,
     withdrawals: 0,
     loans: 0,
     customers: 0
@@ -54,10 +67,13 @@ export const CashierDashboard: React.FC = () => {
       try {
         const res = await GetTransaction(1, 10);
         const cashierRes = await getCashierDashboardStats();
+        setTransactions(res?.data || []);
+        setCashierData(cashierRes?.data?.cards || {deposits: 0,
+    withdrawals: 0,
+    loans: 0,
+    customers: 0});
         console.log("Fetched transactions:", res);
         console.log("Fetched cashier data:", cashierRes);
-        setTransactions(res?.data ?? []);
-        setCashierData(cashierRes?.data ?? []);
       } catch (error) {
         console.error("Failed to fetch dashboard data:", error);
         setError("Failed to fetch dashboard data");
@@ -68,19 +84,25 @@ export const CashierDashboard: React.FC = () => {
     fetchTAllDashboardData();
   }, []);
 
-  const filteredTransactions = useMemo(() => {
-    return transactions?.filter(
-      (transaction) =>
-        transaction.name
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()) ||
-        transaction._id
-          .toString()
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase()),
-    );
-  }, [transactions, searchQuery]);
+ const filteredTransactions = useMemo(() => {
+  if (!transactions) return [];
 
+  return transactions.filter((transaction) => {
+    // 1. Look inside customerId for the name
+    const name = transaction?.customerId?.fullName?.toLowerCase() || "";
+    
+    // 2. Use the publicId or the nested _id for ID searching
+    const id = transaction?.publicId?.toLowerCase() || "";
+    
+    const query = searchQuery.toLowerCase();
+
+    // 3. Return true if either matches the query
+    return name.includes(query) || id.includes(query);
+  });
+}, [transactions, searchQuery]);
+
+
+console.log(transactions, " transactions");
   const handleApplyLoan = () => {
     navigate("/cashiers/customers");
   };
@@ -109,7 +131,7 @@ export const CashierDashboard: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <p>Loading...</p>
+        <p className='flex items-center justify-center gap-3 animate-pulse'><Loader size={18} className='animate-spin'/> Loading Dashboard Data please wait...</p>
       </div>
     );
   }
@@ -124,6 +146,10 @@ export const CashierDashboard: React.FC = () => {
   const userStr = localStorage.getItem("user");
   if (!userStr) return;
   const user = JSON.parse(userStr);
+
+  // if(! transactions || transactions.length === 0) {
+  //   return <div>  Loading Transactions...</div>
+  // }
 
   return (
     <motion.div
@@ -145,7 +171,7 @@ export const CashierDashboard: React.FC = () => {
         <div className="flex items-center gap-3 text-gray-900">
           <Button
             variant="outline"
-            onClick={() => exportToCSV(filteredTransactions, "loan_report")}
+            onClick={() => exportToCSV(filteredTransactions || [], "loan_report")}
             className="flex items-center gap-2 "
           >
             <Download size={16} />
@@ -162,32 +188,33 @@ export const CashierDashboard: React.FC = () => {
           trend="+12%"
         />
         <StatCard
-          title="Loans Submitted"
-          value={cashierData.loans || "0"}
+          title="Loans"
+          value={`₦${(cashierData.loans || 0).toLocaleString()}`}
           icon={FileText}
           trend="+5.4%"
         />
         <StatCard
-          title="Pending Approvals"
-          value={cashierData.withdrawals || "0"}
+          title="Withdrawals"
+           value={`₦${(cashierData.withdrawals || 0).toLocaleString()}`}
           icon={Clock}
         />
-        <StatCard
-          title="Total Deposit"
-          value={cashierData.deposit || "0"}
-          icon={CheckCircle2}
-          trend="+8.2%"
-        />
+       <StatCard
+  title="Total Deposit"
+  value={`₦${(cashierData.deposits || 0).toLocaleString()}`}
+  icon={CheckCircle2}
+  trend="+8.2%"
+/>
+
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <Card className="lg:col-span-2 overflow-hidden">
           <div className="p-6 border-b border-slate-50  flex items-center justify-between">
             <h3 className="font-bold text-slate-900 ">
-              Recent Loan Applications
+              Recent Transactions
             </h3>
             <Link
-              to="/loans"
+              to="/cashiers/transactions"
               className="text-sm text-primary font-medium hover:underline"
             >
               View All
@@ -197,32 +224,34 @@ export const CashierDashboard: React.FC = () => {
             <table className="w-full text-left">
               <thead className="bg-slate-100  text-slate-500  text-xs uppercase tracking-wider">
                 <tr>
+                  <th className="px-6 py-4 font-medium">customerId</th>
                   <th className="px-6 py-4 font-medium">Customer</th>
                   <th className="px-6 py-4 font-medium">Amount</th>
                   <th className="px-6 py-4 font-medium">Status</th>
+                  <th className="px-6 py-4 font-medium">Type</th>
                   <th className="px-6 py-4 font-medium">Date</th>
-                  <th className="px-6 py-4 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50 ">
-                {filteredTransactions
-                  .slice(0, 5)
-                  .map((transaction: Transactions) => {
+                {filteredTransactions?.map((transaction: Transactions) => {
                     return (
                       <tr
                         key={transaction._id}
-                        className=" text-slate-500 transition-all group  hover:bg-slate-100"
+                        className=" text-slate-500 transition-all group  hover:bg-slate-50"
                       >
+                        <td className="px-6 py-4 text-slate-500 text-xs font-medium">
+                            {transaction.publicId || "Unknown Customer"}
+                        </td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-slate-100  flex items-center justify-center text-xs font-bold text-slate-600 ">
-                              {transaction.name
+                            <div className="w-8 h-8 rounded-full bg-slate-100  flex items-center justify-center text-xs font-bold p-2 text-slate-600 ">
+                              {transaction.customerId.fullName
                                 .split(" ")
                                 .map((n: string) => n[0])
                                 .join("")}
                             </div>
                             <span className="text-sm font-medium text-slate-900 ">
-                              {transaction.name}
+                              {transaction.customerId.fullName || "Unknown Customer"}
                             </span>
                           </div>
                         </td>
@@ -232,14 +261,12 @@ export const CashierDashboard: React.FC = () => {
                         <td className="px-6 py-4">
                           <StatusBadge status={transaction.status} />
                         </td>
+                        <td className="px-6 py-4 text-sm ">
+                         <TypeBadge type={transaction.type} />
+                        </td>
                         <td className="px-6 py-4 text-sm text-slate-500 ">
-                          {transaction.dateCreated}
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                          <button className="p-2 rounded-lg hover:bg-slate-100 text-slate-500  group-hover:opacity-100 transition-all">
-                            <Eye size={16} />
-                          </button>
-                        </td>
+                          {transaction.createdAt}
+                        </td> 
                       </tr>
                     );
                   })}

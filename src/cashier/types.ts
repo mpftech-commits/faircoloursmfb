@@ -24,16 +24,7 @@ export interface Loan {
   documents?: string[];
 }
 
-export interface Transaction {
-  id: string;
-  customerId: string;
-  customerName: string;
-  loanId?: string;
-  type: 'disbursement' | 'repayment' | 'fee';
-  amount: number;
-  status: 'completed' | 'pending' | 'failed';
-  date: string;
-}
+
 
 export interface Notification {
   id: string;

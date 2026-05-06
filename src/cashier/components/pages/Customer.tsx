@@ -7,6 +7,9 @@ import {
   Download,
   Eye,
   MoreVertical,
+  CreditCard,
+  Clock1,
+  Users,
 } from "lucide-react";
 import { StatusBadge, Button, Card } from "../ui";
 // import { mockCustomers } from "../../mockData";
@@ -14,6 +17,8 @@ import { GetCustomers } from "../../../services/Axios";
 import { NewLoanModal } from "./NewLoan";
 import { Link } from "react-router-dom";
 import CustomerDetail from "./CustomerDetails";
+import { CreateTransaction } from "../shared/CreateTransaction";
+import { CreateWithdrawalModal } from "../shared/CreateWithdrawalModal";
 
 // interface CustomerData {
 //   _id: string;
@@ -72,6 +77,11 @@ export const Customer: React.FC = () => {
   const [isLoanModalOpen, setIsLoanModalOpen] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
   const [selected, setSelected] = useState<Information | null>(null)
+const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+// const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
+// const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
+const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false >(false);
+
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -100,6 +110,14 @@ export const Customer: React.FC = () => {
     setSelectedCustomerId(customer.publicId);
     setIsLoanModalOpen(true);
   };
+  const handleAction = (type: "deposit" | "withdrawal", id: string) => {
+    setSelectedCustomerId(id);
+    setModalType(type);
+  };
+  // const handleAction = (type: "deposit" | "withdrawal", customer: Information) => {
+  //   setSelectedCustomerId(customer.publicId);
+  //   setModalType(type);
+  // };
   return (
     <motion.div
       key="customers"
@@ -157,7 +175,7 @@ export const Customer: React.FC = () => {
             </Button>
           </div>
         </div>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto pb-7">
           <table className="w-full text-left">
             <thead className="bg-slate-50/50 text-slate-500  text-xs uppercase tracking-wider">
               <tr>
@@ -204,22 +222,42 @@ export const Customer: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <button
+                      {/* <button
                         onClick={() => handleApplyLoan(customer)}
                         className="p-2 rounded-lg hover:bg-blue-700/10 text-primary transition-all"
                         title="Apply for Loan"
                       >
                         <Plus size={18} />
-                      </button>
+                      </button> */}
                       <button
                         onClick={() => setSelected(customer)}
                         className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
                       >
                         <Eye size={18} className="text-green-500" />
                       </button>
-                      <button className="p-2 rounded-lg hover:bg-slate-100  text-slate-400 transition-all">
-                        <MoreVertical size={18} />
-                      </button>
+                      <div className=" relative  p-1 rounded-lg">
+                        <button
+                        onClick={() => setIsDropdownOpen(prev => !prev)}
+                         className="p-2 rounded-lg cursor-pointer hover:bg-slate-600/10  text-slate-700 transition-all">
+                          <MoreVertical size={18} />
+                        </button>
+                        {/* menu deopdown */}
+                        {isDropdownOpen && (
+                          <div className="absolute -left-17 top-9 flex  gap-3 shadow-md roinded-xl p-2.5 bg-white duration-300  transotion-all">
+                            <button
+                            onClick={() => handleAction("deposit", customer.publicId)}
+                             title="Create Deposit" className="cursor-pointer text-xs  border-2 p-1 rounded-sm  text-blue-700">
+                              <Clock1 size={16}/>
+                            </button>
+                            <button title="Create Withdrawal" className="cursor-pointer text-xs  border-2 p-1 rounded-sm  text-blue-700" onClick={() => handleAction("withdrawal", customer.publicId)}>
+                              <CreditCard size={16}/>
+                            </button>
+                            <button title="Create Loan" className="cursor-pointer text-xs border-2 p-1 rounded-sm  text-blue-700" onClick={() => handleApplyLoan(customer)}>
+                              <Users size={16} />
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -240,6 +278,20 @@ export const Customer: React.FC = () => {
         onClose={() => setIsLoanModalOpen(false)}
         publicId={selectedCustomerId}
       />
+     {modalType === "deposit" && (
+       <CreateTransaction
+        isOpen={true}
+        onClose={() => setModalType(false)}
+        publicId={selectedCustomerId}
+      />
+     )}
+      { modalType === "withdrawal" && (
+        <CreateWithdrawalModal
+        isOpen={true}
+        onClose={() => setModalType(false)}
+        publicId={selectedCustomerId}
+      />
+        )}
     </motion.div>
   );
 };

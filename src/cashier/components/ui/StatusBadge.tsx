@@ -18,3 +18,18 @@ export const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
       return <Badge variant="neutral">{status}</Badge>;
   }
 };
+export const TypeBadge: React.FC<{ type: string }> = ({ type }) => {
+  switch (type.toLowerCase()) {
+    case 'deposit':
+    case 'withdrawal':
+      return <Badge variant="success" className="flex items-center gap-1 w-fit"><CheckCircle2 size={10} /> {type}</Badge>;
+    case 'deposit':
+      return <Badge variant="error" className="flex items-center gap-1 w-fit"><Clock size={10} /> {type}</Badge>;
+    case 'rejected':
+    case 'failed':
+    case 'inactive':
+      return <Badge variant="error" className="flex items-center gap-1 w-fit"><XCircle size={10} /> {type}</Badge>;
+    default:
+      return <Badge variant="neutral">{type}</Badge>;
+  }
+};
