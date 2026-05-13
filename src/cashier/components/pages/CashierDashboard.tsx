@@ -1,28 +1,28 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  Users, 
-  FileText, 
-  Clock, 
-  CheckCircle2, 
-  Download, 
-  Plus, 
+import {
+  Users,
+  FileText,
+  Clock,
+  CheckCircle2,
+  Download,
+  Plus,
   // Eye,
   AlertTriangle,
-  Loader, 
-   
+  Loader,
+
 } from 'lucide-react';
 import { StatCard } from '../shared/StatCard';
 import { StatusBadge, Button, Card, TypeBadge } from '../ui';
 import { mockActivityLogs } from '../../mockData';
-import { getCashierDashboardStats, GetTransaction } from '../../../services/Axios';
+import { getCashierDashboardStats } from '../../../services/Axios';
 
 type Transactions = {
   publicId: string;
   _id: string;
   phone: string;
-createdAt: string;
+  createdAt: string;
   amount: number;
   status: string;
   type: string;
@@ -30,12 +30,12 @@ createdAt: string;
     fullName: string;
     publicId: string;
   };
-  cashierId: {  
-    email:string;
-    fullName:string; 
-    phone:string;
-    publicId:string;
-    _id:string
+  cashierId: {
+    email: string;
+    fullName: string;
+    phone: string;
+    publicId: string;
+    _id: string
   };
 
 }
@@ -61,55 +61,55 @@ export const CashierDashboard: React.FC = () => {
 
   // Transaction Logic
   useEffect(() => {
-  const fetchTAllDashboardData = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      // You can keep GetTransaction(1, 10)
-      const cashierRes = await getCashierDashboardStats();
-      
-      const dashboardData = cashierRes?.data;
+    const fetchTAllDashboardData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        // You can keep GetTransaction(1, 10)
+        const cashierRes = await getCashierDashboardStats();
 
-      // Update transactions with the "recentTransactions" array from the API
-      setTransactions(dashboardData?.recentTransactions || []);
+        const dashboardData = cashierRes?.data;
 
-      // Update the stat cards
-      setCashierData(dashboardData?.cards || {
-        deposits: 0,
-        withdrawals: 0,
-        loans: 0,
-        customers: 0
-      });
+        // Update transactions with the "recentTransactions" array from the API
+        setTransactions(dashboardData?.recentTransactions || []);
 
-    } catch (error) {
-      console.error("Failed to fetch dashboard data:", error);
-      setError("Failed to fetch dashboard data");
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchTAllDashboardData();
-}, []);
+        // Update the stat cards
+        setCashierData(dashboardData?.cards || {
+          deposits: 0,
+          withdrawals: 0,
+          loans: 0,
+          customers: 0
+        });
 
- const filteredTransactions = useMemo(() => {
-  if (!transactions) return [];
+      } catch (error) {
+        console.error("Failed to fetch dashboard data:", error);
+        setError("Failed to fetch dashboard data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTAllDashboardData();
+  }, []);
 
-  return transactions.filter((transaction) => {
-    // 1. Look inside customerId for the name
-    const name = transaction?.customerId?.fullName?.toLowerCase() || "";
-    
-    // 2. Use the publicId or the nested _id for ID searching
-    const id = transaction?.publicId?.toLowerCase() || "";
-    
-    const query = searchQuery.toLowerCase();
+  // const filteredTransactions = useMemo(() => {
+  //   if (!transactions) return [];
 
-    // 3. Return true if either matches the query
-    return name.includes(query) || id.includes(query);
-  });
-}, [transactions, searchQuery]);
+  //   return transactions.filter((transaction) => {
+  //     // 1. Look inside customerId for the name
+  //     const name = transaction?.customerId?.fullName?.toLowerCase() || "";
+
+  //     // 2. Use the publicId or the nested _id for ID searching
+  //     const id = transaction?.publicId?.toLowerCase() || "";
+
+  //     const query = searchQuery.toLowerCase();
+
+  //     // 3. Return true if either matches the query
+  //     return name.includes(query) || id.includes(query);
+  //   });
+  // }, [transactions, searchQuery]);
 
 
-console.log(transactions, " transactions");
+  console.log(transactions, " transactions");
   const handleApplyLoan = () => {
     navigate("/cashiers/customers");
   };
@@ -138,7 +138,7 @@ console.log(transactions, " transactions");
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <p className='flex items-center justify-center gap-3 animate-pulse'><Loader size={18} className='animate-spin'/> Loading Dashboard Data please wait...</p>
+        <p className='flex items-center justify-center gap-3 animate-pulse'><Loader size={18} className='animate-spin' /> Loading Dashboard Data please wait...</p>
       </div>
     );
   }
@@ -178,7 +178,7 @@ console.log(transactions, " transactions");
         <div className="flex items-center gap-3 text-gray-900">
           <Button
             variant="outline"
-            onClick={() => exportToCSV(filteredTransactions || [], "loan_report")}
+            onClick={() => exportToCSV(transactions || [], "loan_report")}
             className="flex items-center gap-2 "
           >
             <Download size={16} />
@@ -202,15 +202,15 @@ console.log(transactions, " transactions");
         />
         <StatCard
           title="Withdrawals"
-           value={`₦${(cashierData.withdrawals || 0).toLocaleString()}`}
+          value={`₦${(cashierData.withdrawals || 0).toLocaleString()}`}
           icon={Clock}
         />
-       <StatCard
-  title="Total Deposit"
-  value={`₦${(cashierData.deposits || 0).toLocaleString()}`}
-  icon={CheckCircle2}
-  trend="+8.2%"
-/>
+        <StatCard
+          title="Total Deposit"
+          value={`₦${(cashierData.deposits || 0).toLocaleString()}`}
+          icon={CheckCircle2}
+          trend="+8.2%"
+        />
 
       </div>
 
@@ -240,46 +240,46 @@ console.log(transactions, " transactions");
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50 ">
-  {filteredTransactions?.map((transaction: Transactions) => {
-    // Fallback for name initials
-    const fullName = transaction.customerId?.fullName || "Unknown Customer";
-    const initials = fullName
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase();
+                {transactions?.map((transaction: Transactions) => {
+                  // Fallback for name initials
+                  const fullName = transaction.customerId?.fullName || "Unknown Customer";
+                  const initials = fullName
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .toUpperCase();
 
-    return (
-      <tr key={transaction._id} className="text-slate-500 transition-all group hover:bg-slate-50">
-        <td className="px-6 py-4 text-slate-500 text-xs font-medium">
-          {transaction.publicId}
-        </td>
-        <td className="px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold p-2 text-slate-600">
-              {initials}
-            </div>
-            <span className="text-sm font-medium text-slate-900">
-              {fullName}
-            </span>
-          </div>
-        </td>
-        <td className="px-6 py-4 text-sm text-slate-500">
-          ₦{transaction.amount.toLocaleString()}
-        </td>
-        <td className="px-6 py-4">
-          <StatusBadge status={transaction.status} />
-        </td>
-        <td className="px-6 py-4 text-sm ">
-          <TypeBadge type={transaction.type} />
-        </td>
-        <td className="px-6 py-4 text-sm text-slate-500">
-          {new Date(transaction.createdAt).toLocaleDateString()}
-        </td>
-      </tr>
-    );
-  })}
-</tbody>
+                  return (
+                    <tr key={transaction._id} className="text-slate-500 transition-all group hover:bg-slate-50">
+                      <td className="px-6 py-4 text-slate-500 text-xs font-medium">
+                        {transaction.publicId}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold p-2 text-slate-600">
+                            {initials}
+                          </div>
+                          <span className="text-sm font-medium text-slate-900">
+                            {fullName}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-500">
+                        ₦{transaction.amount.toLocaleString()}
+                      </td>
+                      <td className="px-6 py-4">
+                        <StatusBadge status={transaction.status} />
+                      </td>
+                      <td className="px-6 py-4 text-sm ">
+                        <TypeBadge type={transaction.type} />
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-500">
+                        {new Date(transaction.createdAt).toLocaleDateString()}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
 
             </table>
           </div>
@@ -336,15 +336,14 @@ console.log(transactions, " transactions");
               {mockActivityLogs.slice(0, 4).map((log) => (
                 <div key={log.id} className="flex gap-3">
                   <div
-                    className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${
-                      log.type === "loan"
+                    className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${log.type === "loan"
                         ? "bg-blue-700"
                         : log.type === "customer"
                           ? "bg-emerald-500"
                           : log.type === "auth"
                             ? "bg-amber-500"
                             : "bg-slate-400"
-                    }`}
+                      }`}
                   ></div>
                   <div>
                     <p className="text-sm text-slate-500 ">

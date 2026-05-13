@@ -49,14 +49,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     title,
     icon: Icon,
     onClick,
-    className,
   }: {
     to: string;
     label: string;
     title?: string;
     icon: LucideIcon;
     onClick?: () => void;
-    className?: string;
   }) => (
     <NavLink
       to={to}
