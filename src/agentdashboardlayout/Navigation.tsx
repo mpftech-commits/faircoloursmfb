@@ -1,10 +1,10 @@
 import { Home, User, Settings, Menu, LogOut, Currency, ReceiptIcon, X } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
-// import { useState } from "react";
+import { useState } from "react";
 
 import { LogoutUser } from "../services/Axios";
 
-export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMobileOpen }: any)  {
+export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMobileOpen }: any) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -33,7 +33,7 @@ export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMob
         aria-label="Open menu"
       >
         <Menu size={20} />
-        
+
       </button>
 
       {/* Mobile overlay */}
@@ -49,7 +49,7 @@ export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMob
         <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
           <div className="flex items-center gap-2">
             <img src="/logo.png" alt="faircolors logo" className=" h-20" />
-           
+
           </div>
           <button
             className="p-2 rounded-lg hover:bg-gray-100 transition"
@@ -107,7 +107,7 @@ export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMob
             to="#"
             icon={<LogOut size={20} />}
             label="Logout"
-            className="text-red-500 mt-6 gap-3"
+            className="text-red-500 mt-4 gap-3"
             onClick={() => handleNavClick(handleLogout)}
           />
         </nav>
@@ -135,7 +135,7 @@ export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMob
           </button>
         </div>
 
-        <nav className="flex flex-col gap-2 p-4 text-sm font-medium">
+        <nav className="flex flex-col gap-3 text-sm font-medium">
           <NavItem
             collapsed={collapsed}
             to="/dashboard"
@@ -178,7 +178,7 @@ export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMob
             to="#"
             icon={<LogOut size={20} />}
             label="Logout"
-            className="text-red-500 mt-9"
+            className="text-red-500 mt-6"
           />
         </nav>
       </div>
@@ -194,8 +194,7 @@ function NavItem({ to, icon, label, className = "", collapsed = false, onClick }
       title={collapsed ? label : ""}
       onClick={onClick}
       className={({ isActive }) =>
-        `flex md:flex-col md:flex-row md:justify-start items-center justify-start gap-1 md:gap-3 p-2 rounded-lg transition-all ${
-          isActive ? "text-blue-600 bg-green-50" : "text-gray-500 hover:bg-blue-100"
+        `flex md:flex-col md:flex-row md:justify-start items-center justify-start gap-1 md:gap-3 p-2 rounded-lg transition-all ${isActive ? "text-blue-600 bg-green-50" : "text-gray-500 hover:bg-blue-100"
         } ${className}`
       }
     >

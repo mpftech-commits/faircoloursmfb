@@ -2,9 +2,10 @@ type Props = {
   title: string;
   value: number;
   loading: boolean;
+  symnbol?: string;
 };
 
-function StatsCard({ title, value, loading }: Props) {
+function StatsCard({ title, value, loading  }: Props) {
   return (
     <div className="bg-white rounded-xl shadow p-4">
       <p className="text-gray-500 text-sm">{title}</p>

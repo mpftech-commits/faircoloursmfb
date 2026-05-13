@@ -292,7 +292,21 @@ const GetTransaction = async (page: number, limit = 10) => {
     throw error;
   }
 };
-export { GetTransaction };
+
+const ApproveTransaction = async (publicId: string) => {
+  try {
+    const response = await api.patch(`/transactions/${publicId}/approve`);
+    return response.data;
+  } catch (error: string | any) {
+    console.error(
+      "error approving transaction:",
+      error.response?.data || error?.message || error,
+    );
+    throw error;
+  }
+};
+
+export { GetTransaction, ApproveTransaction };
 
 // get Loans
 const GetLoans = async (page: number, limit = 10) => {

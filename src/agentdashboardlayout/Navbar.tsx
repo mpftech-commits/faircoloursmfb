@@ -10,8 +10,8 @@ if (!user) {
 }
 
   return (
-    <div className={`w-full bg-white border-b border-gray-200 top-0 left-0 right-0 z-10 `}>
-      <div className={`fixed z-50 w-full mx-auto flex items-center bg-white justify-between px-4 py-10 md:py-4 transition-all duration-300  ${
+    <div className={`w-full bg-white border-b border-gray-200 top-0 left-0 right-0 z-10`}>
+      <div className={`fixed z-50 w-full mx-auto flex items-center bg-white justify-between px-4 py-4 transition-all duration-300 ${
         mobileOpen 
           ? "md:max-w-full" 
           : collapsed 
@@ -19,7 +19,7 @@ if (!user) {
             : "md:max-w-[calc(100%-15rem)]"
       }`} >
 
-        <div className="hidden md:block">
+        <div>
           <h1 className="text-xl font-semibold text-blue-700">
             Welcome Back, {user.fullName}!
           </h1>
@@ -28,7 +28,7 @@ if (!user) {
           </p>
         </div>
 
-        <div className={`flex items-center gap-4 absolute right-5 `}>
+        <div className={`flex items-center gap-4 absolute right-20`}>
           <Bell size={18} className="text-gray-500" />
 
           <div className="flex flex-col items-center gap-2">

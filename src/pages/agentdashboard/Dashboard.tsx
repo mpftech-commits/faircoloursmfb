@@ -73,15 +73,15 @@ export default function Dashboard() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <StatsCard
               title="Deposits"
-              value={data?.cards.deposits}
+              value={data?.cards.deposits?.toLocaleString()}
               loading={loading}
             />
             <StatsCard
               title="Withdrawals"
-              value={data?.cards.withdrawals}
+              value={data?.cards.withdrawals?.toLocaleString()}
               loading={loading}
             />
-            <StatsCard title="Loans" value={data?.cards.loans} loading={loading} />
+            <StatsCard title="Loans" value={data?.cards.loans?.toLocaleString()} loading={loading} />
             <StatsCard
               title="Customers"
               value={data?.cards.customers}

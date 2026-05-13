@@ -241,16 +241,16 @@ export default function LoanTable() {
       {isModalOpen && selectedLoan && (
         <div
           onClick={() => setIsModalOpen(false)}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4 overflow-auto lg:pt-30"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4 overflow-auto lg:pt-30 pt-10"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white w-full max-w-xl rounded-2xl shadow-xl p-6 relative overflow-auto  mb-10"
+            className="bg-white w-full max-w-xl rounded-2xl shadow-xl p-6 relative overflow-auto  mb-10 pt-30 lg:pt-0"
           >
             {/* Close */}
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
+              className="absolute top-4 bg-green-500 p-2 z-50 right-4 text-gray-400 hover:text-gray-700 mt-60"
             >
               ✕
             </button>
