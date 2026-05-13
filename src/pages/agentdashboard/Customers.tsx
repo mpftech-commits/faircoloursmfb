@@ -10,7 +10,7 @@ import {
 import { useState, useEffect } from "react";
 import api, { GetCustomers } from "../../services/Axios";
 import {Link} from "react-router-dom"
-import CustomerDetail from "../../modal/CustometDetails";
+import CustomerDetail from "../CustometDetails";
 import {motion, AnimatePresence} from "framer-motion";
 
 type Information = {
@@ -55,7 +55,7 @@ type Information = {
 
 
 
-export default function Customers() {
+export default function AgentCustomers() {
   const [customers, setCustomers] = useState<Information[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>("");

@@ -1,6 +1,6 @@
 import React  from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { Loader, X } from 'lucide-react';
 import api from '../../../services/Axios';
 import { useState } from 'react';
 
@@ -30,7 +30,9 @@ export const CreateTransaction: React.FC<{
       console.log("deposit created succefully:", res);
     } catch (error:any) {
       console.error("Failed to creating transactions:", error);
-      setError(error.message);
+      const message = error.response?.data?.message || error.message || error.response?.data?.error || 'An error occurred';
+      setError(message);
+      console.error("Failed to creating transactions:", error);
     } finally {
       setLoading(false);
     }
@@ -100,7 +102,8 @@ export const CreateTransaction: React.FC<{
                   </div>
                   <button
                   disabled={loading}
-                   type="submit" className='bg-blue-700 text-white rounded-lg px-3 py-2 disabled:bg-blue-300 disabled:cursor-not-allowed'>
+                   type="submit" className='bg-blue-700 text-white rounded-lg px-3 py-2 disabled:bg-blue-300 disabled:cursor-not-allowed flex gap-3 items-center justify-center mt-4'>
+                  {loading && <Loader size={18} className="animate-spin"/>}
                     {loading ? 'Creating Deposit...' : 'Create Deposit'}
                     </button>
               </form>

@@ -1,6 +1,6 @@
 import React  from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, Loader } from 'lucide-react';
 import api from '../../../services/Axios';
 import { useState } from 'react';
 
@@ -101,7 +101,8 @@ export const CreateWithdrawalModal: React.FC<{
                   </div>
                   <button
                   disabled={loading}
-                   type="submit" className='bg-blue-700 text-white rounded-lg px-3 py-2 disabled:bg-blue-300 disabled:cursor-not-allowed'>
+                   type="submit" className='bg-blue-700 text-white rounded-lg px-3 py-2 disabled:bg-blue-300 disabled:cursor-not-allowed flex gap-3 items-center justify-center mt-4'>
+                    {loading && <Loader size={18} className="animate-spin"/>}
                     {loading ? 'Creating Withdrawal...' : 'Create Withdrawal'}
                     </button>
               </form>

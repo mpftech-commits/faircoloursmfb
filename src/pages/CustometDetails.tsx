@@ -2,16 +2,17 @@ import { X, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import {motion, AnimatePresence} from "framer-motion";
 import api from "../services/Axios";
+import TransferCustomer from "./TransferCustomer";
 
 interface Props {
   customer: any;
   onClose: () => void;
 }
 
-const Field = ({ label, value }: { label: string; value: any }) => (
+const Field = ({ label, value }: { label: string; value: string }) => (
   <div className="flex flex-col">
-    <span className="text-xs text-gray-500">{label}</span>
-    <span className="font-medium text-gray-800">{value || "-"}</span>
+    <span className="text-xs text-gray-500">{label ?? "-"}</span>
+    <span className="font-medium text-gray-800">{value ?? "-"}</span>
   </div>
 );
 const Section = ({ title, children }: any) => (
@@ -22,7 +23,7 @@ const Section = ({ title, children }: any) => (
 );
 export default function CustomerDetail({ customer, onClose }: Props) {
   if (!customer) return null;
-
+console.log(customer, "customer");
 
   // Deactivate customer
    const handleDeactivateCustomer = async (publicId: string) => {
@@ -153,24 +154,20 @@ export default function CustomerDetail({ customer, onClose }: Props) {
         </Section>
         {/* Account Status */}
         <Section title="Account Status">
-          <Field
-            label="Status"
-            value={customer.accountStatus}
-          />
-        </Section>
+  <Field
+    label="Status"
+    value={ customer.accountStatus || "Active"} 
+  />
+</Section>
+{/* Assigned to */}
         <Section title="Assigned To">
           <Field
             label="Assigned to Cashier"
-            value={customer.assignedTo}
+            value={customer.assignedTo?.fullName || "-"}
           />
         </Section>
-        {/* <Section title="Assigned To">
-          <Field
-            label="Assigned to Cashier"
-            value={customer.assignedTo}
-          />
-        </Section> */}
-        <div className="flex gap-5 items-center justify-end">
+        <div className="flex gap-3 items-center justify-end">
+
           {customer.isDeactivated ? (
             <button className="bg-red-200 text-red-700 px-4 py-2 rounded-lg cursor-pointer">
               Reactivate
@@ -197,6 +194,8 @@ export default function CustomerDetail({ customer, onClose }: Props) {
             </button>
           )}
         </div>
+        {/* modal for transfering customal */}
+         <TransferCustomer customerName={`${customer.surname} ${customer.otherName}`} customerId={customer.publicId} />
       </div>
       <AnimatePresence>
         {feedback.show && (

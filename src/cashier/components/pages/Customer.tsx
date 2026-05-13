@@ -16,19 +16,9 @@ import { StatusBadge, Button, Card } from "../ui";
 import { GetCustomers } from "../../../services/Axios";
 import { NewLoanModal } from "./NewLoan";
 import { Link } from "react-router-dom";
-import CustomerDetail from "./CustomerDetails";
+import CustomerDetail from "../shared/CustomerDetails";
 import { CreateTransaction } from "../shared/CreateTransaction";
 import { CreateWithdrawalModal } from "../shared/CreateWithdrawalModal";
-
-// interface CustomerData {
-//   _id: string;
-//   publicId: string;
-//   fullName: string;
-//   phone: string;
-//   email: string;
-//   status: string;
-//   updatedAt: string;
-// }
 
 type Information = {
   publicId: string;
@@ -77,7 +67,7 @@ export const Customer: React.FC = () => {
   const [isLoanModalOpen, setIsLoanModalOpen] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
   const [selected, setSelected] = useState<Information | null>(null)
-const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null)
 // const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
 // const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
 const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false >(false);
@@ -99,12 +89,14 @@ const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false >(fa
   }, []);
 
   const filteredCustomers = useMemo(() => {
-    return customers.filter(
-      (cust) =>
-        cust.fullName.includes(searchQuery.toLowerCase()) ||
-        cust.phone.includes(searchQuery),
-    );
-  }, [searchQuery, customers]);
+  const query = searchQuery.toLowerCase();
+  return customers.filter(
+    (cust) =>
+      cust.fullName.toLowerCase().includes(query) || // Lowercase both sides
+      cust.phone.includes(query)
+  );
+}, [searchQuery, customers]);
+
 
   const handleApplyLoan = (customer: Information) => {
     setSelectedCustomerId(customer.publicId);
@@ -196,9 +188,9 @@ const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false >(fa
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-blue-700/10 flex items-center justify-center text-sm font-bold text-primary">
                         {customer.fullName
-                          .split(" ")
-                          .map((n) => n[0])
-                          .join("")}
+  ? customer.fullName.split(" ").map((n) => n[0]).join("").toUpperCase()
+  : "???"}
+
                       </div>
                       <div>
                         <p className="text-sm font-bold text-slate-800 ">
@@ -237,19 +229,19 @@ const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false >(fa
                       </button>
                       <div className=" relative  p-1 rounded-lg">
                         <button
-                        onClick={() => setIsDropdownOpen(prev => !prev)}
+                        onClick={() => setActiveDropdownId(activeDropdownId === customer._id ? null : customer._id)}
                          className="p-2 rounded-lg cursor-pointer hover:bg-slate-600/10  text-slate-700 transition-all">
                           <MoreVertical size={18} />
                         </button>
                         {/* menu deopdown */}
-                        {isDropdownOpen && (
-                          <div className="absolute -left-17 top-9 flex  gap-3 shadow-md roinded-xl p-2.5 bg-white duration-300  transotion-all">
+                        {activeDropdownId === customer._id && (
+                          <div className="absolute  -left-17 top-9 flex  gap-3 shadow-md roinded-xl p-2.5 bg-white duration-300  transotion-all">
                             <button
-                            onClick={() => handleAction("deposit", customer.publicId)}
+                            onClick={() => {handleAction("deposit", customer.publicId); setActiveDropdownId(null)}}
                              title="Create Deposit" className="cursor-pointer text-xs  border-2 p-1 rounded-sm  text-blue-700">
                               <Clock1 size={16}/>
                             </button>
-                            <button title="Create Withdrawal" className="cursor-pointer text-xs  border-2 p-1 rounded-sm  text-blue-700" onClick={() => handleAction("withdrawal", customer.publicId)}>
+                            <button title="Create Withdrawal" className="cursor-pointer text-xs  border-2 p-1 rounded-sm  text-blue-700" onClick={() => {handleAction("withdrawal", customer.publicId); setActiveDropdownId(null)}}>
                               <CreditCard size={16}/>
                             </button>
                             <button title="Create Loan" className="cursor-pointer text-xs border-2 p-1 rounded-sm  text-blue-700" onClick={() => handleApplyLoan(customer)}>

@@ -161,7 +161,7 @@ export default function CustomerDetail({ customer, onClose }: Props) {
         <Section title="Assigned To">
           <Field
             label="Assigned to Cashier"
-            value={customer.assignedTo}
+            value={customer.assignedTo.fullName}
           />
         </Section>
       </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "./Input";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import { LoginUser } from "../services/Axios";
 
 export default function LoginForm() {
@@ -135,10 +135,10 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-blue-900 text-white py-3 rounded-lg hover:bg-blue-800 transition font-medium text-[16px] flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer"
+            className="w-full bg-blue-900 text-white py-3 rounded-lg hover:bg-blue-800 transition font-medium text-[16px] flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:animate-pulse disabled:cursor-not-allowed cursor-pointer"
           >
             {isLoading && (
-              <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              <Loader className=" animate-spin" size={18}/>
             )}
             {isLoading ? "Signing in..." : "Sign In"}
           </button>

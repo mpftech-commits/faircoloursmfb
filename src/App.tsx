@@ -1,8 +1,6 @@
 import Welcome from "./pages/Welcome";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Signup from "./pages/auth/Signup";
 import ScrollToTop from "./components/ScrollToTop";
-// import VerifyPhone from "./pages/VerifyPhone";
 import Login from "./pages/auth/Login";
 import DashboardLayout from "./agentdashboardlayout/DashboardLayout";
 import Dashboard from "./pages/agentdashboard/Dashboard";
@@ -14,22 +12,20 @@ import HelpSupport from "./pages/HelpSupport";
 import ProtectedRoute from "./components/Protectedroute/ProtectedRoute";
 import LoanApproval from "./pages/agentdashboard/LoanApproval";
 import NotFoundPage from "./NotFound";
-import Customers from "./pages/agentdashboard/Customers";
 import Cashiers from "./pages/Cashiers";
 import { CashierDashboardLayout } from "./cashier/components/layout/CashierDashboardLayout";
 
 import {
   CashierDashboard,
   Customer,
-  // Loans,
   Notifications,
   Setting,
   Transactions,
 } from "./cashier/components/pages";
-// import JoinRolePage from "./pages/JoinRolesPage";
 import CustomerForm from "./pages/CreateCustomer";
 import ReportsPage from "./pages/ReportPage";
 import CreateCustomerForm from "./cashier/components/pages/CashierCreateCustomer";
+import AgentCustomers from "./pages/agentdashboard/Customers";
 
 function App() {
   return (
@@ -37,10 +33,7 @@ function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          {/* <Route path="/" element={<JoinRolePage />} /> */}
           <Route path="/" element={<Welcome />} />
-          {/* <Route path="/signup" element={<Signup />} /> */}
-          {/* <Route path="/verify-phone" element={<VerifyPhone />} /> */}
           <Route path="/login" element={<Login />} />
           <Route path="settings/help-support" element={<HelpSupport />} />
           <Route path="404" element={<NotFoundPage />} />
@@ -65,8 +58,7 @@ function App() {
                 path="settings/change-password"
                 element={<ChangePassword />}
               />
-
-              <Route path="customer" element={<Customers />} />
+              <Route path="customer" element={<AgentCustomers />} />
               <Route path="create-customer" element={<CustomerForm />} />
               <Route path="cashier" element={<Cashiers />} />
               <Route path="report" element={<ReportsPage />} />
@@ -79,7 +71,6 @@ function App() {
                 path="/cashiers/create-customers"
                 element={<CreateCustomerForm />}
               />
-              {/* <Route path="/cashiers/loans" element={<Loans />} /> */}
               <Route path="/cashiers/transactions" element={<Transactions />} />
               <Route
                 path="/cashiers/notifications"

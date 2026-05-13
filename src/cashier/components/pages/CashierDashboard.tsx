@@ -8,7 +8,7 @@ import {
   CheckCircle2, 
   Download, 
   Plus, 
-  Eye,
+  // Eye,
   AlertTriangle,
   Loader, 
    
@@ -61,28 +61,35 @@ export const CashierDashboard: React.FC = () => {
 
   // Transaction Logic
   useEffect(() => {
-    const fetchTAllDashboardData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await GetTransaction(1, 10);
-        const cashierRes = await getCashierDashboardStats();
-        setTransactions(res?.data || []);
-        setCashierData(cashierRes?.data?.cards || {deposits: 0,
-    withdrawals: 0,
-    loans: 0,
-    customers: 0});
-        console.log("Fetched transactions:", res);
-        console.log("Fetched cashier data:", cashierRes);
-      } catch (error) {
-        console.error("Failed to fetch dashboard data:", error);
-        setError("Failed to fetch dashboard data");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchTAllDashboardData();
-  }, []);
+  const fetchTAllDashboardData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      // You can keep GetTransaction(1, 10)
+      const cashierRes = await getCashierDashboardStats();
+      
+      const dashboardData = cashierRes?.data;
+
+      // Update transactions with the "recentTransactions" array from the API
+      setTransactions(dashboardData?.recentTransactions || []);
+
+      // Update the stat cards
+      setCashierData(dashboardData?.cards || {
+        deposits: 0,
+        withdrawals: 0,
+        loans: 0,
+        customers: 0
+      });
+
+    } catch (error) {
+      console.error("Failed to fetch dashboard data:", error);
+      setError("Failed to fetch dashboard data");
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchTAllDashboardData();
+}, []);
 
  const filteredTransactions = useMemo(() => {
   if (!transactions) return [];
@@ -233,44 +240,47 @@ console.log(transactions, " transactions");
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50 ">
-                {filteredTransactions?.map((transaction: Transactions) => {
-                    return (
-                      <tr
-                        key={transaction._id}
-                        className=" text-slate-500 transition-all group  hover:bg-slate-50"
-                      >
-                        <td className="px-6 py-4 text-slate-500 text-xs font-medium">
-                            {transaction.publicId || "Unknown Customer"}
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-slate-100  flex items-center justify-center text-xs font-bold p-2 text-slate-600 ">
-                              {transaction.customerId.fullName
-                                .split(" ")
-                                .map((n: string) => n[0])
-                                .join("")}
-                            </div>
-                            <span className="text-sm font-medium text-slate-900 ">
-                              {transaction.customerId.fullName || "Unknown Customer"}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-sm text-slate-500 ">
-                          ₦{transaction.amount.toLocaleString()}
-                        </td>
-                        <td className="px-6 py-4">
-                          <StatusBadge status={transaction.status} />
-                        </td>
-                        <td className="px-6 py-4 text-sm ">
-                         <TypeBadge type={transaction.type} />
-                        </td>
-                        <td className="px-6 py-4 text-sm text-slate-500 ">
-                          {transaction.createdAt}
-                        </td> 
-                      </tr>
-                    );
-                  })}
-              </tbody>
+  {filteredTransactions?.map((transaction: Transactions) => {
+    // Fallback for name initials
+    const fullName = transaction.customerId?.fullName || "Unknown Customer";
+    const initials = fullName
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase();
+
+    return (
+      <tr key={transaction._id} className="text-slate-500 transition-all group hover:bg-slate-50">
+        <td className="px-6 py-4 text-slate-500 text-xs font-medium">
+          {transaction.publicId}
+        </td>
+        <td className="px-6 py-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-bold p-2 text-slate-600">
+              {initials}
+            </div>
+            <span className="text-sm font-medium text-slate-900">
+              {fullName}
+            </span>
+          </div>
+        </td>
+        <td className="px-6 py-4 text-sm text-slate-500">
+          ₦{transaction.amount.toLocaleString()}
+        </td>
+        <td className="px-6 py-4">
+          <StatusBadge status={transaction.status} />
+        </td>
+        <td className="px-6 py-4 text-sm ">
+          <TypeBadge type={transaction.type} />
+        </td>
+        <td className="px-6 py-4 text-sm text-slate-500">
+          {new Date(transaction.createdAt).toLocaleDateString()}
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+
             </table>
           </div>
         </Card>

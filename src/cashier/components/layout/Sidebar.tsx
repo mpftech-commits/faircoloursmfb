@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
@@ -13,8 +13,8 @@ import {
   X,
   type LucideIcon,
   LogOutIcon,
-  LogOut,
 } from "lucide-react";
+import { LogoutUser } from "../../../services/Axios";
 
 interface SidebarProps {
   isMobileMenuOpen?: boolean;
@@ -25,28 +25,43 @@ export const Sidebar: React.FC<SidebarProps> = ({
   isMobileMenuOpen = false,
   setIsMobileMenuOpen,
 }) => {
+   const navigate = useNavigate();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const handleNavClick = () => {
+  const handleNavClick:any = () => {
     if (setIsMobileMenuOpen) {
       setIsMobileMenuOpen(false);
     }
   };
 
-  const SidebarItem = ({
+   const handleLogout = async () => {
+    try {
+      await LogoutUser();
+      localStorage.clear();
+      navigate("/login");
+    } catch (err) {
+      console.error("logout failed:", err);
+    }
+  };
+
+  const SidebarItem:any = ({
     to,
     label,
     title,
     icon: Icon,
+    onClick,
+    className,
   }: {
     to: string;
     label: string;
     title?: string;
     icon: LucideIcon;
+    onClick?: () => void;
+    className?: string;
   }) => (
     <NavLink
       to={to}
       title={title}
-      onClick={handleNavClick}
+      onClick={onClick || handleNavClick}
       className={({ isActive }) =>
         `sidebar-item w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300  ${isActive ? "bg-blue-100 text-blue-700 " : "text-gray-500"} ${isSidebarCollapsed ? `justify-center px-0` : ``}`
       }
@@ -125,6 +140,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <Link to="/login" title="logout" className="w-full flex gap-3 items-center"> 
             <button
               className={`sidebar-item w-full  hover:text-red-500 cursor-pointer flex gap-3 items-center ${isSidebarCollapsed ? "justify-center px-0" : ""}`}
+              onClick={handleLogout}
             >
               <LogOutIcon size={18} className={`${isSidebarCollapsed ? "" : "hidden text-red-500"} text-red-500`}/>
               {!isSidebarCollapsed && (
@@ -196,12 +212,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   label="Settings"
                   icon={Settings}
                 />
-                <SidebarItem
-                  to="/logout"
+                {/* <SidebarItem
+                  to="/login"
                   label="Logout"
                   icon={LogOutIcon}
-                />
+                  onClick={handleLogout}
+                  className="text-red-500 hover:text-red-600"
+                /> */}
               </nav>
+
+               <div className="p-4 border-t mt-4 border-slate-100">
+          <Link to="/login" title="logout" className="w-full flex gap-3 items-center"> 
+            <button
+              className={`sidebar-item w-full  hover:text-red-500 cursor-pointer flex gap-3 items-center ${isSidebarCollapsed ? "justify-center px-0" : ""}`}
+              onClick={handleLogout}
+            >
+              <LogOutIcon size={18} className={`${isSidebarCollapsed ? "" : "hidden text-red-500"} text-red-500`}/>
+              {!isSidebarCollapsed && (
+                <span className="text-red-500 flex gap-3 items-center">< LogOutIcon size={18}/> Logout</span>
+              )}
+            </button>
+          </Link>
+        </div>
             </motion.div>
           </motion.div>
         )}

@@ -60,7 +60,7 @@ export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMob
           </button>
         </div>
 
-        <nav className="flex flex-col gap-4 p-4 text-sm font-medium">
+        <nav className="flex flex-col gap-2 p-4 text-sm font-medium">
           <NavItem
             to="/dashboard"
             icon={<Home size={20} />}
@@ -135,7 +135,7 @@ export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMob
           </button>
         </div>
 
-        <nav className="flex flex-col gap-4 text-sm font-medium">
+        <nav className="flex flex-col gap-2 p-4 text-sm font-medium">
           <NavItem
             collapsed={collapsed}
             to="/dashboard"
@@ -178,7 +178,7 @@ export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMob
             to="#"
             icon={<LogOut size={20} />}
             label="Logout"
-            className="text-red-500 mt-[100px]"
+            className="text-red-500 mt-9"
           />
         </nav>
       </div>
