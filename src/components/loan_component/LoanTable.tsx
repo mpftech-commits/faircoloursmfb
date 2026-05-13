@@ -105,8 +105,9 @@ export default function LoanTable() {
         message: "Loan approved successfully",
       });
       console.log("Loan approved:", selectedLoan.publicId);
-
-      setSelectedLoan({ ...selectedLoan, status: "approved" });
+      const updatedLoan = { ...selectedLoan, status: "approved" as LoanStatus };
+      setSelectedLoan(updatedLoan);
+      setLoansState((prev) => prev.map((loan) => (loan._id === selectedLoan._id ? updatedLoan : loan)));
     } catch (err: any) {
       setFeedback({
         show: true,
@@ -135,9 +136,10 @@ export default function LoanTable() {
         type: "success",
         message: "loan rejected successfully",
       });
-      console.log("Customer approved:", selectedLoan.publicId);
-
-      setSelectedLoan({ ...selectedLoan, status: "rejected" });
+      console.log("Customer rejected:", selectedLoan.publicId);
+      const updatedLoan = { ...selectedLoan, status: "rejected" as LoanStatus };
+      setSelectedLoan(updatedLoan);
+      setLoansState((prev) => prev.map((loan) => (loan._id === selectedLoan._id ? updatedLoan : loan)));
     } catch (err: any) {
       setFeedback({
         show: true,
@@ -460,7 +462,7 @@ export default function LoanTable() {
               </button>
 
               {/* APPROVAL OF LOANS */}
-              {selectedLoan.status ? (
+              {selectedLoan.status === "approved" ? (
                 <button className="bg-green-200 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed">
                   Approved
                 </button>
@@ -470,7 +472,7 @@ export default function LoanTable() {
                     handleApprove(selectedLoan.publicId || selectedLoan._id)
                   }
                   disabled={actionLoading !== null}
-                  className="px-4 py-2 rounded-lg text-sm font-medium bg-green-600 text-white hover:bg-green-700 disabled:opacity-50"
+                  className="px-4 py-2 rounded-lg text-sm font-medium bg-green-600 text-white hover:bg-green-700 cursor-pointer disabled:opacity-50"
                 >
                   {actionLoading === "approve" ? "Approving..." : "Approve"}
                 </button>
