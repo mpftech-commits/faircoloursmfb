@@ -48,7 +48,7 @@ type cashierDataProps = {
 
 export const CashierDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [searchQuery] = useState("");
+  // const [searchQuery] = useState("");
   const [transactions, setTransactions] = useState<Transactions[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
