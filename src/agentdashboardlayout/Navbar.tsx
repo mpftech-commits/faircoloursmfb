@@ -28,8 +28,8 @@ if (!user) {
           </p>
         </div>
 
-        <div className={`flex items-center gap-4 absolute right-20`}>
-          <Bell size={18} className="text-gray-500" />
+        <div className={`flex items-center gap-4 absolute right-8`}>
+          <Bell size={18} className="text-red-500" />
 
           <div className="flex flex-col items-center gap-2">
             <img
@@ -39,7 +39,7 @@ if (!user) {
 
             <div className="text-right text-xs">
               <p className="font-medium">{user.fullName}</p>
-              
+              <p className="text-gray-500">{user.email}</p>
             </div>
           </div>
         </div>
