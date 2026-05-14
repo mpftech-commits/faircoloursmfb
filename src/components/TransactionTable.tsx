@@ -90,6 +90,7 @@ function TransactionTable() {
   };
 
   return (
+   
     <div className="bg-white p-6 rounded-2xl shadow w-full overflow-x-auto">
       <h3 className="font-semibold text-lg mb-4">Transaction History</h3>
 
@@ -256,6 +257,11 @@ function TransactionTable() {
           </div>
         </div>
       )}
+      {/* hidden button */}
+      <button
+        className="hidden"
+        disabled={loading}
+      ></button>
 
       <div className="flex justify-between items-center p-3 mt-4">
         <button
