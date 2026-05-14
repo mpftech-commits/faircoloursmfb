@@ -29,7 +29,7 @@ if (!user) {
         </div>
 
         <div className={`flex items-center gap-4 absolute right-8`}>
-          <Bell size={18} className="text-red-500" />
+          <Bell size={18} className="text-gray-500" />
 
           <div className="flex flex-col items-center gap-2">
             <img
