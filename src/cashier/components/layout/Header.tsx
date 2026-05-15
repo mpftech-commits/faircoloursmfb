@@ -12,6 +12,9 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const notifications = mockNotifications;
+
+  const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
+
   return (
     <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 z-20 transition-colors duration-300">
       <div className="flex items-center gap-4 flex-1">
@@ -86,12 +89,12 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           </AnimatePresence>
         </div>
 
-        <div className="flex items-center gap-3 pl-3 md:pl-6 border-l border-slate-200">
-          <div className="hidden md:block text-right">
-            <p className="text-sm font-bold text-slate-900">Mercy Goodness</p>
-            <p className="text-xs text-slate-500">Senior Cashier</p>
+        <div className="flex items-center flex-col-reverse gap-1 pl-3 md:pl-6 border-l border-slate-200">
+          <div className=" md:block text-right">
+            <p className="text-xs font-bold text-slate-900">{savedUser.fullName ?? "Guest"}</p>
+            <p className="text-xs text-slate-500">{savedUser.email ?? "User"}</p>
           </div>
-          <div className="w-10 h-10 bg-slate-200 rounded-full flex items-center justify-center text-slate-600 overflow-hidden border-2 border-white shadow-sm">
+          <div className="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center text-slate-600 overflow-hidden border-2 border-white shadow-sm">
             <img
               src="https://picsum.photos/seed/cashier/100/100"
               alt="Avatar"

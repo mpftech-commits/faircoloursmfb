@@ -25,10 +25,10 @@ type Information = {
   _id: string;
   fullName: string;
   address?: string | number;
-  phone: string ;
+  phone: string;
   method?: string;
   createdAt: string;
-  email:string;
+  email: string;
 
   status: "approved" | "pending" | "deactivated";
   CustomerPayload: {
@@ -67,16 +67,16 @@ export const Customer: React.FC = () => {
   const [isLoanModalOpen, setIsLoanModalOpen] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>("");
   const [selected, setSelected] = useState<Information | null>(null)
-const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null)
-// const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
-// const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
-const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false >(false);
+  const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null)
+  // const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
+  // const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false>(false);
 
 
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const res = await GetCustomers(1, 10);
+        const res = await GetCustomers(1, 100); //get firdt 100 customers
         console.log("Fetched customers:", res);
         setCustomers(res?.data);
       } catch (error) {
@@ -89,13 +89,13 @@ const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false >(fa
   }, []);
 
   const filteredCustomers = useMemo(() => {
-  const query = searchQuery.toLowerCase();
-  return customers.filter(
-    (cust) =>
-      cust.fullName.toLowerCase().includes(query) || // Lowercase both sides
-      cust.phone.includes(query)
-  );
-}, [searchQuery, customers]);
+    const query = searchQuery.toLowerCase();
+    return customers.filter(
+      (cust) =>
+        cust.fullName.toLowerCase().includes(query) || // Lowercase both sides
+        cust.phone.includes(query)
+    );
+  }, [searchQuery, customers]);
 
 
   const handleApplyLoan = (customer: Information) => {
@@ -188,8 +188,8 @@ const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false >(fa
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-blue-700/10 flex items-center justify-center text-sm font-bold text-primary">
                         {customer.fullName
-  ? customer.fullName.split(" ").map((n) => n[0]).join("").toUpperCase()
-  : "???"}
+                          ? customer.fullName.split(" ").map((n) => n[0]).join("").toUpperCase()
+                          : "???"}
 
                       </div>
                       <div>
@@ -229,20 +229,20 @@ const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false >(fa
                       </button>
                       <div className=" relative  p-1 rounded-lg">
                         <button
-                        onClick={() => setActiveDropdownId(activeDropdownId === customer._id ? null : customer._id)}
-                         className="p-2 rounded-lg cursor-pointer hover:bg-slate-600/10  text-slate-700 transition-all">
+                          onClick={() => setActiveDropdownId(activeDropdownId === customer._id ? null : customer._id)}
+                          className="p-2 rounded-lg cursor-pointer hover:bg-slate-600/10  text-slate-700 transition-all">
                           <MoreVertical size={18} />
                         </button>
                         {/* menu deopdown */}
                         {activeDropdownId === customer._id && (
                           <div className="absolute  -left-17 top-9 flex  gap-3 shadow-md roinded-xl p-2.5 bg-white duration-300  transotion-all">
                             <button
-                            onClick={() => {handleAction("deposit", customer.publicId); setActiveDropdownId(null)}}
-                             title="Create Deposit" className="cursor-pointer text-xs  border-2 p-1 rounded-sm  text-blue-700">
-                              <Clock1 size={16}/>
+                              onClick={() => { handleAction("deposit", customer.publicId); setActiveDropdownId(null) }}
+                              title="Create Deposit" className="cursor-pointer text-xs  border-2 p-1 rounded-sm  text-blue-700">
+                              <Clock1 size={16} />
                             </button>
-                            <button title="Create Withdrawal" className="cursor-pointer text-xs  border-2 p-1 rounded-sm  text-blue-700" onClick={() => {handleAction("withdrawal", customer.publicId); setActiveDropdownId(null)}}>
-                              <CreditCard size={16}/>
+                            <button title="Create Withdrawal" className="cursor-pointer text-xs  border-2 p-1 rounded-sm  text-blue-700" onClick={() => { handleAction("withdrawal", customer.publicId); setActiveDropdownId(null) }}>
+                              <CreditCard size={16} />
                             </button>
                             <button title="Create Loan" className="cursor-pointer text-xs border-2 p-1 rounded-sm  text-blue-700" onClick={() => handleApplyLoan(customer)}>
                               <Users size={16} />
@@ -270,20 +270,20 @@ const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false >(fa
         onClose={() => setIsLoanModalOpen(false)}
         publicId={selectedCustomerId}
       />
-     {modalType === "deposit" && (
-       <CreateTransaction
-        isOpen={true}
-        onClose={() => setModalType(false)}
-        publicId={selectedCustomerId}
-      />
-     )}
-      { modalType === "withdrawal" && (
+      {modalType === "deposit" && (
+        <CreateTransaction
+          isOpen={true}
+          onClose={() => setModalType(false)}
+          publicId={selectedCustomerId}
+        />
+      )}
+      {modalType === "withdrawal" && (
         <CreateWithdrawalModal
-        isOpen={true}
-        onClose={() => setModalType(false)}
-        publicId={selectedCustomerId}
-      />
-        )}
+          isOpen={true}
+          onClose={() => setModalType(false)}
+          publicId={selectedCustomerId}
+        />
+      )}
     </motion.div>
   );
 };
