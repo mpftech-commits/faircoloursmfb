@@ -330,7 +330,7 @@ export default function CashierData() {
             <div className=" flex items-center gap-4 justify-end mt-2">
               <button
                 onClick={() => setSelected(null)}
-                className="cursor-pointer w-full bg-blue-700 text-white py-2 rounded-xl text-xs py-2"
+                className="cursor-pointer w-full bg-blue-700 text-white py-2 rounded-xl text-xs"
               >
                 Close
               </button>

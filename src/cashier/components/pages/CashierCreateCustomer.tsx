@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreateCustomer } from "../../../services/Axios";
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // ---------- Reusable Inputs ----------
 interface InputProps {
@@ -272,6 +274,10 @@ export default function CreateCustomerForm() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 md:p-8">
+      {/* arrow back button */}
+      <Link to="/cashiers/customers">
+        <button className="flex items-center gap-2 text-blue-700 mb-5 cursor-pointer"><ArrowLeft size={18} /> Back </button>
+      </Link>
       {" "}
       <div className="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow">
         {" "}

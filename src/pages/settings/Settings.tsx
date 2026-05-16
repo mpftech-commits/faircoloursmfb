@@ -12,20 +12,21 @@ import UserCard from "../../components/settingscomponent/UserCard";
 import {Link} from "react-router-dom"
 
 export default function Settings() {
+  const savedUser = JSON.parse(localStorage.getItem("user") || "{}");
   return (
     <div className="min-h-screen bg-white   py-6">
-      <div className="w-full max-w-[1200px] space-y-6">
+      <div className="w-full max-w-300 space-y-6">
 
         {/* Header */}
         <div className="bg-white drop-shadow-lg p-5 rounded-lg">
-          <h1 className="text-xl font-semibold text-green-700">Settings</h1>
+          <h1 className="text-xl font-semibold text-blue-700">Settings</h1>
           <p className="text-sm text-gray-500">
             Manage your account and preferences
           </p>
         </div>
 
         {/* User Card */}
-        <UserCard name="John Doe" email="johndoe@gmail.com" />
+        <UserCard name={savedUser.fullName} email={savedUser.email} />
 
         {/* Settings List */}
         <div className="space-y-3 flex flex-col">

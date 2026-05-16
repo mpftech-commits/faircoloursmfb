@@ -54,10 +54,10 @@ export default function AddCashier({ isOpen, onClose }: Props) {
   };
 
   return (
-    <div className="modal-overlay ">
-      <div className="modal-container mt-15">
+    <div className="modal-overlay z-50">
+      <div className="modal-container ">
         {/* Header */}
-        <div className="modal-headers relative">
+        <div className="modal-headers relative mt-5">
           <X
             onClick={handleClose}
             className="cursor-pointer absolute right-5 top-5 bg-blue-900 text-white rounded-sm p-1"
@@ -68,10 +68,10 @@ export default function AddCashier({ isOpen, onClose }: Props) {
         </div>
 
         {/* Body */}
-        <div className="modal-Body">
+        <div className="modal-Body overflow-y-auto">
           <h2>Add Cashier</h2>
 
-          <form onSubmit={HandleCreateCashier}>
+          <form onSubmit={HandleCreateCashier} className="mb-3">
             {error && (
               <div className="error-message bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                 {error}
@@ -86,7 +86,7 @@ export default function AddCashier({ isOpen, onClose }: Props) {
                   setError("");
                 }}
                 type="text"
-                placeholder="First name & last name "
+                placeholder="First & last name "
               />
             </div>
             <label>Email</label>
@@ -98,7 +98,7 @@ export default function AddCashier({ isOpen, onClose }: Props) {
                   setError("");
                 }}
                 type="email"
-                placeholder=" enter your Email"
+                placeholder=" enter cashier email"
               />
             </div>
             <label>Phone Number</label>
@@ -110,7 +110,7 @@ export default function AddCashier({ isOpen, onClose }: Props) {
                   setError("");
                 }}
                 type="tel"
-                placeholder=" enter your Phone Number"
+                placeholder=" enter cashier phone number"
               />
             </div>
             <label>password</label>
@@ -119,7 +119,7 @@ export default function AddCashier({ isOpen, onClose }: Props) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 type={showPassword ? "text" : "Password"}
-                placeholder=" Create a secure password"
+                placeholder=" Create a password"
               />
               <button
                 type="button"

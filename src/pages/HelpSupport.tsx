@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { MessageCircle, Phone, ChevronDown } from "lucide-react";
+import { MessageCircle, Phone, ChevronDown, ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const faqs = [
   {
@@ -98,9 +99,12 @@ export default function HelpSupport() {
 
   return (
     <div className="min-h-screen bg-white rounded-xl drop-shadow-lg py-10 px-4">
+      <Link to="/settings">
+        <ArrowLeft size={18} className="mb-5 text-blue-700"/>
+      </Link>
       <div className="max-w-3xl mx-auto">
         {/* Header */}
-        <h1 className="text-2xl font-semibold text-green-700 mb-2">
+        <h1 className="text-2xl font-semibold text-blue-700 mb-2">
           How can we assist you?
         </h1>
         <p className="text-sm text-gray-500 mb-6">

@@ -121,13 +121,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
             title="transactions"
           />
           <SidebarItem
-            to="/cashiers/notifications"
+            to="/404"
             label="Notifications"
             icon={Bell}
             title="notifications"
           />
           <SidebarItem
-            to="/cashiers/settings"
+            to="/404"
             label="Settings"
             icon={Settings}
             title="settings"
@@ -201,12 +201,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   icon={ArrowLeftRight}
                 />
                 <SidebarItem
-                  to="/cashiers/notifications"
+                  to="/404"
                   label="Notifications"
                   icon={Bell}
                 />
                 <SidebarItem
-                  to="/cashiers/settings"
+                  to="/404"
                   label="Settings"
                   icon={Settings}
                 />

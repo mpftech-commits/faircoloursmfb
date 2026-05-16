@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreateCustomer } from "../services/Axios";
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // ---------- Reusable Inputs ----------
 interface InputProps {
@@ -41,11 +43,10 @@ const InputField: React.FC<InputProps> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className={`border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 ${
-          error
+        className={`border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 ${error
             ? "border-red-500 focus:ring-red-500"
             : "border-gray-300 focus:ring-blue-700"
-        }`}
+          }`}
       />
       {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
     </div>
@@ -84,11 +85,10 @@ const SelectField: React.FC<SelectProps> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className={`border rounded-lg px-3 py-4 focus:outline-none focus:ring-2 ${
-          error
+        className={`border rounded-lg px-3 py-4 focus:outline-none focus:ring-2 ${error
             ? "border-red-500 focus:ring-red-500"
             : "border-gray-300 focus:ring-blue-700"
-        }`}
+          }`}
       >
         <option value="">Select</option>
         {options.map((opt) => (
@@ -272,6 +272,10 @@ export default function CustomerForm() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 md:p-8">
+      {/* back button */}
+      <Link to="/dashboard">
+        <button className="flex items-center gap-2 text-blue-700 mb-5 cursor-pointer"><ArrowLeft size={18} /> Back </button>
+      </Link>
       {" "}
       <div className="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow">
         {" "}
