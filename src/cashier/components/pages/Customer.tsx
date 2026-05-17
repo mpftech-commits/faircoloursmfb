@@ -10,6 +10,7 @@ import {
   CreditCard,
   Clock1,
   Users,
+  Loader,
 } from "lucide-react";
 import { StatusBadge, Button, Card } from "../ui";
 // import { mockCustomers } from "../../mockData";
@@ -71,10 +72,12 @@ export const Customer: React.FC = () => {
   // const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   // const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
   const [modalType, setModalType] = useState<"deposit" | "withdrawal" | false>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
 
   useEffect(() => {
     const fetchCustomers = async () => {
+      setLoading(true);
       try {
         const res = await GetCustomers(1, 100); //get firdt 100 customers
         console.log("Fetched customers:", res);
@@ -83,6 +86,8 @@ export const Customer: React.FC = () => {
         console.error("Failed to fetch customers:", error);
         // Fallback to mock data if API fails
         // setCustomers(mockCustomers);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCustomers();
@@ -178,6 +183,20 @@ export const Customer: React.FC = () => {
                 <th className="px-6 py-4 font-medium text-right">Actions</th>
               </tr>
             </thead>
+           { loading && (
+              
+                 <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
+                  <tr>
+              <td colSpan={5} className="py-10">
+                <div className="flex items-center justify-center gap-2">
+                  <Loader size={18} className="animate-spin text-slate-500" />
+                  <span className="text-sm text-slate-500">Loading customers...</span>
+                </div>
+              </td>
+                </tr>
+                </tbody>
+               
+            )}
             <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
               {filteredCustomers.map((customer) => (
                 <tr

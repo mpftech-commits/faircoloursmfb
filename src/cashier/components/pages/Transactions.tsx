@@ -18,9 +18,9 @@ type Transactions = {
     fullName: string;
     publicId: string;
   };
-  cashierId: {  
+  cashierId: {
     email: string;
-    fullName: string; 
+    fullName: string;
     phone: string;
     publicId: string;
     _id: string;
@@ -40,9 +40,9 @@ export const Transactions: React.FC = () => {
       try {
         setLoading(true);
         const res = await GetTransaction(1, 50);
-        console.log("API Response:", res); 
+        console.log("API Response:", res);
         // Ensure you are accessing the correct path in your API response
-        setTransactions(res.transactions || res.data || []); 
+        setTransactions(res.transactions || res.data || []);
       } catch (error) {
         console.error("Failed to fetch transactions:", error);
         setError("Failed to fetch transactions");
@@ -68,6 +68,25 @@ export const Transactions: React.FC = () => {
     return name ? name.split(" ").map(n => n[0]).join("").toUpperCase() : "??";
   };
 
+  // Helper to get color based on transaction type
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case "deposit":
+        return "text-emerald-600";
+      case "withdrawal":
+        return "text-red-600";
+      case "loan":
+        return "text-amber-600";
+      default:
+        return "text-slate-600";
+    }
+  };
+
+  // Helper to get amount sign based on transaction type
+  const getAmountSign = (type: string) => {
+    return type === "deposit" ? "+" : "-";
+  };
+
   const exportToCSV = (data: any[], filename: string) => {
     if (data.length === 0) return;
     const headers = ["ID", "Customer", "Type", "Amount", "Status", "Date"].join(",");
@@ -79,7 +98,7 @@ export const Transactions: React.FC = () => {
       tx.status,
       tx.createdAt
     ].join(","));
-    
+
     const csvContent = "data:text/csv;charset=utf-8," + headers + "\n" + rows.join("\n");
     const link = document.createElement("a");
     link.setAttribute("href", encodeURI(csvContent));
@@ -89,7 +108,7 @@ export const Transactions: React.FC = () => {
     document.body.removeChild(link);
   };
 
-  if (loading) return <div className="flex items-center gap-3 justify-center h-64 animate-pulse font-medium">< Loader size={18} className="animate-spin"/>Loading transactions...</div>;
+  if (loading) return <div className="flex items-center gap-3 justify-center h-64 animate-pulse font-medium">< Loader size={18} className="animate-spin" />Loading transactions...</div>;
   if (error) return <div className="flex items-center justify-center h-64 text-red-500 font-medium">{error}</div>;
 
   return (
@@ -152,12 +171,12 @@ export const Transactions: React.FC = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4 text-xs font-bold uppercase tracking-wider">
-                    <span className={tx.type === "disbursement" ? "text-blue-600" : "text-emerald-600"}>
+                    <span className={getTypeColor(tx.type)}>
                       {tx.type}
                     </span>
                   </td>
-                  <td className={`px-6 py-4 text-xs font-medium flex ${tx.type === "deposit" ? "text-emerald-600 flex gap-2" : "text-slate-900"}`}>
-                    {tx.type === "deposit" ? "+" : "-"} ₦{tx.amount.toLocaleString()}
+                  <td className={`px-6 py-4 text-xs font-medium flex gap-2 ${getTypeColor(tx.type)}`}>
+                    {getAmountSign(tx.type)} ₦{tx.amount.toLocaleString()}
                   </td>
                   <td className="px-6 py-4 ">
                     <StatusBadge status={tx.status} />

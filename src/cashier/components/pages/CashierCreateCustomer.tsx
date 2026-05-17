@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreateCustomer } from "../../../services/Axios";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader } from "lucide-react";
 import { Link } from "react-router-dom";
 
 // ---------- Reusable Inputs ----------
@@ -547,8 +547,15 @@ export default function CreateCustomerForm() {
                 type="submit"
                 onClick={handleSubmit}
                 className="flex-1 bg-blue-800 text-white py-2 rounded-lg cursor-pointer"
-              >
-                {isLoading ? ` creating customer...` : "Submit"}
+                >
+                  {isLoading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <Loader size={16} className="animate-spin text-white" />
+                      <span>Submitting...</span>
+                    </span>
+                  ) : (
+                    "Submit"
+                  )}
               </button>
             )}
           </div>
