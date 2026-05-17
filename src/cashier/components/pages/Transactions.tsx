@@ -29,7 +29,6 @@ type Transactions = {
 
 export const Transactions: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  // CHANGED: Initialize as null, not an empty array
   const [selectedTransaction, setSelectedTransaction] = useState<Transactions | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

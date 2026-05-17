@@ -1,4 +1,5 @@
 import React from 'react';
+import { jsPDF } from 'jspdf';
 import { User, ArrowLeftRight, FileText, Clock, Download } from 'lucide-react';
 import { Modal, Button, Badge, StatusBadge } from '../ui';
 
@@ -7,33 +8,146 @@ interface TransactionDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
   transaction: any | null; // Matches the 'Transactions' type from your previous file
-  details: { 
-    customer: any | undefined; 
+  details: {
+    customer: any | undefined;
     cashier: any | undefined;
   };
 }
 
-export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({ 
-  isOpen, 
-  onClose, 
-  transaction, 
-  details 
+export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
+  isOpen,
+  onClose,
+  transaction,
+  details
 }) => {
   // Guard clause
   if (!transaction) return null;
 
   const { customer, cashier } = details;
 
+  const downloadReceiptPdf = () => {
+    if (!transaction) return;
+
+    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const leftX = 40;
+    const topY = 50;
+    const col1Width = 160;
+    const col2Width = 360;
+    const pageHeight = 842;
+    const rowPadding = 8;
+
+    const sections = [
+      {
+        title: 'Transaction Details',
+        items: [
+          ['Transaction ID', transaction.publicId || 'N/A'],
+          ['Type', transaction.type || 'N/A'],
+          ['Status', transaction.status || 'N/A'],
+          ['Amount', `₦${Number(transaction.amount || 0).toLocaleString()}`],
+          ['Date & Time', new Date(transaction.createdAt).toLocaleString()],
+        ],
+      },
+      {
+        title: 'Customer Details',
+        items: [
+          ['Customer Name', customer?.fullName || 'N/A'],
+          ['Customer ID', customer?.publicId || customer?._id || 'N/A'],
+          ['Customer Phone', customer?.phone || 'N/A'],
+          ['Account Status', customer?.accountStatus || 'N/A'],
+        ],
+      },
+      {
+        title: 'Processing Details',
+        items: [
+          ['Processed By', cashier?.fullName || 'N/A'],
+          ['Staff ID', cashier?.publicId || cashier?._id || 'N/A'],
+          ['Staff Email', cashier?.email || 'N/A'],
+        ],
+      },
+    ];
+
+    const drawTableHeader = (y: number) => {
+      doc.setFontSize(20);
+      doc.setFont('helvetica', 'bold');
+      doc.text('FairColours MFB Receipt', leftX, y);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Receipt generated: ${new Date().toLocaleString()}`, leftX, y + 24);
+
+      const tableTop = y + 45;
+      doc.setFillColor(241, 245, 249);
+      doc.rect(leftX, tableTop, col1Width + col2Width, 24, 'F');
+      doc.setDrawColor(200, 200, 200);
+      doc.setLineWidth(0.5);
+      doc.rect(leftX, tableTop, col1Width + col2Width, 24);
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Field', leftX + rowPadding, tableTop + 16);
+      doc.text('Value', leftX + col1Width + rowPadding, tableTop + 16);
+      return tableTop + 24;
+    };
+
+    const drawSectionTitle = (y: number, title: string) => {
+      const titleHeight = 26;
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(51, 65, 85);
+      doc.text(title, leftX, y + 16);
+      doc.setDrawColor(226, 232, 240);
+      doc.setLineWidth(0.5);
+      doc.line(leftX, y + titleHeight, leftX + col1Width + col2Width, y + titleHeight);
+      doc.setTextColor(0, 0, 0);
+      return y + titleHeight + 6;
+    };
+
+    let currentY = drawTableHeader(topY);
+
+    const addPageIfNeeded = (nextY: number) => {
+      if (nextY > pageHeight - 80) {
+        doc.addPage();
+        currentY = drawTableHeader(40);
+      }
+    };
+
+    sections.forEach((section) => {
+      addPageIfNeeded(currentY + 40);
+      currentY = drawSectionTitle(currentY, section.title);
+
+      section.items.forEach(([label, value]) => {
+        const wrappedValue = doc.splitTextToSize(value, col2Width - rowPadding * 2);
+        const rowHeight = Math.max(24, wrappedValue.length * 14 + rowPadding * 2);
+        addPageIfNeeded(currentY + rowHeight);
+
+        doc.setDrawColor(220, 220, 220);
+        doc.setLineWidth(0.5);
+        doc.rect(leftX, currentY, col1Width + col2Width, rowHeight);
+        doc.line(leftX + col1Width, currentY, leftX + col1Width, currentY + rowHeight);
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.text(label, leftX + rowPadding, currentY + 16);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(11);
+        doc.text(wrappedValue, leftX + col1Width + rowPadding, currentY + 16);
+
+        currentY += rowHeight;
+      });
+    });
+
+    doc.save(`receipt-${transaction.publicId || 'transaction'}.pdf`);
+  };
+
   return (
-    <Modal 
-      isOpen={isOpen} 
+    <Modal
+      isOpen={isOpen}
       onClose={onClose}
       title="Transaction Details"
       size="lg"
       footer={
         <div className="flex justify-end gap-3">
           <Button variant="outline" onClick={onClose}>Close</Button>
-          <Button onClick={() => window.print()} className="flex items-center gap-2">
+          <Button onClick={downloadReceiptPdf} className="flex items-center gap-2">
             <Download size={16} />
             Download Receipt
           </Button>
@@ -72,16 +186,16 @@ export const TransactionDetailModal: React.FC<TransactionDetailModalProps> = ({
                   <span className="text-xs text-slate-400">Customer ID</span>
                   <span className="text-sm font-bold text-slate-600">{customer?.publicId || "N/A"}</span>
                 </div>
-              
-                   <div className="flex justify-between">
-                    <span className="text-xs text-slate-400">Phone</span>
-                    <span className="text-sm font-bold text-slate-600">{customer?.phone ?? "N/A"}</span>
-                  </div>
-                   <div className="flex justify-between">
-                    <span className="text-xs text-slate-400">Account Status</span>
-                    <span className="text-sm font-bold text-slate-600">{customer?.accountStatus ?? "N/A"}</span>
-                  </div>
-                
+
+                <div className="flex justify-between">
+                  <span className="text-xs text-slate-400">Phone</span>
+                  <span className="text-sm font-bold text-slate-600">{customer?.phone ?? "N/A"}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-xs text-slate-400">Account Status</span>
+                  <span className="text-sm font-bold text-slate-600">{customer?.accountStatus ?? "N/A"}</span>
+                </div>
+
               </div>
             </div>
 
