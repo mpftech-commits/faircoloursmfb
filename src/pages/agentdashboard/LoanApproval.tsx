@@ -3,32 +3,32 @@ import { loans as mockLoans } from "../../data/Types";
 import StatsCard from "../../components/loan_component/StatsCard";
 import LoanTable from "../../components/loan_component/LoanTable";
 import LoanFilters from "../../components/loan_component/Filter";
-import LoanDetailsModal from "../../components/loan_component/LoanDetails";
-import type { Loan } from "../../data/Types";
+// import LoanDetailsModal from "../../components/loan_component/LoanDetails";
+// import type { Loan } from "../../data/Types";
 
 export default function LoanApproval() {
   const [loans, setLoans] = useState(mockLoans);
  
-  const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
+  // const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
 
 
-  const approveLoan = (id: string) => {
-    setLoans((prev) =>
-      prev.map((l) =>
-        l.id === id ? { ...l, status: "approved" } : l
-      )
-    );
-    setSelectedLoan(null);
-  };
+  // const approveLoan = (id: string) => {
+  //   setLoans((prev) =>
+  //     prev.map((l) =>
+  //       l.id === id ? { ...l, status: "approved" } : l
+  //     )
+  //   );
+  //   setSelectedLoan(null);
+  // };
 
-  const rejectLoan = (id: string) => {
-    setLoans((prev) =>
-      prev.map((l) =>
-        l.id === id ? { ...l, status: "rejected" } : l
-      )
-    );
-    setSelectedLoan(null);
-  };
+  // const rejectLoan = (id: string) => {
+  //   setLoans((prev) =>
+  //     prev.map((l) =>
+  //       l.id === id ? { ...l, status: "rejected" } : l
+  //     )
+  //   );
+  //   setSelectedLoan(null);
+  // };
 
   return (
     <div className=" space-y-6 bg-gray-50 min-h-screen">
@@ -57,12 +57,12 @@ export default function LoanApproval() {
       <LoanTable  />
 
       {/* Modal */}
-      <LoanDetailsModal
+      {/* <LoanDetailsModal
         loan={selectedLoan}
         onClose={() => setSelectedLoan(null)}
         onApprove={approveLoan}
         onReject={rejectLoan}
-      />
+      /> */}
     </div>
   );
 }

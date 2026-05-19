@@ -26,7 +26,7 @@ export default function LoanDetailsModal({
       <div className="bg-white p-6 rounded-2xl w-100 space-y-4 mt-3 relative">
         <button
           onClick={onClose}
-          className="fixed right-0 top-0 text-blue-800 cursor-pointer bg-blue-100 rounded-full p-1  flex items-center gap-1 font-medium px-2"
+          className="fixed right-0 top-0 text-blue-800 cursor-pointer bg-blue-100 rounded-full p-1  flex items-center gap-1 font-medium px-2 mt-20 z-50"
         >
           <X size={18} /> Close
         </button>

@@ -8,6 +8,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Eye,
+  X,
 } from "lucide-react";
 
 type LoanStatus = "pending" | "approved" | "rejected";
@@ -250,9 +251,9 @@ export default function LoanTable() {
             {/* Close */}
             <button
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 bg-green-500 p-2 z-50 right-4 text-gray-400 hover:text-gray-700 mt-60"
+              className="fixed top-4 bg-blue-500/10 p-2 z-50 right-6 text-blue-700 cursor-pointer   rounded-full  hover:rotate-180 duration-500 transition-transform"
             >
-              ✕
+              <X size={18}/>
             </button>
 
             {/* Header */}
@@ -281,7 +282,7 @@ export default function LoanTable() {
             </div>
 
             {/* Content Grid */}
-            <div className="space-y-4 text-sm">
+            <div className="space-y-4 text-sm ">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-gray-500 text-xs">Loan Number</p>
