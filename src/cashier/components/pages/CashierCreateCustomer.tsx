@@ -170,22 +170,22 @@ export default function CreateCustomerForm() {
     let newErrors: any = {};
 
     if (step === 0) {
-      if (!form.title) newErrors.title = "Title is required";
-      if (!form.surname) newErrors.surname = "Surname is required";
-      if (!form.gender) newErrors.gender = "Gender is required";
-      if (!form.otherName) newErrors.otherName = "Other Name is required";
-      if (!form.maritalStatus)
-        newErrors.maritalStatus = "Marital Status is required";
-      if (!form.dateOfBirth)
-        newErrors.dateOfBirth = "Date of Birth is required";
-      if (!form.nationality) newErrors.nationality = "Nationality is required";
+      // if (!form.title) newErrors.title = "Title is required";
+      // if (!form.surname) newErrors.surname = "Surname is required";
+      // if (!form.gender) newErrors.gender = "Gender is required";
+      // if (!form.otherName) newErrors.otherName = "Other Name is required";
+      // if (!form.maritalStatus)
+      //   newErrors.maritalStatus = "Marital Status is required";
+      // if (!form.dateOfBirth)
+      //   newErrors.dateOfBirth = "Date of Birth is required";
+      // if (!form.nationality) newErrors.nationality = "Nationality is required";
     }
 
     if (step === 1) {
-      if (!form.phone) newErrors.phone = "Phone is required";
-      if (!form.email) newErrors.email = "Email is required";
-      if (!form.bvn) newErrors.bvn = "BVN is required";
-      if (!form.nin) newErrors.nin = "NIN is required";
+      // if (!form.phone) newErrors.phone = "Phone is required";
+      // if (!form.email) newErrors.email = "Email is required";
+      // if (!form.bvn) newErrors.bvn = "BVN is required";
+      // if (!form.nin) newErrors.nin = "NIN is required";
     }
 
     if (step === 2) {
@@ -193,39 +193,39 @@ export default function CreateCustomerForm() {
     }
 
     if (step === 3) {
-      if (!form.nextOfKin.fullName)
-        newErrors.nextOfKin = {
-          ...newErrors.nextOfKin,
-          fullName: "Full Name is required",
-        };
-      if (!form.nextOfKin.phone)
-        newErrors.nextOfKin = {
-          ...newErrors.nextOfKin,
-          phone: "Phone is required",
-        };
-      if (!form.nextOfKin.address)
-        newErrors.nextOfKin = {
-          ...newErrors.nextOfKin,
-          address: "Address is required",
-        };
+      // if (!form.nextOfKin.fullName)
+      //   newErrors.nextOfKin = {
+      //     ...newErrors.nextOfKin,
+      //     fullName: "Full Name is required",
+      //   };
+      // if (!form.nextOfKin.phone)
+      //   newErrors.nextOfKin = {
+      //     ...newErrors.nextOfKin,
+      //     phone: "Phone is required",
+      //   };
+      // if (!form.nextOfKin.address)
+      //   newErrors.nextOfKin = {
+      //     ...newErrors.nextOfKin,
+      //     address: "Address is required",
+      //   };
     }
 
     if (step === 4) {
-      if (!form.emergencyContact.fullName)
-        newErrors.emergencyContact = {
-          ...newErrors.emergencyContact,
-          fullName: "Full Name is required",
-        };
-      if (!form.emergencyContact.phone)
-        newErrors.emergencyContact = {
-          ...newErrors.emergencyContact,
-          phone: "Phone is required",
-        };
-      if (!form.emergencyContact.address)
-        newErrors.emergencyContact = {
-          ...newErrors.emergencyContact,
-          address: "Address is required",
-        };
+      // if (!form.emergencyContact.fullName)
+      //   newErrors.emergencyContact = {
+      //     ...newErrors.emergencyContact,
+      //     fullName: "Full Name is required",
+      //   };
+      // if (!form.emergencyContact.phone)
+      //   newErrors.emergencyContact = {
+      //     ...newErrors.emergencyContact,
+      //     phone: "Phone is required",
+      //   };
+      // if (!form.emergencyContact.address)
+      //   newErrors.emergencyContact = {
+      //     ...newErrors.emergencyContact,
+      //     address: "Address is required",
+      //   };
     }
 
     setErrors(newErrors);

@@ -7,7 +7,7 @@ import LoanFilters from "../../components/loan_component/Filter";
 // import type { Loan } from "../../data/Types";
 
 export default function LoanApproval() {
-  const [loans, setLoans] = useState(mockLoans);
+  const [loans] = useState(mockLoans);
  
   // const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
 

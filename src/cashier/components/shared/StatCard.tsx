@@ -2,6 +2,9 @@ import type { LucideIcon } from 'lucide-react';
 
 export const StatCard = ({ title, value, icon: Icon, trend }: { title: string, value: string | number, icon: LucideIcon, trend?: string }) => (
   <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-start justify-between">
+    <div className="p-2 bg-slate-50 rounded-lg text-primary">
+      <Icon size={15} />
+    </div>
     <div>
       <p className="text-sm font-medium text-slate-500 mb-1">{title}</p>
       <h3 className="text-2xl font-bold text-slate-900">{value}</h3>
@@ -10,9 +13,6 @@ export const StatCard = ({ title, value, icon: Icon, trend }: { title: string, v
           {trend} <span className="text-slate-400 font-normal">vs last month</span>
         </p>
       )}
-    </div>
-    <div className="p-3 bg-slate-50 rounded-xl text-primary">
-      <Icon size={20} />
     </div>
   </div>
 );

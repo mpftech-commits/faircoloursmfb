@@ -189,9 +189,9 @@ export const CashierDashboard: React.FC = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <StatCard
+          icon={Users}
           title="Total Customers"
           value={cashierData.customers || "0"}
-          icon={Users}
           trend="+12%"
         />
         <StatCard
