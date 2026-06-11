@@ -11,29 +11,29 @@ export default function Onboarding() {
 
       <div className="md:px-7 px-8 lg:mt-40 md mt-25">
         {/* Heading */}
-        <h2 className="text-[20px] md:text-xl font-semibold text-blue-900 leading-snug text-center">
-          Start as a FairColors MFB Cashier
+        <h2 className="text-[16px] md:text-md font-semibold text-blue-900 leading-snug text-center">
+          Start as a FairColors MFB Admin or Cashier
         </h2>
 
-        <p className="text-gray-600 text-[12px] mt-2 text-center">
+        <p className="text-gray-600 text-[10px] mt-2 text-center">
           Join our network, manage transactions easily, and earn while serving
           your community.
         </p>
 
         {/* Features */}
         <div className="space-y-4 mt-8">
-          <div className="flex gap-3 items-center text-sm">
-            <CheckCircle size={16} className="text-blue-700" />
+          <div className="flex gap-3 items-center text-[10px]">
+            <CheckCircle size={14} className="text-blue-700" />
             Recognized and verified by the bank
           </div>
 
-          <div className="flex gap-3 items-center text-sm">
-            <Shield size={16} className="text-blue-700" />
+          <div className="flex gap-3 items-center text-[10px]">
+            <Shield size={14} className="text-blue-700" />
             Safe and reliable financial services
           </div>
 
-          <div className="flex gap-3 items-center text-sm">
-            <LineChartIcon size={16} className="text-blue-700" />
+          <div className="flex gap-3 items-center text-[10px]">
+            <LineChartIcon size={14} className="text-blue-700" />
             Expand your customer network
           </div>
         </div>
@@ -49,7 +49,7 @@ export default function Onboarding() {
 
           <Link
             to="/login"
-            className="border border-gray-300 py-3 rounded-lg hover:bg-gray-100 transition font-medium text-[16px] text-center"
+            className="border border-gray-300 py-2 rounded-lg hover:bg-gray-100 transition font-medium text-[10px] text-center"
           >
             <button>Log in</button>
           </Link>
@@ -58,9 +58,9 @@ export default function Onboarding() {
 
       {/* Footer */}
       <div className="flex justify-between text-xs md:px-10 px-4 text-gray-500 mt-12 border-t border-gray-300 pt-5">
-        <span>© 2026 FairColors Microfinance Bank</span>
+        <span className="text-[10px]">© 2026 FairColors Microfinance Bank</span>
 
-        <div className="flex gap-5">
+        <div className="flex gap-5 text-[10px]">
           <span className="hover:underline cursor-pointer">Privacy</span>
           <span className="hover:underline cursor-pointer">Terms</span>
           <span className="hover:underline cursor-pointer">Get help</span>

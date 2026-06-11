@@ -14,6 +14,7 @@ import LoanApproval from "./pages/agentdashboard/LoanApproval";
 import NotFoundPage from "./NotFound";
 import Cashiers from "./pages/Cashiers";
 import { CashierDashboardLayout } from "./cashier/components/layout/CashierDashboardLayout";
+import { Toaster } from "react-hot-toast";
 
 import {
   CashierDashboard,
@@ -32,6 +33,7 @@ function App() {
     <>
       <Router>
         <ScrollToTop />
+        <Toaster />
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
