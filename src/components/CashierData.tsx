@@ -137,12 +137,12 @@ export default function CashierData() {
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       {/* TABLE HEADER */}
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-lg">Cashiers</h3>
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="font-semibold text-xs ">Cashiers</h3>
 
         <button
           onClick={() => setOpen(true)}
-          className="bg-blue-800 text-white px-4 py-2 rounded-xl text-sm hover:bg-blue-700 cursor-pointer"
+          className="bg-blue-800 text-white px-2 py-1.5 rounded-lg text-[8px] hover:bg-blue-700 cursor-pointer"
         >
           + Add Cashier
         </button>
@@ -153,14 +153,14 @@ export default function CashierData() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-300 overflow-x-auto">
         {/* shows a loading state when fetching */}
         {loading && (
-          <p className="flex p-5 items-center gap-2 font-semibold text-blue-600">
-            <Loader size={18} className="animate-spin" /> loading...
+          <p className="flex p-5 items-center gap-2 font-semibold text-blue-600 text-[10px]">
+            <Loader size={14} className="animate-spin" /> loading...
           </p>
         )}
         {/* when there is an error */}
         {error && (
-          <p className="text-red-500 flex p-5 items-center gap-2 font-semibold">
-            <AlertTriangle size={18} /> {error}
+          <p className="text-red-500 flex p-5 items-center gap-2 font-semibold text-[10px]">
+            <AlertTriangle size={14} /> {error}
           </p>
         )}
         <div className="flex flex-col sm:flex-row gap-3 mb-4 justify-between px-3 mt-5">
@@ -170,14 +170,14 @@ export default function CashierData() {
             placeholder="Search by name or phone..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border border-gray-300 px-4 py-2 rounded-xl text-sm w-full sm:w-72 outline-none focus:ring-2 focus:ring-blue-400"
+            className="border border-gray-300 px-4 py-2 rounded-xl text-sm w-full sm:w-72 outline-none focus:ring-2 text-[10px] focus:ring-blue-400"
           />
         </div>
 
         {/* when data has been fetched */}
         {!loading && !error && (
           <table className="w-full text-sm">
-            <thead className="bg-gray-100 text-gray-600 text-center">
+            <thead className="bg-gray-100 text-gray-600 text-center text-[10px]">
               <tr>
                 <th className="px-6 py-3">Name</th>
                 <th className="px-6 py-3">Email</th>
@@ -191,7 +191,7 @@ export default function CashierData() {
               {filteredCashiers.map((c) => (
                 <tr
                   key={c.publicId}
-                  className="border-t border-gray-300 hover:bg-gray-50 transition"
+                  className="border-t border-gray-300 hover:bg-gray-50 transition text-[8px]"
                 >
                   <td className="px-6 py-4 font-medium">{c.fullName}</td>
                   <td className="px-6 py-4 font-medium">{c.email}</td>
@@ -204,13 +204,13 @@ export default function CashierData() {
                       onClick={() => setSelected(c)}
                       className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
                     >
-                      <Eye size={18} className="text-blue-500 text-center" />
+                      <Eye size={12} className="text-blue-500 text-center" />
                     </button>
                     <button
                       onClick={() => HandleDeleteCashier(c.publicId)}
                       className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
                     >
-                      <Trash size={18} className="text-red-500" />
+                      <Trash size={12} className="text-red-500" />
                     </button>
                   </td>
                 </tr>
@@ -222,71 +222,71 @@ export default function CashierData() {
 
       <div className="flex justify-between items-center p-3 mt-10">
         <button
-          className="flex gap-2 items-center bg-blue-100 px-3 rounded-full font-medium cursor-pointer text-blue-700 py-1"
+          className="flex gap-2 items-center bg-blue-100 px-3 rounded-full font-medium cursor-pointer text-blue-700 py-1 text-[10px]"
           disabled={page === 1}
           onClick={() => setPage((prev) => prev - 1)}
         >
-          <ArrowLeft size={18} /> Prev
+          <ArrowLeft size={12} /> Prev
         </button>
 
         <button
-          className="flex gap-2 items-center bg-blue-100 px-3 py-1 cursor-pointer rounded-full font-medium text-blue-700"
+          className="flex gap-2 items-center bg-blue-100 px-3 py-1 cursor-pointer rounded-full font-medium text-blue-700 text-[10px]"
           onClick={() => setPage((prev) => prev + 1)}
         >
           {" "}
-          Next <ArrowRight size={18} />
+          Next <ArrowRight size={12} />
         </button>
       </div>
 
       {/* MODAL */}
       {selected && (
         <div className="fixed inset-0 bg-black/30 flex items-center justify-center px-4  z-50">
-          <div className="bg-white rounded-2xl p-6 w-full lg:max-w-2xl max-w-lg shadow-lg overflow-auto max-h-[80vh] mt-10 ">
+          <div className="bg-white rounded-2xl p-6 w-full lg:max-w-2xl max-w-md shadow-lg overflow-auto max-h-[80vh] mt-8 ">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold mb-4 text-center mt-5">
+              <h2 className="text-[10px] bg-blue-700 text-white p-1 rounded-sm  font-semibold mb-4 text-center mt-5">
                 cashier Information
               </h2>
               <button
                 onClick={() => setSelected(null)}
-                className="cursor-pointer w-fit bg-blue-100 text-gray-600  rounded-full text-xs  p-2"
+                className="cursor-pointer w-fit bg-blue-100 text-gray-600  rounded-full  p-1 text-[8px] hover:bg-blue-200 transition"
               >
-               <X />
+                <X size={ 12} />
               </button>
             </div>
 
             <div className=" text-sm">
-              <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-2">
+              <div className="grid lg:grid-cols-2 grid-cols-2 gap-3 ">
                 <div className=" ">
-                  <label className="block font-medium text-xs ">FullName</label>
+                  <label className="block font-medium text-[8px] "><p className="block font-medium text-[8px] ">FullName</p></label>
                   <input
-                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-xs"
+                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-[8px]"
                     readOnly
                     value={selected.fullName}
                   />
                 </div>
                 <div className=" ">
-                  <label className="block font-medium text-xs ">Email</label>
+                  <label className="block font-medium text-[8px] "><p className="block font-medium text-[8px] ">Email</p></label>
                   <input
-                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-xs"
+                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-[8px]"
                     readOnly
                     value={selected.email}
                   />
                 </div>
               </div>
 
-              <div className="grid lg:grid-cols-2 grid-cols-1 gap-3 mb-2">
+              <div className="grid lg:grid-cols-2 grid-cols-2 gap-3">
                 <div className="">
-                  <label className="block font-medium text-xs ">Phone</label>
+                  <label className="block font-medium text-[10px] "><p className="block font-medium text-[8px] ">Phone</p></label>
                   <input
-                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-xs"
+                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-[8px]"
                     readOnly
                     value={selected.phone}
                   />
                 </div>
                 <div className=" ">
-                  <label className="block font-medium text-xs">Date</label>
+                  <label className="block font-medium text-[10px]"><p className="block font-medium text-[8px] ">Date</p></label>
                   <input
-                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-xs"
+                    className="flex justify-between font-medium border border-gray-300 w-full rounded-lg px-3 py-2 mt-3 text-[8px]"
                     readOnly
                     value={selected.createdAt}
                   />
@@ -311,16 +311,16 @@ export default function CashierData() {
                   ].map((item) => (
                     <div
                       key={item.label}
-                      className="bg-gray-50 rounded-lg border border-gray-200 px-4 py-4"
+                      className="bg-gray-50 rounded-lg border border-gray-200 px-2 py-2"
                     >
-                      <p className="text-xs text-gray-500 uppercase mb-1">
+                      <p className="text-[8px] text-gray-500 uppercase mb-1">
                         {item.label}
                       </p>
-                      <p className="text-sm font-semibold">{item.value ?? 0}</p>
+                      <p className="text-[8px] md:text-[10px] font-semibold">{item.value ?? 0}</p>
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-gray-500 col-span-full">
+                    <p className="text-[8px] text-gray-500 col-span-full">
                     No cashier stats available.
                   </p>
                 )}
@@ -330,12 +330,12 @@ export default function CashierData() {
             <div className=" flex items-center gap-4 justify-end mt-2">
               <button
                 onClick={() => setSelected(null)}
-                className="cursor-pointer w-full bg-blue-700 text-white py-2 rounded-xl text-xs"
+                className="cursor-pointer w-full bg-blue-700 text-white py-2 rounded-xl text-[8px]"
               >
                 Close
               </button>
               {/* DOWNLOAD REPORT BUTTON */}
-              <button className="bg-blue-700 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 disabled:opacity-50 w-full">
+              <button className="bg-blue-700 text-white px-4 py-2 rounded-lg text-[8px] hover:opacity-90 disabled:opacity-50 w-full">
                 Download report
               </button>
             </div>
@@ -354,11 +354,11 @@ export default function CashierData() {
             className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white shadow-xl border rounded-xl px-6 py-4 flex items-center gap-3 z-50"
           >
             {feedback.type === "success" ? (
-              <span className="text-green-600 font-semibold">
+              <span className="text-green-600 font-semibold text-[10px]">
                 ✅ {feedback.message}
               </span>
             ) : (
-              <span className="text-red-600 font-semibold flex items-center gap-2">
+                <span className="text-red-600 font-semibold flex items-center gap-2 text-[10px]">
                 <AlertTriangle size={18} />
                 {feedback.message}
               </span>
@@ -366,7 +366,7 @@ export default function CashierData() {
 
             <button
               onClick={() => setFeedback((prev) => ({ ...prev, show: false }))}
-              className="ml-3 text-gray-500"
+              className="ml-3 text-gray-500 text-sm"
             >
               ✕
             </button>

@@ -3,19 +3,19 @@ import { Link } from "react-router-dom";
 
 export default function Onboarding() {
   return (
-    <div className="min-h-screen bg-[rgb(255,255,255)] py-5 flex flex-col justify-between relative">
+    <div className="min-h-screen bg-[rgb(255,255,255)] py-5 flex flex-col justify-between relative ">
       {/* Logo */}
       <div className="flex items-center gap-2 mb-12 border-b border-b-gray-300 fixed w-full bg-[#fff] top-0 ">
-        <img src="/logo.png" alt="Fair Colors" className="pb-5 px-8 w-50 pt-2" />
+        <img src="/logo.png" alt="Fair Colors" className="pb-3 px-8 w-35 pt-2" />
       </div>
 
-      <div className="md:px-7 px-8 lg:mt-40 md mt-25">
+      <div className="md:px-7 px-8 lg:mt-40 mt-15">
         {/* Heading */}
-        <h2 className="text-[16px] md:text-md font-semibold text-blue-900 leading-snug text-center">
+        <h2 className="text-[10px] md:text-sm font-semibold text-blue-900 leading-snug text-center">
           Start as a FairColors MFB Admin or Cashier
         </h2>
 
-        <p className="text-gray-600 text-[10px] mt-2 text-center">
+        <p className="text-gray-600 text-[10px] md:text-xs mt-2 text-center">
           Join our network, manage transactions easily, and earn while serving
           your community.
         </p>
@@ -23,17 +23,17 @@ export default function Onboarding() {
         {/* Features */}
         <div className="space-y-4 mt-8">
           <div className="flex gap-3 items-center text-[10px]">
-            <CheckCircle size={14} className="text-blue-700" />
+            <CheckCircle size={12} className="text-blue-700" />
             Recognized and verified by the bank
           </div>
 
           <div className="flex gap-3 items-center text-[10px]">
-            <Shield size={14} className="text-blue-700" />
+            <Shield size={12} className="text-blue-700" />
             Safe and reliable financial services
           </div>
 
           <div className="flex gap-3 items-center text-[10px]">
-            <LineChartIcon size={14} className="text-blue-700" />
+            <LineChartIcon size={12} className="text-blue-700" />
             Expand your customer network
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function Onboarding() {
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between text-xs md:px-10 px-4 text-gray-500 mt-12 border-t border-gray-300 pt-5">
+      <div className="   flex justify-between text-xs md:px-10 px-4 text-gray-500 mt-12 border-t border-gray-300 py-2  ">
         <span className="text-[10px]">© 2026 FairColors Microfinance Bank</span>
 
         <div className="flex gap-5 text-[10px]">

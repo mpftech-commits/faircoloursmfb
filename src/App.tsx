@@ -40,7 +40,7 @@ function App() {
           <Route path="settings/help-support" element={<HelpSupport />} />
           <Route path="404" element={<NotFoundPage />} />
           {/* Protected routes */}
-          <Route element={<ProtectedRoute />}>
+          {/* <Route element={<ProtectedRoute />}> */}
             <Route element={<DashboardLayout />}>
               <Route path="dashboard" element={<Dashboard />} />
               {/* loan */}
@@ -80,7 +80,7 @@ function App() {
               />
               <Route path="/cashiers/settings" element={<Setting />} />
             </Route>
-          </Route>
+          {/* </Route> */}
         </Routes>
       </Router>
     </>

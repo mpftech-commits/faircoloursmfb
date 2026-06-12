@@ -1,16 +1,19 @@
+import type { ReactNode } from "react";
+
 type Props = {
   title: string;
   value: number;
   loading: boolean;
-  symnbol?: string;
+  icon?: ReactNode;
 };
 
-function StatsCard({ title, value, loading  }: Props) {
+function StatsCard({ title, value, loading, icon  }: Props) {
   return (
     <div className="bg-white rounded-xl shadow p-4">
-      <p className="text-gray-500 text-sm">{title}</p>
+      <span  >{icon}</span>
+      <p className="text-gray-500 text-[10px]">{title}</p>
 
-      <h2 className="text-xl font-semibold text-blue-700 mt-2">
+      <h2 className="text-[10px] font-semibold text-blue-700 mt-2">
         {loading ? "Loading..." : (value ?? "--")}
       </h2>
     </div>

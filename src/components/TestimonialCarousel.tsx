@@ -40,10 +40,10 @@ export default function TestimonialCarousel() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.35 }}
           >
-            <p className="text-white text-lg leading-relaxed mb-2 font-medium">
+            <p className="text-white text-xs leading-relaxed mb-2 font-medium">
               "{testimonials[index].title}"
             </p>
-            <p className="text-white text-xs leading-relaxed">
+            <p className="text-white text-[10px] leading-relaxed">
               "{testimonials[index].quote}"
             </p>
 
@@ -65,16 +65,16 @@ export default function TestimonialCarousel() {
 
           <button
             onClick={prev}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 transition"
+            className="w-5 h-5 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 transition"
           >
-            <ChevronLeft size={18} color="white"/>
+            <ChevronLeft size={12} color="white"/>
           </button>
 
           <button
             onClick={next}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 transition"
+            className="w-5 h-5 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 transition"
           >
-            <ChevronRight size={18} color="white"/>
+            <ChevronRight size={12} color="white"/>
           </button>
 
         </div>

@@ -95,14 +95,7 @@ export default function LoginForm() {
       <div className="absolute inset-0 bg-slate-950/40" />
 
       <div className="relative z-10 flex min-h-screen flex-col justify-between ">
-        {/* Logo */}
-        {/* <div className="fixed top-0 z-20 flex w-full items-center gap-2 border-b border-white/20 bg-white/70 px-4 pb-3 pt-4 backdrop-blur-md">
-        <img
-          src="/logo.png"
-          alt="faircolors mfb Logo"
-          className="pb- px-10 md:w-[20%] w-[20%]"
-        />
-      </div> */}
+        
       <div className="mx-auto mt-2 w-full max-w-xs rounded-[28px] border-3 border-white bg-white/15 px-6 py-3 shadow-2xl backdrop-blur-xs sm:px-8 ">
       {/* logo */}
       <div className="flex rounded-full w-15 h-15 justify-center items-center bg-white  m-auto overflow-hidden ">
@@ -113,7 +106,7 @@ export default function LoginForm() {
         />
       </div>
         {/* Heading */}
-        <h2 className="md:text-[20px] text-[15px] font-bold text-blue-900 leading-snug text-center mt-4 ">
+        <h2 className="md:text-[20px] text-[15px] font-bold text-white leading-snug text-center mt-4 ">
           Welcome Back
         </h2>
 
@@ -134,7 +127,7 @@ export default function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               type="text"
               placeholder="Enter your phone or email address"
-              className={`bg-white py-2 border border-gray-300 rounded-sm p-2 outline-green-900 transition-colors duration-500 text-[10px]`}
+              className={`bg-white py-2 border border-gray-300 rounded-sm p-2 outline-green-900 transition-colors duration-500 text-[8px]`}
             ></Input>
             {error.email && <p className="text-red-500 text-[8px] pt-1">{error.email}</p>}
           </div>
@@ -148,7 +141,7 @@ export default function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password here"
-              className={`bg-white py-2 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500 text-[10px]`}
+              className={`bg-white py-2 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500 text-[8px]`}
             ></Input>
 
             <button
@@ -183,15 +176,10 @@ export default function LoginForm() {
       </div>
 
       {/* Footer */}
-      <div className="mt-6 flex justify-between border-t border-white/20 bg-white/70 px-5 py-1 text-xs text-gray-600 backdrop-blur-md md:px-10 fixed bottom-0 z-50 w-full">
-        <span className="text-[10px]">© 2026 FairColors MFB</span>
-
-        <div className="flex gap-5 text-[10px]">
-          <span className="cursor-pointer hover:underline">Privacy</span>
-          <span className="cursor-pointer hover:underline">Terms</span>
-          <span className="cursor-pointer hover:underline">Get help</span>
-        </div>
-      </div>
+     <div className="py-3 text-white">
+      <p className="text-[8px] text-center font-medium ">FairColorsMFB v1.0</p>
+      
+      </div> 
     </div>
     </div>
   );

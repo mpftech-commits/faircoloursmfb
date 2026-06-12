@@ -31,7 +31,7 @@ export default function LoanApproval() {
   // };
 
   return (
-    <div className=" space-y-6 bg-gray-50 min-h-screen">
+    <div className=" space-y-6  min-h-screen">
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">

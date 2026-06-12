@@ -11,7 +11,7 @@ export default function RiskBadge({ score }: { score: number }) {
   }
 
   return (
-    <span className={`px-2 py-1 rounded-full text-xs ${color}`}>
+    <span className={`px-2 py-1 rounded-full text-[8px] ${color}`}>
       {label}
     </span>
   );

@@ -11,13 +11,13 @@ interface Props {
 
 const Field = ({ label, value }: { label: string; value: string }) => (
   <div className="flex flex-col">
-    <span className="text-xs text-gray-500">{label ?? "-"}</span>
-    <span className="font-medium text-gray-800">{value ?? "-"}</span>
+    <span className="text-[8px] text-gray-500">{label ?? "-"}</span>
+    <span className="font-medium text-gray-800 text-[10px]">{value ?? "-"}</span>
   </div>
 );
 const Section = ({ title, children }: any) => (
   <div className="bg-gray-50 p-4 rounded-xl space-y-3">
-    <h3 className="text-sm font-semibold text-blue-800">{title}</h3>
+    <h3 className="text-[10px] font-semibold text-blue-800">{title}</h3>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">{children}</div>
   </div>
 );
@@ -93,19 +93,19 @@ console.log(customer, "customer");
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center p-4 z-50">
       {" "}
-      <div className="bg-white w-full max-w-4xl rounded-2xl shadow-lg p-6 space-y-5 overflow-y-auto max-h-[90vh] relative">
+      <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 space-y-5 overflow-y-auto max-h-[90vh] relative">
         {" "}
         {/* Header */}{" "}
         <div className="flex justify-between items-center relative">
           {" "}
-          <h2 className="text-lg font-semibold text-blue-800">
+          <h2 className="text-xs font-semibold text-blue-800">
             Customer Details
           </h2>{" "}
           <button
             onClick={onClose}
-            className=" fixed md:right-27 right-10 text-sm text-blue-600 bg-blue-100 rounded-full p-1 font-bold"
+            className=" fixed md:right-47 right-20 text-sm text-gray-400 bg-blue-100 rounded-full p-1 font-bold"
           >
-            <X size={18} />
+            <X size={14} />
           </button>{" "}
         </div>
         {/* Personal */}
@@ -169,26 +169,26 @@ console.log(customer, "customer");
         <div className="flex gap-3 items-center justify-end">
 
           {customer.isDeactivated ? (
-            <button className="bg-red-200 text-red-700 px-4 py-2 rounded-lg cursor-pointer">
+            <button className="bg-red-200 text-red-700 px-4 py-2 rounded-lg cursor-pointer text-[10px]">
               Reactivate
             </button>
           ) : (
             <button
               onClick={() => handleDeactivateCustomer(customer.publicId)}
-              className="bg-red-500 px-4 py-2 rounded-lg text-white cursor-pointer"
+              className="bg-red-500 px-4 py-2 rounded-lg text-white cursor-pointer text-[10px]"
             >
               Deactivate
             </button>
           )}
 
           {customer.isApproved ? (
-            <button className="bg-green-200 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed">
+            <button className="bg-green-200 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed text-[10px]">
               Approved
             </button>
           ) : (
             <button
               onClick={() => handleApproveCustomer(customer.publicId)}
-              className="bg-green-500 px-4 py-2 rounded-lg text-white hover:bg-green-600 cursor-pointer"
+              className="bg-green-500 px-4 py-2 rounded-lg text-white hover:bg-green-600 cursor-pointer text-[10px]"
             >
               Approve
             </button>
@@ -207,7 +207,7 @@ console.log(customer, "customer");
             className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white shadow-xl border rounded-xl px-6 py-4 flex items-center gap-3 z-50"
           >
             {feedback.type === "success" ? (
-              <span className="text-green-600 font-semibold">
+              <span className="text-green-600 font-semibold text-[10px]">
                 ✅ {feedback.message}
               </span>
             ) : (

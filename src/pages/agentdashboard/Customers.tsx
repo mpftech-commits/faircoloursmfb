@@ -137,16 +137,16 @@ const [search, setSearch] = useState("");
   });
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gray-50/3 min-h-screen">
       {/* TOP CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 bg-white"></div>
 
       {/* TABLE HEADER */}
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-lg">Customers</h3>
+        <h3 className="font-semibold text-xs">Customers</h3>
 
         <Link to="/create-customer">
-          <button className="bg-blue-800 text-white px-4 py-2 rounded-xl text-sm hover:bg-blue-700 cursor-pointer">
+          <button className="bg-blue-800 text-white px-2 py-1.5 rounded-lg text-[8px] hover:bg-blue-700 cursor-pointer">
             + Add Customer
           </button>
         </Link>
@@ -156,14 +156,14 @@ const [search, setSearch] = useState("");
       <div className="bg-white rounded-2xl shadow-sm border border-gray-300 overflow-x-auto">
         {/* shows a loading state when fetching */}
         {loading && (
-          <p className="flex p-5 items-center gap-2 font-semibold text-blue-600">
-            <Loader size={18} className="animate-spin" /> loading...
+          <p className="flex p-5 items-center gap-2 font-semibold text-blue-600 text-[10px]">
+            <Loader size={14} className="animate-spin" /> loading...
           </p>
         )}
         {/* when there is an error */}
         {error && (
-          <p className="text-red-500 flex p-5 items-center gap-2 font-semibold">
-            <AlertTriangle size={18} /> {error}
+          <p className="text-red-500 flex p-5 items-center gap-2 font-semibold text-[10px]">
+            <AlertTriangle size={14} /> {error}
           </p>
         )}
 
@@ -174,7 +174,7 @@ const [search, setSearch] = useState("");
               <button
                 key={status}
                 onClick={() => setStatusFilter(status as any)}
-                className={`px-4 py-1 rounded-full text-sm capitalize ${
+                className={`px-2 py-1 rounded-md text-[8px] font-medium capitalize ${
                   statusFilter === status
                     ? "bg-blue-800 text-white"
                     : "bg-gray-200 text-gray-700"
@@ -191,13 +191,13 @@ const [search, setSearch] = useState("");
             placeholder="Search by name or phone..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border px-4 py-2 rounded-xl text-sm w-full sm:w-72 outline-none focus:ring-2 focus:ring-blue-400"
+            className="border px-2 py-1 rounded-md text-[10px] w-full sm:w-72 outline-none focus:ring-2 focus:ring-blue-400 border-gray-200"
           />
         </div>
 
         {/* when data has been fetched */}
         {!loading && !error && (
-          <table className="w-full text-sm">
+          <table className="w-full text-[10px]">
             <thead className="bg-gray-100 text-gray-600 text-left">
               <tr>
                 <th className="px-6 py-3">Name</th>
@@ -215,7 +215,7 @@ const [search, setSearch] = useState("");
               {filteredCustomers.map((c) => (
                 <tr
                   key={c.publicId}
-                  className="border-t border-gray-300 hover:bg-gray-50 transition"
+                  className="border-t border-gray-300 hover:bg-gray-50 transition text-[8px]"
                 >
                   <td className="px-6 py-4 font-medium">{c.fullName}</td>
 
@@ -228,7 +228,7 @@ const [search, setSearch] = useState("");
                   {/* STATUS */}
                   <td className="px-6 py-4">
                     <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      className={`px-3 py-1 rounded-full font-medium ${
                         c.status === "approved"
                           ? "bg-green-100 text-green-600"
                           : c.status === "pending"
@@ -245,15 +245,15 @@ const [search, setSearch] = useState("");
                     <div className="flex gap-4">
                       <button
                         onClick={() => setSelected(c)}
-                        className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
+                        className=" hover:underline text-[10px] cursor-pointer flex items-center gap-3 "
                       >
-                        <Eye size={18} className="text-green-500" />
+                        <Eye size={12} className="text-green-500" />
                       </button>
                       <button
                         onClick={() => handleDelete(c.publicId)}
-                        className=" hover:underline text-sm cursor-pointer flex items-center gap-3 "
+                        className=" hover:underline text-[10px] cursor-pointer flex items-center gap-3 "
                       >
-                        <Trash size={18} className="text-red-500" />
+                        <Trash size={12} className="text-red-500" />
                       </button>
                     </div>
                   </td>
@@ -266,19 +266,19 @@ const [search, setSearch] = useState("");
 
       <div className="flex justify-between items-center p-3 mt-10">
         <button
-          className="flex gap-2 items-center bg-blue-100 px-3 rounded-full font-medium cursor-pointer text-blue-700 py-1"
+          className="flex gap-2 items-center bg-blue-100 px-3 rounded-full font-medium cursor-pointer text-blue-700 py-1 text-[10px]"
           disabled={page === 1}
           onClick={() => setPage((prev) => prev - 1)}
         >
-          <ArrowLeft size={18} /> Prev
+          <ArrowLeft size={14} /> Prev
         </button>
 
         <button
-          className="flex gap-2 items-center bg-blue-100 px-3 py-1 cursor-pointer rounded-full font-medium text-blue-700"
+          className="flex gap-2 items-center bg-blue-100 px-3 py-1 cursor-pointer rounded-full font-medium text-blue-700 text-[10px]"
           onClick={() => setPage((prev) => prev + 1)}
         >
           {" "}
-          Next <ArrowRight size={18} />
+          Next <ArrowRight size={14} />
         </button>
       </div>
 
@@ -297,12 +297,12 @@ const [search, setSearch] = useState("");
             className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white shadow-xl border rounded-xl px-6 py-4 flex items-center gap-3 z-50"
           >
             {feedback.type === "success" ? (
-              <span className="text-green-600 font-semibold">
+              <span className="text-green-600 font-semibold text-[10px]">
                 ✅ {feedback.message}
               </span>
             ) : (
-              <span className="text-red-600 font-semibold flex items-center gap-2">
-                <AlertTriangle size={18} />
+              <span className="text-red-600 text-[10px] font-semibold flex items-center gap-2">
+                <AlertTriangle size={14} />
                 {feedback.message}
               </span>
             )}

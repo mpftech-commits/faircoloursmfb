@@ -8,7 +8,7 @@ export default function DashboardLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col overflow-hidden">
+    <div className="min-h-screen flex flex-col overflow-hidden">
 
       {/* Sidebar */}
       <Navigation collapsed={collapsed} setCollapsed={setCollapsed} mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
@@ -16,17 +16,17 @@ export default function DashboardLayout() {
       {/* Main Content */}
       <div
         className={` transition-all duration-300
-        ${collapsed ? "md:ml-20" : "md:ml-60"}`}
+        ${collapsed ? "md:ml-20" : "md:ml-45"}`}
       >
 
-        <div className="">
+        <div className=" w-full bg-red-300 border-b border-gray-200 top-0 left-0 right-0 z-10">
           <Navbar collapsed={collapsed} mobileOpen={mobileOpen} />
         </div>
 
 
 
 
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6 mt-20 mb-20 md:mb-0">
+        <main className="flex-1 w-full mx-auto px-4 py-6  md:mb-0 mt-15">
           <Outlet />
         </main>
       </div>

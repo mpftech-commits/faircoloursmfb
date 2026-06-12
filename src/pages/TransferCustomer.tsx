@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import api, { GetCashiers } from "../services/Axios"; 
 import { CheckCheck } from "lucide-react";
+import toast from "react-hot-toast";
 
 type Cashier = {
   id: string;
@@ -66,6 +67,7 @@ const TransferCustomer: React.FC<TransferCustomerProps> = ({
       setSelectedCashier("");
     } catch (error:any) {
       console.error("Transfer failed:", error);
+      toast.error(error?.response?.data?.message || "Failed to transfer customer. Please try again.");
       setError(error?.message || "Failed to transfer customer. Please try again.");
       // alert("Failed to transfer customer. Please try again.");
     } finally {
@@ -78,24 +80,24 @@ const TransferCustomer: React.FC<TransferCustomerProps> = ({
   )?.fullName;
 
   return (
-    <div className="p-4 border border-gray-300 rounded-2xl bg-white shadow-sm">
-      <h3 className="text-lg font-bold text-slate-900 mb-1">Transfer Ownership</h3>
-      <p className="text-sm text-slate-500 mb-6">Move {customerName} to a different cashier's portfolio.</p>
+    <div className="p-4 border border-gray-300 rounded-2xl bg-white shadow-sm ">
+      <h3 className="text-xs font-bold text-slate-900 mb-1">Transfer Ownership</h3>
+      <p className="text-[10px] text-slate-500 mb-6">Move {customerName} to a different cashier's portfolio.</p>
 
       {/* Cashier Selection Dropdown */}
       <div className="mb-6">
-        <label className="mb-2 block text-sm font-semibold text-slate-700">
-          Select Destination Cashier
+        <label className="mb-2 block text-[8px] font-semibold text-slate-700">
+          <p className="text-[8px]">Select Destination Cashier</p>
         </label>
         <select
           value={selectedCashier}
           onChange={(e) => setSelectedCashier(e.target.value)}
           disabled={fetching}
-          className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-primary/20 appearance-none bg-slate-50"
+          className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-primary/20 appearance-none bg-slate-50 text-[8px]"
         >
-          <option value="">{fetching ? "Loading cashiers..." : "Choose a cashier"}</option>
+          <option value="" className="text-[8px]">{fetching ? "Loading cashiers..." : "Choose a cashier"}</option>
           {cashiers.map((cashier) => (
-            <option key={cashier.id} value={cashier.publicId}>
+            <option key={cashier.id} value={cashier.publicId} className="text-[8px]">
               {cashier.fullName} ({cashier.publicId})
             </option>
           ))}
@@ -106,7 +108,7 @@ const TransferCustomer: React.FC<TransferCustomerProps> = ({
       <button
         onClick={() => setShowConfirmModal(true)}
         disabled={!selectedCashier || loading}
-        className="w-full rounded-xl bg-slate-900 px-5 py-3 cursor-pointer text-white font-bold transition-all hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400"
+        className="w-full rounded-xl bg-slate-900 px-5 py-2 cursor-pointer text-white font-bold transition-all hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-[8px]"
       >
         Initiate Transfer
       </button>

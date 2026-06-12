@@ -174,22 +174,22 @@ export default function LoanTable() {
       )}
       {/* when there is an error */}
       {error && (
-        <p className="text-red-500 flex p-5 items-center gap-2 font-semibold">
-          <AlertTriangle size={18} /> {error}
+        <p className="text-red-500 flex p-5 items-center gap-2 font-semibold text-[10px]">
+          <AlertTriangle size={14} /> {error}
         </p>
       )}
       {!loading && !error && (
         <table className="w-full px-5 py-10 bg-green-100">
-          <thead className="bg-gray-100 text-center text-xs ">
+          <thead className="bg-gray-100 text-center text-[10px] ">
             <tr className="mt-4">
-              <th className=" text-xs p-2">User_Id</th>
-              <th className=" text-xs p-2">Name</th>
-              <th className=" text-xs p-2">Amount ₦</th>
-              <th className=" text-xs p-2">Interest %</th>
-              <th className=" text-xs p-2">Duration</th>
-              <th className=" text-xs p-2">Risk</th>
-              <th className=" text-xs p-2">Status</th>
-              <th className=" text-xs p-2">Action</th>
+              <th className=" text-[10px] p-2">User_Id</th>
+              <th className=" text-[10px] p-2">Name</th>
+              <th className=" text-[10px] p-2">Amount ₦</th>
+              <th className=" text-[10px] p-2">Interest %</th>
+              <th className=" text-[10px] p-2">Duration</th>
+              <th className=" text-[10px] p-2">Risk</th>
+              <th className=" text-[10px] p-2">Status</th>
+              <th className=" text-[10px] p-2">Action</th>
             </tr>
           </thead>
 
@@ -198,23 +198,23 @@ export default function LoanTable() {
               <tr
                 key={loan.publicId || loan._id}
                 // onClick={() => onSelect(loan)}
-                className="border-t border-gray-300 cursor-pointer text-center hover:bg-gray-50 text-xs px-5 border-b border-b-gray-300 pb-5"
+                className="border-t border-gray-300 cursor-pointer text-center hover:bg-gray-50 text-[10px] px-5 border-b border-b-gray-300 pb-5"
               >
-                <td className="p-3">{loan.publicId}</td>
-                <td className="p-3">{loan.customerId?.fullName}</td>
-                <td>₦{loan.amount.toLocaleString()}</td>
-                <td>
+                <td className="p-3 text-[8px]">{loan.publicId}</td>
+                <td className="p-3 text-[8px]">{loan.customerId?.fullName}</td>
+                <td className="text-[8px]">₦{loan.amount.toLocaleString()}</td>
+                <td className="text-[8px]">
                   {loan.interest !== undefined
                     ? `₦${loan.interest.toLocaleString()}`
                     : "-"}
                 </td>
-                <td>{loan.duration ?? "-"} months</td>
+                <td className="text-[8px]">{loan.duration ?? "-"} months</td>
                 <td>
                   <RiskBadge score={loan.creditScore ?? 0} />
                 </td>
                 <td className="capitalize">
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
+                    className={`px-3 py-1 rounded-full text-[8px] font-medium ${
                       loan.status === "approved"
                         ? "bg-green-100 text-green-600"
                         : loan.status === "rejected"
@@ -228,9 +228,9 @@ export default function LoanTable() {
                 <td>
                   <button
                     onClick={() => handleViewLoans(loan)}
-                    className="bg-blue-100 text-blue-700 hover:bg-blue-200 py-1 px-3 rounded-full text-xs font-medium flex items-center gap-1"
+                    className=" text-blue-700  py-1 px-3 rounded-full text-[8px] font-medium flex items-center gap-1"
                   >
-                    <Eye size={16} />
+                    <Eye size={12} />
                   </button>
                 </td>
               </tr>
@@ -242,26 +242,26 @@ export default function LoanTable() {
       {isModalOpen && selectedLoan && (
         <div
           onClick={() => setIsModalOpen(false)}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4 overflow-auto lg:pt-30 pt-10"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4 overflow-auto py-10"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white w-full max-w-xl rounded-2xl shadow-xl p-6 relative overflow-auto  mb-10 pt-30 lg:pt-0"
+            className="bg-white w-full max-w-md rounded-2xl shadow-xl p-6 relative overflow-auto  mb-10 pt-30 lg:pt-0"
           >
             {/* Close */}
-            <button
+            {/* <button
               onClick={() => setIsModalOpen(false)}
-              className="fixed top-4 bg-blue-500/10 p-2 z-50 right-6 text-blue-700 cursor-pointer   rounded-full  hover:rotate-180 duration-500 transition-transform"
+              className="fixed top-4 bg-blue-500/10 p-2 z-50 right-30 text-blue-700 cursor-pointer   rounded-full  hover:rotate-180 duration-500 transition-transform"
             >
               <X size={18}/>
-            </button>
+            </button> */}
 
             {/* Header */}
             <div className="pt-50 lg:pt-3 mb-4">
-              <h2 className="text-xl font-semibold text-gray-800 mt-28">
+              <h2 className="text-xs font-semibold text-gray-800 mt-28">
                 Loan Overview
               </h2>
-              <p className="text-xs text-gray-500">
+              <p className="text-[10px] text-gray-500">
                 Detailed information about this loan
               </p>
             </div>
@@ -269,7 +269,7 @@ export default function LoanTable() {
             {/* Status Badge */}
             <div className="mb-4">
               <span
-                className={`px-3 py-1 rounded-full text-xs font-medium ${
+                className={`px-3 py-1 rounded-full text-[8px] font-medium ${
                   selectedLoan.status === "approved"
                     ? "bg-green-100 text-green-600"
                     : selectedLoan.status === "rejected"
@@ -282,34 +282,34 @@ export default function LoanTable() {
             </div>
 
             {/* Content Grid */}
-            <div className="space-y-4 text-sm ">
+            <div className="space-y-4 text-[8px] ">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-gray-500 text-xs">Loan Number</p>
-                  <p className="font-medium break-all">
+                  <p className="text-gray-500 text-[8px]">Loan Number</p>
+                  <p className="font-medium break-all text-[8px]">
                     {selectedLoan.publicId || selectedLoan._id}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Status</p>
-                  <p className="font-medium capitalize">
+                  <p className="text-gray-500 text-[8px]">Status</p>
+                  <p className="font-medium capitalize text-[8px]">
                     {selectedLoan.status}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Created By</p>
-                  <p className="font-medium">
+                  <p className="text-gray-500 text-[8px]">Created By</p>
+                  <p className="font-medium text-[8px]">
                     {selectedLoan.createdBy?.fullName || "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Created</p>
+                  <p className="text-gray-500 text-[8px]">Created</p>
                   <p className="font-medium">
                     {new Date(selectedLoan.createdAt).toLocaleDateString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Updated</p>
+                  <p className="text-gray-500 text-[8px]">Updated</p>
                   <p className="font-medium">
                     {selectedLoan.updatedAt
                       ? new Date(selectedLoan.updatedAt).toLocaleDateString()
@@ -317,42 +317,42 @@ export default function LoanTable() {
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Purpose</p>
+                  <p className="text-gray-500 text-[8px]">Purpose</p>
                   <p className="font-medium">{selectedLoan.purpose || "-"}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-gray-500 text-xs">Amount</p>
+                  <p className="text-gray-500 text-[8px]">Amount</p>
                   <p className="font-medium">
                     ₦{selectedLoan.amount.toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Amount to Pay</p>
+                  <p className="text-gray-500 text-[8px]">Amount to Pay</p>
                   <p className="font-medium">
                     ₦{selectedLoan.amountToPay?.toLocaleString() ?? "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Monthly Payment</p>
+                  <p className="text-gray-500 text-[8px]">Monthly Payment</p>
                   <p className="font-medium">
                     ₦{selectedLoan.monthlyPayment?.toLocaleString() ?? "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Interest</p>
+                  <p className="text-gray-500 text-[8px]">Interest</p>
                   <p className="font-medium">{selectedLoan.interest ?? "-"}%</p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Duration</p>
+                  <p className="text-gray-500 text-[8px]">Duration</p>
                   <p className="font-medium">
                     {selectedLoan.duration ?? "-"} months
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Repayment</p>
+                  <p className="text-gray-500 text-[8px]">Repayment</p>
                   <p className="font-medium capitalize">
                     {selectedLoan.repaymentMethod || "-"}
                   </p>
@@ -361,25 +361,25 @@ export default function LoanTable() {
 
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
                 <div>
-                  <p className="text-gray-500 text-xs">Customer Name</p>
+                  <p className="text-gray-500 text-[8px]">Customer Name</p>
                   <p className="font-medium">
                     {selectedLoan.customerId?.fullName || "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Customer Phone</p>
+                  <p className="text-gray-500 text-[8px]">Customer Phone</p>
                   <p className="font-medium">
                     {selectedLoan.customerId?.phone || "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Customer Address</p>
+                  <p className="text-gray-500 text-[8px]">Customer Address</p>
                   <p className="font-medium">
                     {selectedLoan.customerId?.address || "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Customer ID</p>
+                  <p className="text-gray-500 text-[8px]">Customer ID</p>
                   <p className="font-medium break-all">
                     {selectedLoan.customerId?.publicId || "-"}
                   </p>
@@ -388,31 +388,31 @@ export default function LoanTable() {
 
               <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
                 <div>
-                  <p className="text-gray-500 text-xs">Guarantor</p>
+                  <p className="text-gray-500 text-[8px]">Guarantor</p>
                   <p className="font-medium">
                     {selectedLoan.guarantor?.fullName || "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Guarantor Phone</p>
+                  <p className="text-gray-500 text-[8px]">Guarantor Phone</p>
                   <p className="font-medium">
                     {selectedLoan.guarantor?.phone || "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Relationship</p>
+                  <p className="text-gray-500 text-[8px]">Relationship</p>
                   <p className="font-medium">
                     {selectedLoan.guarantor?.relationship || "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">Guarantor Address</p>
+                  <p className="text-gray-500 text-[8px]">Guarantor Address</p>
                   <p className="font-medium">
                     {selectedLoan.guarantor?.address || "-"}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-gray-500 text-[8px]">
                     Guarantor Relationship
                   </p>
                   <p className="font-medium">
@@ -420,7 +420,7 @@ export default function LoanTable() {
                   </p>
                 </div>
                 <div >
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-gray-500 text-[8px]">
                     Guarantor Marital Status
                   </p>
                   <p className="font-medium">
@@ -428,7 +428,7 @@ export default function LoanTable() {
                   </p>
                 </div>
                 <div >
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-gray-500 text-[8px]">
                     Guarantor State
                   </p>
                   <p className="font-medium">
@@ -436,7 +436,7 @@ export default function LoanTable() {
                   </p>
                 </div>
                 <div >
-                  <p className="text-gray-500 text-xs">
+                  <p className="text-gray-500 text-[8px]">
                     Guarantor Country
                   </p>
                   <p className="font-medium">
@@ -457,14 +457,14 @@ export default function LoanTable() {
                   handleReject(selectedLoan.publicId || selectedLoan._id)
                 }
                 disabled={actionLoading !== null}
-                className="px-4 py-2 rounded-lg text-sm font-medium bg-red-100 text-red-600 hover:bg-red-200 disabled:opacity-50"
+                className="px-4 py-2 rounded-lg text-[8px] font-medium bg-red-100 text-red-600 hover:bg-red-200 disabled:opacity-50"
               >
                 {actionLoading === "reject" ? "Rejecting..." : "Reject"}
               </button>
 
               {/* APPROVAL OF LOANS */}
               {selectedLoan.status === "approved" ? (
-                <button className="bg-green-200 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed">
+                <button className="bg-green-200 text-green-700 px-4 py-2 rounded-lg cursor-not-allowed text-[8px]">
                   Approved
                 </button>
               ) : (
@@ -473,7 +473,7 @@ export default function LoanTable() {
                     handleApprove(selectedLoan.publicId || selectedLoan._id)
                   }
                   disabled={actionLoading !== null}
-                  className="px-4 py-2 rounded-lg text-sm font-medium bg-green-600 text-white hover:bg-green-700 cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2 rounded-lg text-[8px] font-medium bg-green-600 text-white hover:bg-green-700 cursor-pointer disabled:opacity-50"
                 >
                   {actionLoading === "approve" ? "Approving..." : "Approve"}
                 </button>
@@ -485,15 +485,15 @@ export default function LoanTable() {
 
       <div className="flex justify-between items-center p-3 mt-4">
         <button
-          className="flex gap-2 items-center bg-blue-100 px-3 rounded-full font-medium cursor-pointer text-blue-700 py-1"
+          className="flex gap-2 items-center bg-blue-100 px-3 rounded-full font-medium cursor-pointer text-blue-700 py-1 text-[10px]"
           disabled={page === 1}
           onClick={() => setPage((prev) => prev - 1)}
         >
-          <ArrowLeft size={18} /> Prev
+          <ArrowLeft size={12} /> Prev
         </button>
 
         <button
-          className="flex gap-2 items-center bg-blue-100 px-3 py-1 cursor-pointer rounded-full font-medium text-blue-700"
+          className="flex gap-2 items-center bg-blue-100 px-3 py-1 cursor-pointer rounded-full font-medium text-blue-700 text-[10px]"
           onClick={() => setPage((prev) => prev + 1)}
         >
           {" "}

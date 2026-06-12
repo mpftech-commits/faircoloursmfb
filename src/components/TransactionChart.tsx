@@ -69,16 +69,16 @@ const TransactionChart = () => {
 
   return (
     <div className="bg-white p-6 rounded-2xl shadow">
-      <h3 className="font-semibold mb-4">Daily Cashier Transactions</h3>
+      <h3 className="font-semibold mb-4 text-[10px]">Daily Cashier Transactions</h3>
 
-      {loading && <p className="text-sm text-gray-500">Loading chart...</p>}
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {loading && <p className="text-[8px] text-gray-500">Loading chart...</p>}
+      {error && <p className="text-[8px] text-red-500">{error}</p>}
 
       {!loading && !error && (
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={250} className="text-[8px]">
           <BarChart data={chartData} >
-            <XAxis dataKey="name" />
-            <YAxis />
+            <XAxis dataKey="name"  className="text-[8px]"/>
+            <YAxis  className="text-[8px]"/>
             <Tooltip formatter={(value: any) => new Intl.NumberFormat().format(Number(value))} />
             <Bar dataKey="deposits" fill="#3B82F6" />
             <Bar dataKey="withdrawals" fill="#EF4444" />
