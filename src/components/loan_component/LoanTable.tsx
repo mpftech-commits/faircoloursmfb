@@ -8,7 +8,6 @@ import {
   ArrowLeft,
   ArrowRight,
   Eye,
-  X,
 } from "lucide-react";
 
 type LoanStatus = "pending" | "approved" | "rejected";
