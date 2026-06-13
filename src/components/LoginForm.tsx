@@ -96,9 +96,9 @@ export default function LoginForm() {
 
       <div className="relative z-10 flex min-h-screen flex-col justify-between ">
         
-      <div className="mx-auto mt-2 w-full max-w-xs rounded-[28px] border-3 border-white bg-white/15 px-6 py-3 shadow-2xl backdrop-blur-xs sm:px-8 ">
+      <div className="mx-auto mt-15 w-full max-w-xs rounded-[28px] border-3 border-white bg-white/15 px-6 py-3 shadow-2xl backdrop-blur-xs sm:px-8 ">
       {/* logo */}
-      <div className="flex rounded-full w-15 h-15 justify-center items-center bg-white  m-auto overflow-hidden ">
+      <div className="flex rounded-full w-15 h-15 justify-center items-center bg-white  m-auto overflow-hidden  ">
         <img
           src="/logo.png"
           alt="faircolors mfb Logo"
