@@ -27,6 +27,7 @@ import CustomerForm from "./pages/CreateCustomer";
 import ReportsPage from "./pages/ReportPage";
 import CreateCustomerForm from "./cashier/components/pages/CashierCreateCustomer";
 import AgentCustomers from "./pages/agentdashboard/Customers";
+import ExcelUpload from "./components/ExcelUpload";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           {/* Protected routes */}
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
+          <Route path="/excel-upload" element={<ExcelUpload />} />
               <Route path="dashboard" element={<Dashboard />} />
               {/* loan */}
               <Route path="loan-approval" element={<LoanApproval />} />

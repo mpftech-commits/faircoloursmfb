@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import StatsCard from "../../components/StatsCard";
 import TransactionTable from "../../components/TransactionTable";
 import TransactionChart from "../../components/TransactionChart";
 import { useEffect, useState } from "react";
 import { getDashboardStats } from "../../services/Axios";
-import { Banknote, CreditCardIcon, User, Users } from "lucide-react";
+import { Banknote, CreditCardIcon, Upload, User, Users } from "lucide-react";
 
 export default function Dashboard() {
   const [filter, setFilter] = useState("daily");
@@ -12,6 +12,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const navigate = useNavigate();
 
   const fetchData = async () => {
       try {
@@ -38,38 +39,51 @@ export default function Dashboard() {
       fetchData();
     }, [filter, startDate, endDate]);
 
+
+    const uploadFile = () => {
+      navigate("/excel-upload");
+    }
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen p-3 ">
       <div className=" space-y-6">
         {/* STATS */}
 
         <div>
           {/* FILTER CONTROLS */}
-          <div className="flex gap-2 mb-4 flex-wrap">
-            {["daily", "weekly", "monthly", "quarterly", "custom"].map((f) => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`px-3 py-1 rounded-full text-[10px] capitalize ${
-                  filter === f ? "bg-blue-600 text-white" : "bg-gray-200"
-                }`}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-
-          {/* CUSTOM DATE */}
-          {filter === "custom" && (
-            <div className="flex gap-2 mb-4">
-              <input
-                type="date"
-                onChange={(e) => setStartDate(e.target.value)}
-                className="text-[10px]"
-              />
-              <input type="date" onChange={(e) => setEndDate(e.target.value)}  className="text-[10px]"/>
+          <div className="flex justify-between">
+            <div>
+              <div className="flex gap-2 mb-4 flex-wrap">
+                {["daily", "weekly", "monthly", "quarterly", "custom"].map((f) => (
+                  <button
+                    key={f}
+                    onClick={() => setFilter(f)}
+                    className={`px-3 py-1 rounded-full text-[10px] capitalize ${
+                      filter === f ? "bg-blue-600 text-white" : "bg-gray-200"
+                    }`}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
+              {/* CUSTOM DATE */}
+              {filter === "custom" && (
+                <div className="flex gap-2 mb-4">
+                  <input
+                    type="date"
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="text-[10px]"
+                  />
+                  <input type="date" onChange={(e) => setEndDate(e.target.value)}  className="text-[10px]"/>
+                </div>
+              )}
             </div>
-          )}
+            <div>
+              <button title="upload an excel document" className="px-3 py-1 rounded-full text-[10px] flex items-center gap-2 bg-blue-600 text-white cursor-pointer " onClick={uploadFile}>
+                <Upload size={12} />
+                Upload
+              </button>
+            </div>
+          </div>
 
           {/* STATS CARDS */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

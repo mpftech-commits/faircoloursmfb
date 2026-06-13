@@ -16,17 +16,17 @@ export default function DashboardLayout() {
       {/* Main Content */}
       <div
         className={` transition-all duration-300
-        ${collapsed ? "md:ml-20" : "md:ml-45"}`}
+        ${collapsed ? "md:ml-15" : "md:ml-45"}`}
       >
 
-        <div className=" w-full bg-red-300 border-b border-gray-200 top-0 left-0 right-0 z-10">
+        <div className=" fixed top-0 z-50 bg-white w-full m-auto border-b border-gray-200 ">
           <Navbar collapsed={collapsed} mobileOpen={mobileOpen} />
         </div>
 
 
 
 
-        <main className="flex-1 w-full mx-auto px-4 py-6  md:mb-0 mt-15">
+        <main className="flex-1 w-full mx-auto mt-8 ">
           <Outlet />
         </main>
       </div>

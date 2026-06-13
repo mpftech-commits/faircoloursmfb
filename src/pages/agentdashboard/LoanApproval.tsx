@@ -3,38 +3,15 @@ import { loans as mockLoans } from "../../data/Types";
 import StatsCard from "../../components/loan_component/StatsCard";
 import LoanTable from "../../components/loan_component/LoanTable";
 import LoanFilters from "../../components/loan_component/Filter";
-// import LoanDetailsModal from "../../components/loan_component/LoanDetails";
-// import type { Loan } from "../../data/Types";
 
 export default function LoanApproval() {
   const [loans] = useState(mockLoans);
- 
-  // const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
-
-
-  // const approveLoan = (id: string) => {
-  //   setLoans((prev) =>
-  //     prev.map((l) =>
-  //       l.id === id ? { ...l, status: "approved" } : l
-  //     )
-  //   );
-  //   setSelectedLoan(null);
-  // };
-
-  // const rejectLoan = (id: string) => {
-  //   setLoans((prev) =>
-  //     prev.map((l) =>
-  //       l.id === id ? { ...l, status: "rejected" } : l
-  //     )
-  //   );
-  //   setSelectedLoan(null);
-  // };
 
   return (
-    <div className=" space-y-6  min-h-screen">
+    <div className=" space-y-6  min-h-screen p-3">
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs mt-3">
         <StatsCard title="Total Loans" value={`${loans.length}`} />
         <StatsCard
           title="Approved"

@@ -42,25 +42,22 @@ export default function ReportsPage() {
     }
   };
 
-  // const handleDownload = () => {
-  //   window.open(`/reports/cashier-report?filter=${filter}`, "_blank");
-  // };
-
   useEffect(() => {
     loadReport();
   }, [filter]);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <h1 className="text-xl font-bold text-blue-700">Cashier Reports</h1>
+        <h1 className="text-xs font-bold text-blue-700">Cashier Reports</h1>
 
         <button
           onClick={handleDownload}
           disabled={downloading}
-          className="bg-blue-700 text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 disabled:opacity-50"
+          className="bg-blue-700 text-white px-3 py-1.5 rounded-lg text-[10px] hover:opacity-90 disabled:opacity-50"
         >
+         
           {downloading ? "Downloading..." : "Download PDF"}
         </button>
       </div>
@@ -69,7 +66,7 @@ export default function ReportsPage() {
       <ReportFilters selected={filter} onChange={setFilter} />
 
       {/* Content */}
-      <div className="bg-white rounded-xl p-4 shadow-sm">
+      <div className="bg-white rounded-xl text-[10px] p-4 shadow-sm">
         {loading ? (
           <p className="text-gray-500">Loading report...</p>
         ) : error ? (

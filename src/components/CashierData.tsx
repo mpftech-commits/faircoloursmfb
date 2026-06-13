@@ -135,7 +135,7 @@ export default function CashierData() {
     return matchesSearch;
   });
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-3 min-h-screen">
       {/* TABLE HEADER */}
       <div className="flex justify-between items-center mb-2">
         <h3 className="font-semibold text-xs ">Cashiers</h3>

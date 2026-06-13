@@ -1,6 +1,5 @@
 import { Home, User, Settings, Menu, LogOut, Currency, ReceiptIcon, X } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
-// import { useState } from "react";
 
 import { LogoutUser } from "../services/Axios";
 import toast from "react-hot-toast";
@@ -100,7 +99,7 @@ export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMob
             onClick={() => handleNavClick()}
           />
           <NavItem
-            to="/settings"
+            to="/404"
             icon={<Settings size={14} />}
             label="Settings"
             className="flex gap-3"
@@ -171,7 +170,7 @@ export default function Navigation({ collapsed, setCollapsed, mobileOpen, setMob
           />
           <NavItem
             collapsed={collapsed}
-            to="/settings"
+            to="/404"
             icon={<Settings size={12} />}
             label="Settings"
           />

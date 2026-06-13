@@ -35,7 +35,7 @@ export default function NotFoundPage() {
           transition={{ delay: 0.2 }}
           className="mt-2 text-gray-500"
         >
-          The page you’re looking for doesn’t exist or has been moved.
+          Please bear with us this page is currently under construction
         </motion.p>
 
         {/* BUTTON */}

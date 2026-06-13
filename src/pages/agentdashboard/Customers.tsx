@@ -1,6 +1,5 @@
 import {
   Eye,
-  // Edit,
   Trash,
   ArrowLeft,
   ArrowRight,
@@ -137,9 +136,7 @@ const [search, setSearch] = useState("");
   });
 
   return (
-    <div className="p-6 bg-gray-50/3 min-h-screen">
-      {/* TOP CARDS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 bg-white"></div>
+    <div className="p-3  min-h-screen">
 
       {/* TABLE HEADER */}
       <div className="flex justify-between items-center mb-4">

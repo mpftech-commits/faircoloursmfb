@@ -14,7 +14,7 @@ export default function ReportFilters({ selected, onChange }: Props) {
         <button
           key={f}
           onClick={() => onChange(f)}
-          className={`px-4 py-2 rounded-lg text-sm capitalize transition
+          className={`px-3 py-1.5 rounded-lg text-[10px] capitalize transition
             ${
               selected === f
                 ? "bg-blue-700 text-white"

@@ -5,7 +5,6 @@ import { Eye, EyeOff, Loader } from "lucide-react";
 import { LoginUser } from "../services/Axios";
 import toast from "react-hot-toast";
 
-
  interface FormErrors{
   email?: string;
   password?: string;
@@ -54,7 +53,9 @@ export default function LoginForm() {
       console.log("Login response:", rawResponse);
       console.log("Access Token:", accessToken);
       console.log("User:", user);
-      toast.success(`Login successful welcome back ${email}`)
+      toast.success(`Login successful welcome back ${email}`, {
+        className: "text-sm"
+      });
 
       if (!accessToken || !user) {
         throw new Error("Login response did not include token or user data");
@@ -74,7 +75,9 @@ export default function LoginForm() {
         navigate("/login");
       }
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.message, {
+        className: "text-sm",
+      })
       const errormessage =
         error.response?.data?.message || error.message || "login failed";
       setError(errormessage);
@@ -98,7 +101,7 @@ export default function LoginForm() {
         
       <div className="mx-auto mt-15 w-full max-w-xs rounded-[28px] border-3 border-white bg-white/15 px-6 py-3 shadow-2xl backdrop-blur-xs sm:px-8 ">
       {/* logo */}
-      <div className="flex rounded-full w-15 h-15 justify-center items-center bg-white  m-auto overflow-hidden  ">
+      <div className="flex rounded-full w-10 h-10 justify-center items-center bg-white  m-auto overflow-hidden  ">
         <img
           src="/logo.png"
           alt="faircolors mfb Logo"
@@ -110,9 +113,8 @@ export default function LoginForm() {
           Welcome Back
         </h2>
 
-        <p className="text-white text-[8px] mt-2 text-left">
-          Login to access your account, track your finances, and manage your
-          customers seamlessly.
+        <p className="text-white text-[9px] mt-2 text-left">
+          Login to access your account, track your finances, and manage your customers seamlessly.
         </p>
 
         {/* form */}
@@ -126,8 +128,8 @@ export default function LoginForm() {
             <Input
               onChange={(e) => setEmail(e.target.value)}
               type="text"
-              placeholder="Enter your phone or email address"
-              className={`bg-white py-2 border border-gray-300 rounded-sm p-2 outline-green-900 transition-colors duration-500 text-[8px]`}
+              placeholder="Enter your  email address"
+              className={`bg-white py-2 border border-gray-300 rounded-sm p-2 outline-green-900 transition-colors duration-500 text-[10px]`}
             ></Input>
             {error.email && <p className="text-red-500 text-[8px] pt-1">{error.email}</p>}
           </div>
@@ -141,7 +143,7 @@ export default function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password here"
-              className={`bg-white py-2 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500 text-[8px]`}
+              className={`bg-white py-2 border border-gray-300 rounded-sm p-2 outline-blue-900 transition-colors duration-500 text-[10px]`}
             ></Input>
 
             <button
@@ -165,13 +167,6 @@ export default function LoginForm() {
             )}
             {isLoading ? "Signing in..." : "Sign In"}
           </button>
-
-          {/* <p className="text-center text-[12px]">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-blue-500 font-medium">
-              Create an account
-            </Link>
-          </p> */}
         </form>
       </div>
 
