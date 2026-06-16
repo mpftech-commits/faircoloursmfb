@@ -10,7 +10,7 @@ export default function Navbar({ collapsed, mobileOpen }: { collapsed?: boolean;
   }
 
   return (
-    <div className={`fixed z-50 w-full flex items-center bg-white justify-between px-4 py-4 transition-all duration-300 `} >
+    <div className={`fixed z-50 w-full flex items-center bg-white justify-between p-5 transition-all duration-300 `} >
       <div className={`fixed z-50 w-full flex items-center  justify-between px-4 py-4 transition-all duration-300 ${mobileOpen
           ? "md:max-w-full"
           : collapsed
@@ -30,7 +30,7 @@ export default function Navbar({ collapsed, mobileOpen }: { collapsed?: boolean;
         <div className={`flex items-center gap-4 absolute right-8`}>
           <Bell size={12} className="text-gray-500" />
 
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex  items-center gap-2">
             <img
               src="https://i.pravatar.cc/40"
               className="w-8 h-8 rounded-full"

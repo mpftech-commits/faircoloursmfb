@@ -1,13 +1,14 @@
 interface Props {
   title: string;
-  value: string;
+  value: number;
+  className?: string;
 }
 
-export default function StatsCard({ title, value }: Props) {
+export default function StatsCard({ title, value, className }: Props) {
   return (
-    <div className="bg-white p-2 rounded-2xl shadow-sm border border-gray-300">
-      <p className="text-gray-500 text-[10px]">{title}</p>
-      <h2 className="text-sm font-bold mt-2">{value}</h2>
+    <div className={` p-1.5 rounded-lg shadow-sm border border-gray-300  flex-1 ${className}`}>
+      <p className=" text-[10px]">{title}</p>
+      <h2 className="text-[10px] font-bold mt-2">{value}</h2>
     </div>
   );
 }

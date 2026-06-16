@@ -19,7 +19,7 @@ export default function DashboardLayout() {
         ${collapsed ? "md:ml-15" : "md:ml-45"}`}
       >
 
-        <div className=" fixed top-0 z-50 bg-white w-full m-auto border-b border-gray-200 ">
+        <div className=" fixed top-0 z-50  w-full m-auto border-b border-gray-200 ">
           <Navbar collapsed={collapsed} mobileOpen={mobileOpen} />
         </div>
 

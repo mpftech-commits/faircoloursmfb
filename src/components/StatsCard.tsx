@@ -5,15 +5,15 @@ type Props = {
   value: number;
   loading: boolean;
   icon?: ReactNode;
+  className?: string;
 };
 
-function StatsCard({ title, value, loading, icon  }: Props) {
+function StatsCard({ title, value, loading, icon, className }: Props) {
   return (
-    <div className="bg-white rounded-xl shadow p-4">
-      <span  >{icon}</span>
-      <p className="text-gray-500 text-[10px]">{title}</p>
+    <div className={` rounded-xl shadow p-2 ${className}`}>
+      <p className=" text-[10px] flex items-center gap-2">{icon} {title}</p>
 
-      <h2 className="text-[10px] font-semibold text-blue-700 mt-2">
+      <h2 className="text-[10px] font-semibold  mt-1">
         {loading ? "Loading..." : (value ?? "--")}
       </h2>
     </div>

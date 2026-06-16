@@ -1,17 +1,32 @@
-// interface Props {
-//   setFilter: (value: string) => void;
-// }
+﻿type LoanFilterStatus = "total" | "pending" | "approved" | "rejected" | "disbursed";
 
-export default function () {
+interface LoanFiltersProps {
+  selectedFilter: LoanFilterStatus;
+  onFilterChange: (filter: LoanFilterStatus) => void;
+}
+
+const FILTERS: { label: string; value: LoanFilterStatus }[] = [
+  { label: "Total", value: "total" },
+  { label: "Pending", value: "pending" },
+  { label: "Approved", value: "approved" },
+  { label: "Disbursed", value: "disbursed" },
+  { label: "Rejected", value: "rejected" },
+];
+
+export default function LoanFilters({ selectedFilter, onFilterChange }: LoanFiltersProps) {
   return (
-    <div className="flex gap-2 ">
-      {["All", "Pending", "Approved", "Rejected"].map((f) => (
+    <div className="flex flex-wrap gap-2">
+      {FILTERS.map((filter) => (
         <button
-          key={f}
-        
-          className="px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-[10px]"
+          key={filter.value}
+          onClick={() => onFilterChange(filter.value)}
+          className={`px-3 py-1 rounded-lg text-[10px] font-medium capitalize transition ${
+            selectedFilter === filter.value
+              ? "bg-blue-800 text-white"
+              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+          }`}
         >
-          {f}
+          {filter.label}
         </button>
       ))}
     </div>

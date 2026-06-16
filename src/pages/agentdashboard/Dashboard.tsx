@@ -86,29 +86,35 @@ export default function Dashboard() {
           </div>
 
           {/* STATS CARDS */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 max-w-lg">
             <StatsCard
               icon={<Banknote size={12} />}
               title="Deposits"
               value={data?.cards.deposits?.toLocaleString()}
               loading={loading}
+              className="bg-green-50 border-green-300 text-green-500"
             />
             <StatsCard
               icon={<CreditCardIcon size={12} />}
               title="Withdrawals"
               value={data?.cards.withdrawals?.toLocaleString()}
               loading={loading}
+              className="bg-red-50 border-red-300 text-red-500"
             />
             <StatsCard
               icon={<User size={12} />}
               title="Loans"
               value={data?.cards.loans?.toLocaleString()}
-              loading={loading} />
+              loading={loading} 
+              className="bg-blue-50 border-blue-300 text-blue-500"
+            />
+            
             <StatsCard
               icon={<Users size={12} />}
               title="Customers"
               value={data?.cards.customers}
               loading={loading}
+              className="bg-purple-50 border-purple-300 text-purple-500"
             />
           </div>
         </div>

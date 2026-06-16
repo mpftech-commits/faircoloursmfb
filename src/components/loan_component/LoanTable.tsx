@@ -10,7 +10,7 @@ import {
   Eye,
 } from "lucide-react";
 
-type LoanStatus = "pending" | "approved" | "rejected";
+type LoanStatus = "pending" | "approved" | "rejected" | "disbursed";
 interface PersonInfo {
   _id: string;
   fullName?: string;
@@ -55,7 +55,11 @@ interface Loan {
   date?: string;
 }
 
-export default function LoanTable() {
+interface LoanTableProps {
+  statusFilter: "total" | LoanStatus;
+}
+
+export default function LoanTable({ statusFilter }: LoanTableProps) {
   const [loansState, setLoansState] = useState<Loan[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>("");
@@ -167,8 +171,8 @@ export default function LoanTable() {
   return (
     <div className="bg-white rounded-2xl shadow-sm border overflow-x-auto border-gray-300">
       {loading && (
-        <p className="flex p-5 items-center gap-2 font-semibold text-blue-600">
-          <Loader size={18} className="animate-spin" /> loading...
+        <p className="flex p-5 items-center gap-2 font-semibold text-blue-600 text-[10px]">
+          <Loader size={14} className="animate-spin" /> loading...
         </p>
       )}
       {/* when there is an error */}
@@ -193,47 +197,48 @@ export default function LoanTable() {
           </thead>
 
           <tbody>
-            {loansState.map((loan) => (
-              <tr
-                key={loan.publicId || loan._id}
-                // onClick={() => onSelect(loan)}
-                className="border-t border-gray-300 cursor-pointer text-center hover:bg-gray-50 text-[10px] px-5 border-b border-b-gray-300 pb-5"
-              >
-                <td className="p-3 text-[8px]">{loan.publicId}</td>
-                <td className="p-3 text-[8px]">{loan.customerId?.fullName}</td>
-                <td className="text-[8px]">₦{loan.amount.toLocaleString()}</td>
-                <td className="text-[8px]">
-                  {loan.interest !== undefined
-                    ? `₦${loan.interest.toLocaleString()}`
-                    : "-"}
-                </td>
-                <td className="text-[8px]">{loan.duration ?? "-"} months</td>
-                <td>
-                  <RiskBadge score={loan.creditScore ?? 0} />
-                </td>
-                <td className="capitalize">
-                  <span
-                    className={`px-3 py-1 rounded-full text-[8px] font-medium ${
-                      loan.status === "approved"
-                        ? "bg-green-100 text-green-600"
-                        : loan.status === "rejected"
-                          ? "bg-red-100 text-red-600"
-                          : "bg-yellow-100 text-yellow-600"
-                    }`}
-                  >
-                    {loan.status}
-                  </span>
-                </td>
-                <td>
-                  <button
-                    onClick={() => handleViewLoans(loan)}
-                    className=" text-blue-700  py-1 px-3 rounded-full text-[8px] font-medium flex items-center gap-1"
-                  >
-                    <Eye size={12} />
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {loansState
+              .filter((loan) => statusFilter === "total" || loan.status === statusFilter)
+              .map((loan) => (
+                <tr
+                  key={loan.publicId || loan._id}
+                  // onClick={() => onSelect(loan)}
+                  className="border-t border-gray-300 cursor-pointer text-center hover:bg-gray-50 text-[10px] px-5 border-b border-b-gray-300 pb-5"
+                >
+                  <td className="p-3 text-[8px]">{loan.publicId}</td>
+                  <td className="p-3 text-[8px]">{loan.customerId?.fullName}</td>
+                  <td className="text-[8px]">₦{loan.amount.toLocaleString()}</td>
+                  <td className="text-[8px]">
+                    {loan.interest !== undefined
+                      ? `₦${loan.interest.toLocaleString()}`
+                      : "-"}
+                  </td>
+                  <td className="text-[8px]">{loan.duration ?? "-"} months</td>
+                  <td>
+                    <RiskBadge score={loan.creditScore ?? 0} />
+                  </td>
+                  <td className="capitalize">
+                    <span
+                      className={`px-3 py-1 rounded-full text-[8px] font-medium ${loan.status === "approved"
+                          ? "bg-green-100 text-green-600"
+                          : loan.status === "rejected"
+                            ? "bg-red-100 text-red-600"
+                            : "bg-yellow-100 text-yellow-600"
+                        }`}
+                    >
+                      {loan.status}
+                    </span>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => handleViewLoans(loan)}
+                      className=" text-blue-700  py-1 px-3 rounded-full text-[8px] font-medium flex items-center gap-1"
+                    >
+                      <Eye size={12} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
           </tbody>
         </table>
       )}
@@ -268,13 +273,12 @@ export default function LoanTable() {
             {/* Status Badge */}
             <div className="mb-4">
               <span
-                className={`px-3 py-1 rounded-full text-[8px] font-medium ${
-                  selectedLoan.status === "approved"
+                className={`px-3 py-1 rounded-full text-[8px] font-medium ${selectedLoan.status === "approved"
                     ? "bg-green-100 text-green-600"
                     : selectedLoan.status === "rejected"
                       ? "bg-red-100 text-red-600"
                       : "bg-yellow-100 text-yellow-600"
-                }`}
+                  }`}
               >
                 {selectedLoan.status}
               </span>

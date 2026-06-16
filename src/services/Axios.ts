@@ -386,6 +386,19 @@ export const getDashboardStats = async ({
 
   return res.data; // { cards: {...} }
 };
+// get loan stats
+export const getLoanStats = async () => {
+  try {
+    const res = await api.get(`/loans`)
+    return res.data;
+  } catch (error: string | any) {
+    console.error(
+      "error fetching loan stats:",
+      error.response?.data || error?.message || error,
+    );
+    throw error;
+  }
+};
 
 export const getCashierDashboardStats = async () => {
   // const params: any = { filter };
