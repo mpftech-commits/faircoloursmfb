@@ -24,16 +24,21 @@ const isTokenExpired = (token: string | null) => {
   }
 };
 
+import { removeTokenCookie, getTokenFromCookie } from "../../services/authCookie";
+
 const clearSession = () => {
-  localStorage.removeItem("token");
   localStorage.removeItem("user");
+  removeTokenCookie();
 };
 
 const ProtectedRoute = () => {
-  const token = localStorage.getItem("token");
+  const token = getTokenFromCookie();
   const expired = isTokenExpired(token);
+  const storedUser = localStorage.getItem("user");
+  const hasStoredUser = Boolean(storedUser);
 
-  if (!token || expired) {
+  const shouldRedirect = (!token && !hasStoredUser) || (token && expired);
+  if (shouldRedirect) {
     clearSession();
     return <Navigate to="/login" replace />;
   }

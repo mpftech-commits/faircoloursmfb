@@ -38,12 +38,12 @@ export default function LoanApproval() {
       });
       console.log("loan stats data:", res.stats?.byStatus);
     } catch (err: any) {
-      console.error("Error fetching loan stats:", err);
+      // console.error("Error fetching loan stats:", err);
     }
   };
 
   useEffect(() => {
-    console.log("Fetching loan with:");
+    // console.log("Fetching loan with:");
     LoanStats();
   }, []);
 

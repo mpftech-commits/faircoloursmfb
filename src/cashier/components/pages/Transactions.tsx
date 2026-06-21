@@ -39,11 +39,11 @@ export const Transactions: React.FC = () => {
       try {
         setLoading(true);
         const res = await GetTransaction(1, 50);
-        console.log("API Response:", res);
+        // console.log("API Response:", res);
         // Ensure you are accessing the correct path in your API response
         setTransactions(res.transactions || res.data || []);
       } catch (error) {
-        console.error("Failed to fetch transactions:", error);
+        // console.error("Failed to fetch transactions:", error);
         setError("Failed to fetch transactions");
       } finally {
         setLoading(false);

@@ -249,7 +249,7 @@ export default function CustomerForm() {
     try {
       setIsLoading(true);
       await CreateCustomer(form);
-      console.log("user created successfully");
+      // console.log("user created successfully");
       setSuccess(true);
       setForm(initialFormState);
     } catch (err: any) {

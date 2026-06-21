@@ -70,7 +70,7 @@ const [search, setSearch] = useState("");
       setError(null);
       try {
         const response = await GetCustomers(page);
-        console.log(response, "customers fetched successfully");
+        // console.log(response, "customers fetched successfully");
         setCustomers(response?.data); // Update and store fetched data
       } catch (error: any) {
         console.error("Error fetching customers:", error);

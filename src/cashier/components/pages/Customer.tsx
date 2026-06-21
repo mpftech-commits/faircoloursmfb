@@ -80,10 +80,10 @@ export const Customer: React.FC = () => {
       setLoading(true);
       try {
         const res = await GetCustomers(1, 100); //get firdt 100 customers
-        console.log("Fetched customers:", res);
+        // console.log("Fetched customers:", res);
         setCustomers(res?.data);
       } catch (error) {
-        console.error("Failed to fetch customers:", error);
+        // console.error("Failed to fetch customers:", error);
         // Fallback to mock data if API fails
         // setCustomers(mockCustomers);
       } finally {

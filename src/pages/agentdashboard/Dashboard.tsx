@@ -25,7 +25,7 @@ export default function Dashboard() {
         });
   
         setData(res.data);
-        console.log("Dashboard data:", res.data);
+        // console.log("Dashboard data:", res.data);
       } catch (err: any) {
         console.error("Error fetching dashboard:", err);
       } finally {
@@ -34,7 +34,7 @@ export default function Dashboard() {
     };
   
     useEffect(() => {
-      console.log("Fetching dashboard with:", { filter, startDate, endDate });
+      // console.log("Fetching dashboard with:", { filter, startDate, endDate });
       if (filter === "custom" && (!startDate || !endDate)) return;
       fetchData();
     }, [filter, startDate, endDate]);

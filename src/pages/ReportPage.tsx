@@ -19,10 +19,10 @@ export default function ReportsPage() {
       setLoading(true);
       setError("");
 
-      const res: any = await fetchReport(filter);
+       await fetchReport(filter);
 
       // adjust based on your API response
-      console.log("Fetched report data:", res);
+      // console.log("Fetched report data:", res);
       // setData(res?.data || []);
     } catch (err: any) {
       setError(err?.response?.data?.message || "Failed to load report");

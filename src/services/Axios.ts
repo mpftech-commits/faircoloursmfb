@@ -17,22 +17,13 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-console.log(api.defaults.baseURL);
+// console.log(api.defaults.baseURL);
 
-// Request interceptor to add authentication token
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers = config.headers || {};
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  },
-);
+// import {
+//   // getTokenFromCookie,
+//   removeTokenCookie,
+//   // setTokenCookie,
+// } from "./authCookie";
 
 let isRefreshing = false;
 let failedQueue: any[] = [];
@@ -54,12 +45,23 @@ const isAuthRequest = (url?: string) =>
   (url.includes("auth/login") || url.includes("auth/refresh"));
 
 const redirectToLogin = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
+  // removeTokenCookie();
   if (window.location.pathname !== "/login") {
     window.location.href = "/login";
   }
 };
+
+// Request interceptor to set Bearer token from cookie
+// api.interceptors.request.use((config) => {
+//   const token = getTokenFromCookie();
+//   if (token) {
+//     if (!config.headers) {
+//       config.headers = {};
+//     }
+//     (config.headers as any).Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
 
 // Response interceptor to handle authentication errors
 api.interceptors.response.use(
@@ -86,22 +88,15 @@ api.interceptors.response.use(
       return new Promise((resolve, reject) => {
         failedQueue.push({ resolve, reject });
       })
-        .then((token) => {
-          originalRequest.headers.Authorization = `Bearer ${token}`;
-          return api(originalRequest);
-        })
+        .then(() => api(originalRequest))
         .catch((err) => Promise.reject(err));
     }
 
     isRefreshing = true;
 
     try {
-      const res = await api.post("/auth/refresh");
-      const newAccessToken = res.data.accessToken;
-      localStorage.setItem("token", newAccessToken);
-      api.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
-      processQueue(null, newAccessToken);
-      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+      await api.post("/auth/refresh");
+      processQueue(null, null);
       return api(originalRequest);
     } catch (err) {
       processQueue(err, null);
@@ -118,11 +113,20 @@ export default api;
 const LoginUser = async (email: string, password: string) => {
   try {
     const response = await api.post("/auth/login", { email, password });
-    if (response.data.accessToken) {
-      localStorage.setItem("token", response.data.accessToken);
-      api.defaults.headers.Authorization = `Bearer ${response.data.accessToken}`;
-    }
-    return response.data;
+    const data = response.data;
+    // const accessToken =
+    //   data?.accessToken ??
+    //   data?.token ??
+    //   data?.access_token ??
+    //   data?.data?.accessToken ??
+    //   data?.data?.token ??
+    //   data?.data?.access_token;
+
+    // if (accessToken) {
+    //   setTokenCookie(accessToken);
+    // }
+
+    return data;
   } catch (error: string | any) {
     console.error(
       "Login error:",
@@ -137,18 +141,16 @@ export { LoginUser };
 const LogoutUser = async () => {
   try {
     const response = await api.post("/auth/logout");
-    localStorage.removeItem("token");
+    // removeTokenCookie();
     localStorage.removeItem("user");
-    delete api.defaults.headers.Authorization;
     return response.data;
   } catch (error: string | any) {
     console.error(
       "Logout error:",
       error.response?.data || error?.message || error,
     );
-    localStorage.removeItem("token");
+    // removeTokenCookie();
     localStorage.removeItem("user");
-    delete api.defaults.headers.Authorization;
     throw error;
   }
 };
@@ -329,7 +331,7 @@ const GetLoans = async (page: number, limit = 10) => {
 export { GetLoans };
 
 // create loan
- type payload = {
+type payload = {
   customerId: string;
   amount: number | string;
   duration: number | string;

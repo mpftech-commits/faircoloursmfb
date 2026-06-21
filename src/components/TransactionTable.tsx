@@ -33,7 +33,7 @@ function TransactionTable() {
       if (isInitial) setLoading(true);
       try {
         const response = await GetTransaction(page, 10);
-        console.log("Fetched transactions:", response);
+        // console.log("Fetched transactions:", response);
         setTransactions(response.data);
         if (isInitial) setInitialLoad(false);
       } catch (error: any) {

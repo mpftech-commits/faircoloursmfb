@@ -6,13 +6,15 @@ import {
   ArrowRight,
   Loader,
   AlertTriangle,
-  X
+  X,
+  Download
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import api, { GetCashiers } from "../services/Axios";
 import AddCashier from "../modal/AddCashier";
 import {motion, AnimatePresence} from "framer-motion";
-// import type { ReportFilter } from "../services/ReportService";
+import toast from "react-hot-toast";
+import { downloadCashierReportPDF } from "../services/ReportService";
 
 type CashierStats = {
   deposits: number;
@@ -33,7 +35,7 @@ type Information = {
   createdAt: string;
   email: string;
   stats?: CashierStats;
-};
+}; 
 
 export default function CashierData() {
   const [cashiers, setCashiers] = useState<Information[]>([]);
@@ -42,6 +44,7 @@ export default function CashierData() {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const [downloadLoading, setDownloadLoading] = useState(false);
 
 
    const [feedback, setFeedback] = useState<{
@@ -92,6 +95,7 @@ export default function CashierData() {
     fetchCustomers();
   }, [page]);
 
+
   // delete logic
         const HandleDeleteCashier = async (publicId: string) => {
           try {
@@ -134,6 +138,28 @@ export default function CashierData() {
 
     return matchesSearch;
   });
+
+  // download cashier report logic
+  const handleDownloadReport = async (publicId: string) => {
+    setDownloadLoading(true);
+      if (!selected) return;
+      try {
+        // downloadCashierReportPDF expects (cashierId: string, filter?: ReportFilter)
+        await downloadCashierReportPDF(publicId);
+
+        toast.success("Report downloaded successfully");
+      } catch (err: any) {
+        toast.error(
+          err?.response?.data?.message ||
+          err?.message ||
+          "Could not download report",
+        );
+        console.error("Error downloading report:", err);
+      } finally {
+        setDownloadLoading(false);
+      }
+  }
+
   return (
     <div className="p-3 min-h-screen">
       {/* TABLE HEADER */}
@@ -191,7 +217,7 @@ export default function CashierData() {
               {filteredCashiers.map((c) => (
                 <tr
                   key={c.publicId}
-                  className="border-t border-gray-300 hover:bg-gray-50 transition text-[8px]"
+                  className="border-t border-gray-300 hover:bg-gray-50 transition text-[10px]"
                 >
                   <td className="px-6 py-4 font-medium">{c.fullName}</td>
                   <td className="px-6 py-4 font-medium">{c.email}</td>
@@ -335,8 +361,17 @@ export default function CashierData() {
                 Close
               </button>
               {/* DOWNLOAD REPORT BUTTON */}
-              <button className="bg-blue-700 text-white px-4 py-2 rounded-lg text-[8px] hover:opacity-90 disabled:opacity-50 w-full">
-                Download report
+              <button
+                onClick={() => handleDownloadReport(selected.publicId)}
+                disabled={downloadLoading}
+                className="bg-blue-700 text-white px-4 py-2 rounded-lg text-[8px] hover:opacity-90 disabled:opacity-50 w-full flex items-center gap-2 justify-center"
+              >
+                {downloadLoading ? (
+                  <Loader size={14} className="animate-spin" />
+                ) : (
+                    <Download size={14} />
+                )}
+                {downloadLoading ? "Downloading..." : "Download report"}
               </button>
             </div>
           </div>

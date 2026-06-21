@@ -75,7 +75,7 @@ export default function LoanTable({ statusFilter }: LoanTableProps) {
       setLoading(true);
       try {
         const response = await GetLoans(page, 10);
-        console.log(response, "loan fetched successfully");
+        // console.log(response, "loan fetched successfully");
         const loans = Array.isArray(response)
           ? response
           : response?.data?.data || response?.data || [];
@@ -108,7 +108,7 @@ export default function LoanTable({ statusFilter }: LoanTableProps) {
         type: "success",
         message: "Loan approved successfully",
       });
-      console.log("Loan approved:", selectedLoan.publicId);
+      // console.log("Loan approved:", selectedLoan.publicId);
       const updatedLoan = { ...selectedLoan, status: "approved" as LoanStatus };
       setSelectedLoan(updatedLoan);
       setLoansState((prev) => prev.map((loan) => (loan._id === selectedLoan._id ? updatedLoan : loan)));
@@ -140,7 +140,7 @@ export default function LoanTable({ statusFilter }: LoanTableProps) {
         type: "success",
         message: "loan rejected successfully",
       });
-      console.log("Customer rejected:", selectedLoan.publicId);
+      // console.log("Customer rejected:", selectedLoan.publicId);
       const updatedLoan = { ...selectedLoan, status: "rejected" as LoanStatus };
       setSelectedLoan(updatedLoan);
       setLoansState((prev) => prev.map((loan) => (loan._id === selectedLoan._id ? updatedLoan : loan)));

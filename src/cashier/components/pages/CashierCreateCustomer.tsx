@@ -242,7 +242,7 @@ export default function CreateCustomerForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateStep()) return;
-    console.log(form);
+    // console.log(form);
     if (step !== steps.length - 1) {
       return;
     }
@@ -251,7 +251,7 @@ export default function CreateCustomerForm() {
     try {
       setIsLoading(true);
       await CreateCustomer(form);
-      console.log("user created successfully");
+      // console.log("user created successfully");
       setSuccess(true);
       setForm(initialFormState);
     } catch (err: any) {
